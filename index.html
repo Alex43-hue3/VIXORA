@@ -355,48 +355,58 @@
 
                 <!-- REPRODUCTOR -->
 
-                <section class="tv-player-layout">
+                
+<section class="tv-player-layout">
 
-                    <div class="player-box">
+    <div class="player-box">
 
-                        <div class="player-placeholder">
+        <video
+            id="videoPlayer"
+            controls
+            playsinline
+            preload="metadata"
+        ></video>
 
-                            <div class="player-icon">
-                                ▶
-                            </div>
+        <div
+            class="player-placeholder"
+            id="playerPlaceholder"
+        >
 
-                            <h3>
-                                Selecciona un canal
-                            </h3>
+            <div class="player-icon">
+                ▶
+            </div>
 
-                            <p>
-                                El reproductor aparecerá aquí.
-                            </p>
+            <h3>
+                Selecciona un canal
+            </h3>
 
-                        </div>
+            <p>
+                Elige un canal para comenzar a reproducir.
+            </p>
 
-                    </div>
+        </div>
+
+    </div>
 
 
-                    <aside class="now-playing">
+    <aside class="now-playing">
 
-                        <span class="live-label">
-                            ● EN VIVO
-                        </span>
+        <span class="live-label">
+            ● EN VIVO
+        </span>
 
-                        <h3 id="selectedChannelName">
-                            Ningún canal seleccionado
-                        </h3>
+        <h3 id="selectedChannelName">
+            Ningún canal seleccionado
+        </h3>
 
-                        <p>
-                            Selecciona un canal para comenzar
-                            a reproducir.
-                        </p>
+        <p id="selectedChannelCategory">
+            Selecciona un canal para comenzar
+            a reproducir.
+        </p>
 
-                    </aside>
+    </aside>
 
-                </section>
-
+</section>
 
                 <!-- CATEGORÍAS -->
 
@@ -650,7 +660,7 @@
 </html>
 
     <!-- Nuestro JavaScript -->
-    <script src="app.js"></script>
-
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+<script src="app.js"></script>
 </body>
 </html>

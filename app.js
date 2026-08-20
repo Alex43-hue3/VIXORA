@@ -287,7 +287,7 @@ async function loadM3U() {
 
         const response =
             await fetch(
-                "data/canales.m3u"
+                "./canales.m3u"
             );
 
 

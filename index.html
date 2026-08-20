@@ -1,1 +1,106 @@
 
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>M3U Player</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <header>
+        <h1>📺 M3U Player</h1>
+        <p>Reproductor básico de listas M3U</p>
+    </header>
+
+    <main>
+
+        <section class="controls">
+
+            <label for="m3uFile" class="file-button">
+                📂 Cargar lista M3U
+            </label>
+
+            <input
+                type="file"
+                id="m3uFile"
+                accept=".m3u,.m3u8"
+            >
+
+            <div class="url-box">
+
+                <input
+                    type="text"
+                    id="m3uUrl"
+                    placeholder="Pega aquí la URL de tu lista M3U"
+                >
+
+                <button id="loadUrl">
+                    Cargar URL
+                </button>
+
+            </div>
+
+        </section>
+
+        <section class="player-section">
+
+            <div class="video-container">
+
+                <video
+                    id="videoPlayer"
+                    controls
+                    playsinline
+                ></video>
+
+                <div id="playerMessage">
+                    Selecciona un canal para comenzar
+                </div>
+
+            </div>
+
+            <div class="channel-section">
+
+                <div class="channel-header">
+
+                    <h2>Canales</h2>
+
+                    <span id="channelCount">
+                        0 canales
+                    </span>
+
+                </div>
+
+                <input
+                    type="text"
+                    id="search"
+                    placeholder="🔎 Buscar canal..."
+                >
+
+                <div
+                    id="channelList"
+                    class="channel-list"
+                ></div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+    <footer>
+        M3U Player
+    </footer>
+
+    <!-- HLS.js -->
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+
+    <!-- Nuestro JavaScript -->
+    <script src="app.js"></script>
+
+</body>
+</html>

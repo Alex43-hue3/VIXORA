@@ -1,0 +1,228 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #111;
+    color: #fff;
+    min-height: 100vh;
+}
+
+header {
+    background: #181818;
+    padding: 25px;
+    text-align: center;
+    border-bottom: 1px solid #333;
+}
+
+header h1 {
+    font-size: 28px;
+    margin-bottom: 8px;
+}
+
+header p {
+    color: #aaa;
+}
+
+main {
+    width: 95%;
+    max-width: 1200px;
+    margin: 25px auto;
+}
+
+.controls {
+    background: #1b1b1b;
+    padding: 20px;
+    border-radius: 12px;
+    margin-bottom: 20px;
+}
+
+.file-button {
+    display: inline-block;
+    background: #e50914;
+    padding: 12px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.file-button:hover {
+    background: #ff1b26;
+}
+
+#m3uFile {
+    display: none;
+}
+
+.url-box {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.url-box input {
+    flex: 1;
+}
+
+input {
+    width: 100%;
+    padding: 12px;
+    background: #252525;
+    border: 1px solid #444;
+    border-radius: 8px;
+    color: #fff;
+    outline: none;
+}
+
+input:focus {
+    border-color: #e50914;
+}
+
+button {
+    background: #e50914;
+    border: none;
+    color: white;
+    padding: 12px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+button:hover {
+    background: #ff1b26;
+}
+
+.player-section {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 20px;
+}
+
+.video-container {
+    position: relative;
+    background: #000;
+    border-radius: 12px;
+    overflow: hidden;
+    aspect-ratio: 16 / 9;
+}
+
+video {
+    width: 100%;
+    height: 100%;
+    display: block;
+    background: #000;
+}
+
+#playerMessage {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #777;
+    pointer-events: none;
+}
+
+.channel-section {
+    background: #1b1b1b;
+    border-radius: 12px;
+    padding: 15px;
+    max-height: 500px;
+    overflow: hidden;
+}
+
+.channel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.channel-header h2 {
+    font-size: 20px;
+}
+
+#channelCount {
+    color: #888;
+    font-size: 13px;
+}
+
+#search {
+    margin-bottom: 12px;
+}
+
+.channel-list {
+    height: 380px;
+    overflow-y: auto;
+}
+
+.channel {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px;
+    margin-bottom: 6px;
+    background: #252525;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.channel:hover {
+    background: #333;
+}
+
+.channel.active {
+    background: #e50914;
+}
+
+.channel img {
+    width: 40px;
+    height: 40px;
+    object-fit: contain;
+    background: #111;
+    border-radius: 6px;
+}
+
+.channel-name {
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.empty {
+    text-align: center;
+    color: #777;
+    padding: 30px 10px;
+}
+
+footer {
+    text-align: center;
+    padding: 25px;
+    color: #666;
+}
+
+@media (max-width: 800px) {
+
+    .player-section {
+        grid-template-columns: 1fr;
+    }
+
+    .channel-section {
+        max-height: none;
+    }
+
+    .channel-list {
+        height: 300px;
+    }
+
+    .url-box {
+        flex-direction: column;
+    }
+
+    button {
+        width: 100%;
+    }
+}

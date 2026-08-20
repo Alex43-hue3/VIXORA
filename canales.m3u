@@ -1,1 +1,34 @@
+#EXTM3U
 
+#EXTINF:-1 tvg-id="MariaVision.mx@SD" tvg-logo="https://i.imgur.com/GylOPxE.png" group-title="Religioso",María Visión Mexico (360p) [Not 24/7]
+https://1601580044.rsc.cdn77.org/live/_jcn_/amlst:Mariavision/master.m3u8
+
+#EXTINF:-1 tvg-id="NickelodeonLatinAmerica.us@Panregional" tvg-logo="https://i.imgur.com/E84jnP8.png" group-title="Caricaturas",Nickelodeon Latin America (1080p)
+http://179.60.51.134:8888/NICK/index.m3u8
+
+#EXTINF:-1 tvg-id="AnimeZoneTV.do@SD" tvg-logo="https://i.imgur.com/AHaXlCh.png" group-title="Anime",Anime Zone TV (480p)
+http://animezonetv.net/hls/stream.m3u8
+
+#EXTINF:-1 tvg-id="beINSPORTSXTRAenEspanol.us@SD" tvg-logo="https://i.imgur.com/V562tpO.png" group-title="Deportes",beIN Sports XTRA en Espanol (1080p)
+https://dc1644a9jazgj.cloudfront.net/beIN_Sports_Xtra_Espanol.m3u8
+
+#EXTINF:-1 tvg-id="" tvg-logo="" group-title="Curiosity",Curiosity Animales (1080p)
+https://d2j2obpavpuw3t.cloudfront.net/CuriosityAnimales.m3u8
+
+#EXTINF:-1 tvg-id="" tvg-logo="" group-title="Curiosity",Curiosity Explora (1080p)
+https://d2bvy2sb4c0dbv.cloudfront.net/CuriosityEspanol.m3u8
+
+#EXTINF:-1 tvg-id="" tvg-logo="" group-title="Curiosity",Curiosity Motores (1080p)
+https://d5ts03kapml2e.cloudfront.net/CuriosityMotores.m3u8
+
+#EXTINF:-1 tvg-id="" tvg-logo="" group-title="Curiosity",Curiosity Now (1080p)
+https://amg00170-curiositystream-amg00170c3-rakuten-us-2289.playouts.now.amagi.tv/playlist/amg00170-curiositystreamllcfast-curiositynowrow-rakutenus/playlist.m3u8
+
+#EXTINF:-1 tvg-id="CuriosityNOW.de@EN" tvg-logo="https://i.imgur.com/gJ9eMaG.png" group-title="Documentary",Curiosity Now (1080p)
+https://amg00170-amg00170c4-samsung-gb-4232.playouts.now.amagi.tv/playlist.m3u8
+
+#EXTINF:-1 tvg-id="DisneyChannelLatinAmerica.ar@Center" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/f/ff/2024_Disney_Channel_text_logo.svg" group-title="Kids",Disney Channel Latin America Center (1080p)
+http://181.78.8.199:8000/play/a0dn/index.m3u8
+
+#EXTINF:-1 tvg-id="DisneyJrLatinAmerica.ar@SouthHD" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/e/e3/2024_Disney_Jr._Logo.svg" group-title="Kids",Disney Jr. Latin America South HD (1080p)
+http://179.60.51.134:8888/DISNEY-JR/index.m3u8

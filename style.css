@@ -1692,3 +1692,118 @@ footer p {
     }
 
 }
+/* =========================================================
+   NETVISION LIVE PLAYER
+========================================================= */
+
+.player-box {
+
+    position: relative;
+
+    background: #000;
+
+}
+
+#videoPlayer {
+
+    width: 100%;
+    height: 100%;
+
+    min-height: 420px;
+
+    display: block;
+
+    background: #000;
+
+    object-fit: contain;
+
+}
+
+.player-placeholder {
+
+    position: absolute;
+
+    inset: 0;
+
+    z-index: 2;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(86,183,255,0.08),
+            transparent 55%
+        );
+
+    transition: opacity 0.25s;
+
+}
+
+.player-placeholder.hidden {
+
+    opacity: 0;
+
+    pointer-events: none;
+
+}
+
+
+/* =========================================================
+   CHANNEL LOGO
+========================================================= */
+
+.channel-logo img {
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: contain;
+
+    border-radius: 8px;
+
+}
+
+
+/* =========================================================
+   CHANNEL ERROR
+========================================================= */
+
+.player-error {
+
+    position: absolute;
+
+    left: 20px;
+    right: 20px;
+    bottom: 20px;
+
+    z-index: 5;
+
+    padding: 12px 15px;
+
+    background:
+        rgba(120,20,30,0.9);
+
+    border:
+        1px solid rgba(255,100,110,0.3);
+
+    border-radius: 8px;
+
+    color: white;
+
+    font-size: 13px;
+
+}
+
+
+/* =========================================================
+   MOBILE PLAYER
+========================================================= */
+
+@media (max-width: 760px) {
+
+    #videoPlayer {
+
+        min-height: 230px;
+
+    }
+
+}

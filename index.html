@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -314,183 +313,96 @@
             </section>
 
 
-       <!-- =================================================
-     TV
-================================================= -->
+            <!-- =================================================
+                 TV
+            ================================================== -->
 
-<section
-    class="page"
-    id="page-tv"
->
-
-    <!-- ENCABEZADO -->
-
-    <section class="page-heading">
-
-        <span class="section-kicker">
-            NETVISION
-        </span>
-
-        <h1>
-            Televisión
-        </h1>
-
-        <p>
-            Encuentra tus canales favoritos.
-        </p>
-
-    </section>
-
-
-    <!-- =================================================
-         TV: REPRODUCTOR + PANEL
-    ================================================== -->
-
-    <section class="tv-player-layout">
-
-
-        <!-- =============================================
-             REPRODUCTOR
-        ============================================== -->
-
-        <div class="player-box">
-
-            <video
-                id="videoPlayer"
-                controls
-                playsinline
-                preload="metadata"
-            ></video>
-
-
-            <div
-                class="player-placeholder"
-                id="playerPlaceholder"
+            <section
+                class="page"
+                id="page-tv"
             >
 
-                <div class="player-icon">
-                    ▶
-                </div>
+                <section class="page-heading">
 
-                <h3>
-                    Selecciona un canal
-                </h3>
+                    <span class="section-kicker">
+                        NETVISION
+                    </span>
 
-                <p>
-                    Elige un canal para comenzar
-                    a reproducir.
-                </p>
+                    <h1>
+                        Televisión
+                    </h1>
 
-            </div>
-
-        </div>
-
-
-        <!-- =============================================
-             PANEL DERECHO
-        ============================================== -->
-
-        <aside class="now-playing">
-
-
-            <span class="live-label">
-                ● EN VIVO
-            </span>
-
-
-            <!-- CANAL ACTUAL -->
-
-            <div class="current-channel-info">
-
-                <div
-                    class="current-channel-logo"
-                    id="currentChannelLogo"
-                >
-                    TV
-                </div>
-
-
-                <div>
-
-                    <h3
-                        id="selectedChannelName"
-                    >
-                        Ningún canal seleccionado
-                    </h3>
-
-
-                    <p
-                        id="selectedChannelCategory"
-                    >
-                        Selecciona un canal
+                    <p>
+                        Encuentra tus canales favoritos.
                     </p>
 
+                </section>
+
+
+                <div class="search-container">
+
+                    <span>🔍</span>
+
+                    <input
+                        type="text"
+                        id="channelSearch"
+                        placeholder="Buscar canal..."
+                    >
+
                 </div>
 
-            </div>
+
+                <!-- REPRODUCTOR -->
+
+                <section class="tv-player-layout">
+
+                    <div class="player-box">
+
+                        <div class="player-placeholder">
+
+                            <div class="player-icon">
+                                ▶
+                            </div>
+
+                            <h3>
+                                Selecciona un canal
+                            </h3>
+
+                            <p>
+                                El reproductor aparecerá aquí.
+                            </p>
+
+                        </div>
+
+                    </div>
 
 
-            <!-- =========================================
-                 CATEGORÍAS
-            ========================================== -->
+                    <aside class="now-playing">
 
-            <div class="tv-category-menu">
+                        <span class="live-label">
+                            ● EN VIVO
+                        </span>
 
-                <h4>
-                    CATEGORÍAS
-                </h4>
+                        <h3 id="selectedChannelName">
+                            Ningún canal seleccionado
+                        </h3>
 
+                        <p>
+                            Selecciona un canal para comenzar
+                            a reproducir.
+                        </p>
 
-                <div
-                    id="tvCategories"
-                    class="tv-category-list"
-                ></div>
+                    </aside>
 
-            </div>
-
-
-        </aside>
-
-    </section>
+                </section>
 
 
-    <!-- =================================================
-         CANALES DE LA CATEGORÍA
-    ================================================== -->
+                <!-- CATEGORÍAS -->
 
-    <section
-        class="selected-category-section"
-        id="selectedCategorySection"
-    >
+                <div id="tvCategories"></div>
 
-        <div
-            class="selected-category-header"
-        >
+            </section>
 
-            <h2
-                id="selectedCategoryTitle"
-            >
-                📺 CANALES
-            </h2>
-
-
-            <span
-                id="selectedCategoryCount"
-            >
-                0 canales
-            </span>
-
-        </div>
-
-
-        <div
-            id="selectedCategoryChannels"
-            class="selected-channel-row"
-        ></div>
-
-    </section>
-
-</section>
 
             <!-- =================================================
                  PELÍCULAS
@@ -731,13 +643,7 @@
     </div>
 
 
- 
+    <script src="app.js"></script>
 
-</body>
-</html>
-
-    <!-- Nuestro JavaScript -->
-    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
-<script src="app.js"></script>
 </body>
 </html>

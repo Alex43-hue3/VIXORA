@@ -355,8 +355,11 @@
 
                 <!-- REPRODUCTOR -->
 
-                
 <section class="tv-player-layout">
+
+    <!-- =========================================
+         REPRODUCTOR
+    ========================================== -->
 
     <div class="player-box">
 
@@ -389,7 +392,93 @@
     </div>
 
 
+    <!-- =========================================
+         PANEL DERECHO
+    ========================================== -->
+
     <aside class="now-playing">
+
+        <span class="live-label">
+            ● EN VIVO
+        </span>
+
+
+        <!-- INFORMACIÓN DEL CANAL -->
+
+        <div class="current-channel-info">
+
+            <div
+                class="current-channel-logo"
+                id="currentChannelLogo"
+            >
+                TV
+            </div>
+
+            <div>
+
+                <h3 id="selectedChannelName">
+                    Ningún canal seleccionado
+                </h3>
+
+                <p id="selectedChannelCategory">
+                    Selecciona un canal
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- =====================================
+             CATEGORÍAS
+        ====================================== -->
+
+        <div class="tv-category-menu">
+
+            <h4>
+                CATEGORÍAS
+            </h4>
+
+            <div
+                id="tvCategories"
+                class="tv-category-list"
+            ></div>
+
+        </div>
+
+    </aside>
+
+</section>
+
+
+<!-- =========================================
+     CANALES DE LA CATEGORÍA
+========================================== -->
+
+<section
+    class="selected-category-section"
+    id="selectedCategorySection"
+>
+
+    <div class="selected-category-header">
+
+        <h2 id="selectedCategoryTitle">
+            📺 CANALES
+        </h2>
+
+        <span id="selectedCategoryCount">
+            0 canales
+        </span>
+
+    </div>
+
+
+    <div
+        id="selectedCategoryChannels"
+        class="selected-channel-row"
+    ></div>
+
+</section>
 
         <span class="live-label">
             ● EN VIVO

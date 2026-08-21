@@ -1,93 +1,713 @@
 /* =========================================================
-   NETVISION
-   TV EN VIVO - M3U / M3U8 + HLS.JS
-========================================================= */
-
-
-/* =========================================================
-   CONFIGURACIÓN
+   NETVISION - APP PRINCIPAL
+   TV EN VIVO + M3U/M3U8 + HLS.JS
 ========================================================= */
 
 const M3U_FILE = "./canales.m3u";
 
-
-/* =========================================================
-   VARIABLES GLOBALES
-========================================================= */
-
 let channels = [];
-
 let currentChannel = null;
-
 let selectedCategory = null;
-
 let hls = null;
 
-
-/* =========================================================
-   ELEMENTOS DEL DOM
-========================================================= */
-
-const videoPlayer =
-    document.getElementById("videoPlayer");
-
-const playerPlaceholder =
-    document.getElementById("playerPlaceholder");
-
-const selectedChannelName =
-    document.getElementById("selectedChannelName");
-
-const selectedChannelCategory =
-    document.getElementById(
-        "selectedChannelCategory"
-    );
-
-const currentChannelLogo =
-    document.getElementById(
-        "currentChannelLogo"
-    );
-
-const tvCategories =
-    document.getElementById(
-        "tvCategories"
-    );
-
-const selectedCategoryTitle =
-    document.getElementById(
-        "selectedCategoryTitle"
-    );
-
-const selectedCategoryCount =
-    document.getElementById(
-        "selectedCategoryCount"
-    );
-
-const selectedCategoryChannels =
-    document.getElementById(
-        "selectedCategoryChannels"
-    );
+let videoPlayer;
+let playerPlaceholder;
+let selectedChannelName;
+let selectedChannelCategory;
+let currentChannelLogo;
+let tvCategories;
+let selectedCategoryTitle;
+let selectedCategoryCount;
+let selectedCategoryChannels;
+let channelSearch;
 
 
 /* =========================================================
    INICIO
 ========================================================= */
 
-document.addEventListener(
-    "DOMContentLoaded",
-    () => {
+document.addEventListener("DOMContentLoaded", () => {
 
-        console.log(
-            "NETVISION iniciado"
-        );
+    cacheElements();
 
-        loadM3U();
+    setupNavigation();
 
-    }
-);
+    setupSearch();
+
+    setupProfile();
+
+    setupModal();
+
+    loadM3U();
+
+});
 
 
 /* =========================================================
-   CARGAR LISTA M3U
+   ELEMENTOS
+========================================================= */
+
+function cacheElements() {
+
+    videoPlayer =
+        document.getElementById("videoPlayer");
+
+    playerPlaceholder =
+        document.getElementById("playerPlaceholder");
+
+    selectedChannelName =
+        document.getElementById("selectedChannelName");
+
+    selectedChannelCategory =
+        document.getElementById("selectedChannelCategory");
+
+    currentChannelLogo =
+        document.getElementById("currentChannelLogo");
+
+    tvCategories =
+        document.getElementById("tvCategories");
+
+    selectedCategoryTitle =
+        document.getElementById("selectedCategoryTitle");
+
+    selectedCategoryCount =
+        document.getElementById("selectedCategoryCount");
+
+    selectedCategoryChannels =
+        document.getElementById("selectedCategoryChannels");
+
+    channelSearch =
+        document.getElementById("channelSearch");
+
+}
+
+
+/* =========================================================
+   NAVEGACIÓN
+========================================================= */
+
+function setupNavigation() {
+
+    const pageButtons =
+        document.querySelectorAll("[data-page]");
+
+    const pages =
+        document.querySelectorAll(".page");
+
+    const navLinks =
+        document.querySelectorAll(".nav-link");
+
+    const mobileMenuBtn =
+        document.getElementById("mobileMenuBtn");
+
+    const mainNav =
+        document.getElementById("mainNav");
+
+
+    pageButtons.forEach(button => {
+
+        button.addEventListener("click", () => {
+
+            const page =
+                button.dataset.page;
+
+            if (page) {
+
+                showPage(page);
+
+            }
+
+        });
+
+    });
+
+
+    navLinks.forEach(link => {
+
+        link.addEventListener("click", () => {
+
+            const page =
+                link.dataset.page;
+
+            if (page) {
+
+                showPage(page);
+
+            }
+
+        });
+
+    });
+
+
+    if (
+        mobileMenuBtn &&
+        mainNav
+    ) {
+
+        mobileMenuBtn.addEventListener(
+            "click",
+            () => {
+
+                mainNav.classList.toggle(
+                    "open"
+                );
+
+            }
+        );
+
+    }
+
+
+    function showPage(pageName) {
+
+        pages.forEach(page => {
+
+            page.classList.toggle(
+                "active-page",
+                page.id === `page-${pageName}`
+            );
+
+        });
+
+
+        navLinks.forEach(link => {
+
+            link.classList.toggle(
+                "active",
+                link.dataset.page === pageName
+            );
+
+        });
+
+
+        if (mainNav) {
+
+            mainNav.classList.remove(
+                "open"
+            );
+
+        }
+
+
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+        });
+
+    }
+
+}
+
+
+/* =========================================================
+   BÚSQUEDA
+========================================================= */
+
+function setupSearch() {
+
+    const searchBtn =
+        document.getElementById("searchBtn");
+
+    const searchOverlay =
+        document.getElementById("searchOverlay");
+
+    const closeSearch =
+        document.getElementById("closeSearch");
+
+    const globalSearch =
+        document.getElementById("globalSearch");
+
+
+    if (
+        searchBtn &&
+        searchOverlay
+    ) {
+
+        searchBtn.addEventListener(
+            "click",
+            () => {
+
+                searchOverlay.classList.add(
+                    "active"
+                );
+
+
+                if (globalSearch) {
+
+                    setTimeout(
+                        () => globalSearch.focus(),
+                        100
+                    );
+
+                }
+
+            }
+        );
+
+    }
+
+
+    if (
+        closeSearch &&
+        searchOverlay
+    ) {
+
+        closeSearch.addEventListener(
+            "click",
+            () => {
+
+                searchOverlay.classList.remove(
+                    "active"
+                );
+
+            }
+        );
+
+    }
+
+
+    if (searchOverlay) {
+
+        searchOverlay.addEventListener(
+            "click",
+            event => {
+
+                if (
+                    event.target ===
+                    searchOverlay
+                ) {
+
+                    searchOverlay.classList.remove(
+                        "active"
+                    );
+
+                }
+
+            }
+        );
+
+    }
+
+
+    if (globalSearch) {
+
+        globalSearch.addEventListener(
+            "input",
+            () => {
+
+                const term =
+                    globalSearch.value
+                        .trim()
+                        .toLowerCase();
+
+
+                if (
+                    term &&
+                    channels.length
+                ) {
+
+                    const results =
+                        channels.filter(
+                            channel =>
+                                channel.name
+                                    .toLowerCase()
+                                    .includes(term)
+                        );
+
+
+                    if (results.length) {
+
+                        renderSearchResults(
+                            results
+                        );
+
+                    }
+
+                }
+
+            }
+        );
+
+    }
+
+
+    if (channelSearch) {
+
+        channelSearch.addEventListener(
+            "input",
+            () => {
+
+                const term =
+                    channelSearch.value
+                        .trim()
+                        .toLowerCase();
+
+
+                if (!term) {
+
+                    if (
+                        selectedCategory
+                    ) {
+
+                        selectCategory(
+                            selectedCategory
+                        );
+
+                    } else {
+
+                        renderTV(
+                            channels
+                        );
+
+                    }
+
+                    return;
+
+                }
+
+
+                const results =
+                    channels.filter(
+                        channel =>
+
+                            channel.name
+                                .toLowerCase()
+                                .includes(term)
+
+                            ||
+
+                            channel.category
+                                .toLowerCase()
+                                .includes(term)
+                    );
+
+
+                renderSearchChannels(
+                    results,
+                    term
+                );
+
+            }
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   BÚSQUEDA DE CANALES
+========================================================= */
+
+function renderSearchChannels(
+    results,
+    term
+) {
+
+    if (
+        !selectedCategoryChannels
+    ) return;
+
+
+    if (
+        selectedCategoryTitle
+    ) {
+
+        selectedCategoryTitle.innerHTML =
+            `🔎 RESULTADOS PARA:
+             <span>
+                ${escapeHTML(term)}
+             </span>`;
+
+    }
+
+
+    if (
+        selectedCategoryCount
+    ) {
+
+        selectedCategoryCount.textContent =
+            `${results.length}
+             ${
+                results.length === 1
+                    ? "canal"
+                    : "canales"
+             }`;
+
+    }
+
+
+    selectedCategoryChannels.innerHTML =
+        "";
+
+
+    if (!results.length) {
+
+        selectedCategoryChannels.innerHTML = `
+
+            <div
+                style="
+                    padding:20px;
+                    color:var(--text-soft);
+                "
+            >
+
+                No encontramos canales
+                con esa búsqueda.
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    results.forEach(
+        channel => {
+
+            selectedCategoryChannels.appendChild(
+                createChannelCard(
+                    channel
+                )
+            );
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   RESULTADOS DE BÚSQUEDA GLOBAL
+========================================================= */
+
+function renderSearchResults(
+    results
+) {
+
+    const searchOverlay =
+        document.getElementById(
+            "searchOverlay"
+        );
+
+
+    if (searchOverlay) {
+
+        searchOverlay.classList.remove(
+            "active"
+        );
+
+    }
+
+
+    const tvPage =
+        document.getElementById(
+            "page-tv"
+        );
+
+
+    if (!tvPage) return;
+
+
+    document.querySelectorAll(
+        ".page"
+    ).forEach(
+        page => {
+
+            page.classList.toggle(
+                "active-page",
+                page === tvPage
+            );
+
+        }
+    );
+
+
+    document.querySelectorAll(
+        ".nav-link"
+    ).forEach(
+        link => {
+
+            link.classList.toggle(
+                "active",
+                link.dataset.page === "tv"
+            );
+
+        }
+    );
+
+
+    if (
+        selectedCategoryChannels
+    ) {
+
+        if (
+            selectedCategoryTitle
+        ) {
+
+            selectedCategoryTitle.innerHTML =
+                "🔎 RESULTADOS DE BÚSQUEDA";
+
+        }
+
+
+        if (
+            selectedCategoryCount
+        ) {
+
+            selectedCategoryCount.textContent =
+                `${results.length} canales`;
+
+        }
+
+
+        selectedCategoryChannels.innerHTML =
+            "";
+
+
+        results.forEach(
+            channel => {
+
+                selectedCategoryChannels.appendChild(
+                    createChannelCard(
+                        channel
+                    )
+                );
+
+            }
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   PERFIL
+========================================================= */
+
+function setupProfile() {
+
+    const profileBtn =
+        document.getElementById(
+            "profileBtn"
+        );
+
+    const profileMenu =
+        document.getElementById(
+            "profileMenu"
+        );
+
+
+    if (
+        !profileBtn ||
+        !profileMenu
+    ) return;
+
+
+    profileBtn.addEventListener(
+        "click",
+        event => {
+
+            event.stopPropagation();
+
+            profileMenu.classList.toggle(
+                "active"
+            );
+
+        }
+    );
+
+
+    document.addEventListener(
+        "click",
+        event => {
+
+            if (
+                !profileMenu.contains(
+                    event.target
+                ) &&
+                event.target !== profileBtn
+            ) {
+
+                profileMenu.classList.remove(
+                    "active"
+                );
+
+            }
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   MODAL
+========================================================= */
+
+function setupModal() {
+
+    const modal =
+        document.getElementById(
+            "contentModal"
+        );
+
+    const close =
+        document.getElementById(
+            "closeContent"
+        );
+
+
+    if (
+        close &&
+        modal
+    ) {
+
+        close.addEventListener(
+            "click",
+            () => {
+
+                modal.classList.remove(
+                    "active"
+                );
+
+            }
+        );
+
+    }
+
+
+    if (modal) {
+
+        modal.addEventListener(
+            "click",
+            event => {
+
+                if (
+                    event.target ===
+                    modal
+                ) {
+
+                    modal.classList.remove(
+                        "active"
+                    );
+
+                }
+
+            }
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   CARGAR M3U
 ========================================================= */
 
 async function loadM3U() {
@@ -95,7 +715,7 @@ async function loadM3U() {
     try {
 
         console.log(
-            "Cargando:",
+            "NETVISION: cargando",
             M3U_FILE
         );
 
@@ -118,25 +738,23 @@ async function loadM3U() {
         }
 
 
-        const m3uText =
+        const text =
             await response.text();
 
 
         channels =
             parseM3U(
-                m3uText
+                text
             );
 
 
         console.log(
-            "Canales encontrados:",
+            "NETVISION: canales encontrados:",
             channels.length
         );
 
 
-        if (
-            channels.length === 0
-        ) {
+        if (!channels.length) {
 
             showError(
                 "La lista M3U está vacía."
@@ -152,10 +770,13 @@ async function loadM3U() {
         );
 
 
+        renderHomeChannels();
+
+
     } catch (error) {
 
         console.error(
-            "Error cargando M3U:",
+            "NETVISION: error cargando M3U",
             error
         );
 
@@ -171,7 +792,7 @@ async function loadM3U() {
 
 
 /* =========================================================
-   PARSEAR M3U
+   PARSER M3U
 ========================================================= */
 
 function parseM3U(
@@ -185,10 +806,7 @@ function parseM3U(
                 line =>
                     line.trim()
             )
-            .filter(
-                line =>
-                    line.length > 0
-            );
+            .filter(Boolean);
 
 
     const result = [];
@@ -204,10 +822,6 @@ function parseM3U(
             lines[i];
 
 
-        /*
-           Buscar EXTINF
-        */
-
         if (
             !line.startsWith(
                 "#EXTINF:"
@@ -219,27 +833,21 @@ function parseM3U(
         }
 
 
-        /*
-           Información del canal
-        */
-
         const info =
             line.substring(
                 8
             );
 
 
-        /*
-           Nombre del canal
-        */
-
         const commaIndex =
             info.indexOf(",");
 
 
-        let attributes = "";
+        let attributes =
+            info;
 
-        let channelName = "";
+        let channelName =
+            "Canal sin nombre";
 
 
         if (
@@ -256,19 +864,11 @@ function parseM3U(
             channelName =
                 info.substring(
                     commaIndex + 1
-                ).trim();
-
-        } else {
-
-            attributes =
-                info;
+                ).trim() ||
+                channelName;
 
         }
 
-
-        /*
-           URL del canal
-        */
 
         let url = "";
 
@@ -302,55 +902,34 @@ function parseM3U(
         }
 
 
-        /*
-           Extraer atributos
-        */
-
-        const logo =
-            getAttribute(
-                attributes,
-                "tvg-logo"
-            );
-
-
-        const groupTitle =
-            getAttribute(
-                attributes,
-                "group-title"
-            );
-
-
-        const tvgId =
-            getAttribute(
-                attributes,
-                "tvg-id"
-            );
-
-
-        /*
-           Crear canal
-        */
-
         result.push({
 
             id:
-                tvgId ||
+                getAttribute(
+                    attributes,
+                    "tvg-id"
+                ) ||
                 createId(
                     channelName
                 ),
 
             name:
-                channelName ||
-                "Canal sin nombre",
+                channelName,
 
             url:
                 url,
 
             logo:
-                logo || "",
+                getAttribute(
+                    attributes,
+                    "tvg-logo"
+                ),
 
             category:
-                groupTitle ||
+                getAttribute(
+                    attributes,
+                    "group-title"
+                ) ||
                 "Otros"
 
         });
@@ -364,7 +943,7 @@ function parseM3U(
 
 
 /* =========================================================
-   EXTRAER ATRIBUTO M3U
+   ATRIBUTO M3U
 ========================================================= */
 
 function getAttribute(
@@ -393,7 +972,7 @@ function getAttribute(
 
 
 /* =========================================================
-   CREAR ID
+   ID
 ========================================================= */
 
 function createId(
@@ -415,24 +994,23 @@ function createId(
         )
         .replace(
             /^-+|-+$/g,
-            ""
-        );
+            "");
 
 }
 
 
 /* =========================================================
-   RENDERIZAR TV
+   TV / CATEGORÍAS
 ========================================================= */
 
 function renderTV(
-    filteredChannels = channels
+    list = channels
 ) {
 
     if (!tvCategories) {
 
         console.error(
-            "No existe #tvCategories"
+            "NETVISION: no existe #tvCategories"
         );
 
         return;
@@ -440,17 +1018,20 @@ function renderTV(
     }
 
 
-    tvCategories.innerHTML = "";
-
-
     /*
-       Obtener categorías únicas
+       IMPORTANTE:
+       Si tu HTML todavía tiene dos elementos
+       con id="tvCategories", usamos el primero.
     */
+
+    tvCategories.innerHTML =
+        "";
+
 
     const categories = [];
 
 
-    filteredChannels.forEach(
+    list.forEach(
         channel => {
 
             if (
@@ -468,10 +1049,6 @@ function renderTV(
         }
     );
 
-
-    /*
-       Crear botones
-    */
 
     categories.forEach(
         category => {
@@ -523,7 +1100,11 @@ function renderTV(
 
             button.addEventListener(
                 "click",
-                () => {
+                function(event) {
+
+                    event.preventDefault();
+
+                    event.stopPropagation();
 
                     selectCategory(
                         category
@@ -546,28 +1127,22 @@ function renderTV(
     */
 
     if (
-        categories.length > 0
+        categories.length
     ) {
 
-        let categoryToSelect =
-            categories[0];
-
-
-        if (
+        const category =
             selectedCategory &&
             categories.includes(
                 selectedCategory
             )
-        ) {
 
-            categoryToSelect =
-                selectedCategory;
+                ? selectedCategory
 
-        }
+                : categories[0];
 
 
         selectCategory(
-            categoryToSelect
+            category
         );
 
     }
@@ -587,17 +1162,19 @@ function selectCategory(
         category;
 
 
+    console.log(
+        "NETVISION: categoría",
+        category
+    );
+
+
     /*
        Activar botón
     */
 
-    const buttons =
-        document.querySelectorAll(
-            ".tv-category-button"
-        );
-
-
-    buttons.forEach(
+    document.querySelectorAll(
+        ".tv-category-button"
+    ).forEach(
         button => {
 
             button.classList.toggle(
@@ -622,10 +1199,6 @@ function selectCategory(
         );
 
 
-    /*
-       Mostrar canales
-    */
-
     renderSelectedCategory(
         category,
         categoryChannels
@@ -635,7 +1208,7 @@ function selectCategory(
 
 
 /* =========================================================
-   MOSTRAR CANALES DE CATEGORÍA
+   MOSTRAR CANALES
 ========================================================= */
 
 function renderSelectedCategory(
@@ -647,14 +1220,14 @@ function renderSelectedCategory(
         !selectedCategoryChannels
     ) {
 
+        console.error(
+            "NETVISION: no existe #selectedCategoryChannels"
+        );
+
         return;
 
     }
 
-
-    /*
-       Título
-    */
 
     if (
         selectedCategoryTitle
@@ -679,10 +1252,6 @@ function renderSelectedCategory(
     }
 
 
-    /*
-       Contador
-    */
-
     if (
         selectedCategoryCount
     ) {
@@ -697,29 +1266,17 @@ function renderSelectedCategory(
     }
 
 
-    /*
-       Limpiar
-    */
-
     selectedCategoryChannels.innerHTML =
         "";
 
 
-    /*
-       Crear tarjetas
-    */
-
     categoryChannels.forEach(
         channel => {
 
-            const card =
+            selectedCategoryChannels.appendChild(
                 createChannelCard(
                     channel
-                );
-
-
-            selectedCategoryChannels.appendChild(
-                card
+                )
             );
 
         }
@@ -729,7 +1286,7 @@ function renderSelectedCategory(
 
 
 /* =========================================================
-   CREAR TARJETA DE CANAL
+   TARJETA DE CANAL
 ========================================================= */
 
 function createChannelCard(
@@ -750,58 +1307,40 @@ function createChannelCard(
         0;
 
 
-    /*
-       Logo
-    */
-
-    let logoHTML = "";
-
-
-    if (
+    const logo =
         channel.logo
-    ) {
 
-        logoHTML = `
+            ? `
 
-            <img
-                src="${escapeAttribute(
-                    channel.logo
-                )}"
-                alt="${escapeAttribute(
-                    channel.name
-                )}"
-                loading="lazy"
-                onerror="
-                    this.style.display='none';
-                "
-            >
+                <img
+                    src="${escapeAttribute(
+                        channel.logo
+                    )}"
+                    alt="${escapeAttribute(
+                        channel.name
+                    )}"
+                    loading="lazy"
+                    onerror="
+                        this.style.display='none';
+                    "
+                >
 
-        `;
+              `
 
-    } else {
+            : `
 
-        logoHTML = `
+                <span class="default-channel-logo">
+                    TV
+                </span>
 
-            <span class="default-channel-logo">
+              `;
 
-                TV
-
-            </span>
-
-        `;
-
-    }
-
-
-    /*
-       HTML
-    */
 
     card.innerHTML = `
 
         <div class="channel-logo">
 
-            ${logoHTML}
+            ${logo}
 
         </div>
 
@@ -830,13 +1369,11 @@ function createChannelCard(
     `;
 
 
-    /*
-       Click
-    */
-
     card.addEventListener(
         "click",
-        () => {
+        event => {
+
+            event.preventDefault();
 
             selectChannel(
                 channel
@@ -845,10 +1382,6 @@ function createChannelCard(
         }
     );
 
-
-    /*
-       Teclado
-    */
 
     card.addEventListener(
         "keydown",
@@ -889,14 +1422,10 @@ function selectChannel(
 
 
     console.log(
-        "NETVISION → Canal:",
+        "NETVISION: seleccionando",
         channel.name
     );
 
-
-    /*
-       Nombre
-    */
 
     if (
         selectedChannelName
@@ -910,10 +1439,6 @@ function selectChannel(
     }
 
 
-    /*
-       Categoría
-    */
-
     if (
         selectedChannelCategory
     ) {
@@ -924,49 +1449,36 @@ function selectChannel(
     }
 
 
-    /*
-       Logo
-    */
-
     if (
         currentChannelLogo
     ) {
 
-        if (
+        currentChannelLogo.innerHTML =
             channel.logo
-        ) {
 
-            currentChannelLogo.innerHTML = `
+                ? `
 
-                <img
-                    src="${escapeAttribute(
-                        channel.logo
-                    )}"
-                    alt="${escapeAttribute(
-                        channel.name
-                    )}"
-                >
+                    <img
+                        src="${escapeAttribute(
+                            channel.logo
+                        )}"
+                        alt="${escapeAttribute(
+                            channel.name
+                        )}"
+                    >
 
-            `;
+                  `
 
-        } else {
+                : `
 
-            currentChannelLogo.innerHTML = `
+                    <span>
+                        TV
+                    </span>
 
-                <span>
-                    TV
-                </span>
-
-            `;
-
-        }
+                  `;
 
     }
 
-
-    /*
-       Ocultar mensaje inicial
-    */
 
     if (
         playerPlaceholder
@@ -979,10 +1491,6 @@ function selectChannel(
     }
 
 
-    /*
-       Reproducir
-    */
-
     playStream(
         channel.url
     );
@@ -991,19 +1499,17 @@ function selectChannel(
 
 
 /* =========================================================
-   REPRODUCIR STREAM
+   HLS.JS
 ========================================================= */
 
 function playStream(
     url
 ) {
 
-    if (
-        !videoPlayer
-    ) {
+    if (!videoPlayer) {
 
         console.error(
-            "No existe #videoPlayer"
+            "NETVISION: no existe #videoPlayer"
         );
 
         return;
@@ -1012,13 +1518,13 @@ function playStream(
 
 
     console.log(
-        "Reproduciendo:",
+        "NETVISION: reproduciendo",
         url
     );
 
 
     /*
-       Destruir HLS anterior
+       Destruir reproductor anterior
     */
 
     if (
@@ -1033,10 +1539,6 @@ function playStream(
     }
 
 
-    /*
-       Limpiar video
-    */
-
     videoPlayer.pause();
 
     videoPlayer.removeAttribute(
@@ -1047,12 +1549,11 @@ function playStream(
 
 
     /*
-       HLS.js disponible
+       HLS.js
     */
 
     if (
-        typeof Hls !==
-        "undefined" &&
+        window.Hls &&
         Hls.isSupported()
     ) {
 
@@ -1085,18 +1586,13 @@ function playStream(
             Hls.Events.MANIFEST_PARSED,
             () => {
 
-                console.log(
-                    "HLS cargado correctamente"
-                );
-
-
                 videoPlayer
                     .play()
                     .catch(
                         error => {
 
                             console.log(
-                                "Autoplay bloqueado:",
+                                "Autoplay bloqueado",
                                 error
                             );
 
@@ -1115,55 +1611,46 @@ function playStream(
             ) => {
 
                 console.error(
-                    "HLS Error:",
+                    "NETVISION HLS ERROR:",
                     data
                 );
 
 
                 if (
-                    data.fatal
+                    !data.fatal
                 ) {
 
-                    switch (
-                        data.type
-                    ) {
+                    return;
 
-                        case Hls.ErrorTypes.NETWORK_ERROR:
-
-                            console.log(
-                                "Intentando recuperar conexión..."
-                            );
+                }
 
 
-                            hls.startLoad();
+                if (
+                    data.type ===
+                    Hls.ErrorTypes.NETWORK_ERROR
+                ) {
 
-                            break;
+                    hls.startLoad();
 
+                }
 
-                        case Hls.ErrorTypes.MEDIA_ERROR:
+                else if (
+                    data.type ===
+                    Hls.ErrorTypes.MEDIA_ERROR
+                ) {
 
-                            console.log(
-                                "Intentando recuperar reproducción..."
-                            );
+                    hls.recoverMediaError();
 
+                }
 
-                            hls.recoverMediaError();
+                else {
 
-                            break;
+                    showPlayerError();
 
+                    hls.destroy();
 
-                        default:
-
-                            hls.destroy();
-
-                            hls =
-                                null;
-
-                            showPlayerError();
-
-                            break;
-
-                    }
+                    hls =
+                        null;
 
                 }
 
@@ -1178,7 +1665,6 @@ function playStream(
 
     /*
        HLS nativo
-       Safari / algunos dispositivos
     */
 
     if (
@@ -1201,7 +1687,7 @@ function playStream(
                         error => {
 
                             console.log(
-                                "Autoplay bloqueado:",
+                                "Autoplay bloqueado",
                                 error
                             );
 
@@ -1220,22 +1706,13 @@ function playStream(
     }
 
 
-    /*
-       No soportado
-    */
-
-    console.error(
-        "Este navegador no soporta HLS."
-    );
-
-
     showPlayerError();
 
 }
 
 
 /* =========================================================
-   ERROR DEL REPRODUCTOR
+   ERROR REPRODUCTOR
 ========================================================= */
 
 function showPlayerError() {
@@ -1257,22 +1734,16 @@ function showPlayerError() {
     playerPlaceholder.innerHTML = `
 
         <div class="player-icon">
-
             ⚠
-
         </div>
 
         <h3>
-
             No se pudo reproducir
-
         </h3>
 
         <p>
-
             El canal no está disponible
             en este momento.
-
         </p>
 
     `;
@@ -1281,39 +1752,70 @@ function showPlayerError() {
 
 
 /* =========================================================
-   ERROR GENERAL
+   CANALES EN INICIO
 ========================================================= */
 
-function showError(
-    message
-) {
+function renderHomeChannels() {
 
-    console.error(
-        message
-    );
+    const popular =
+        document.getElementById(
+            "homePopularChannels"
+        );
 
 
-    if (
-        tvCategories
-    ) {
+    const newest =
+        document.getElementById(
+            "homeNewChannels"
+        );
 
-        tvCategories.innerHTML = `
 
-            <div
-                style="
-                    padding:15px;
-                    color:#ff6b6b;
-                    font-size:13px;
-                "
-            >
+    if (popular) {
 
-                ⚠️ ${escapeHTML(
-                    message
-                )}
+        popular.innerHTML =
+            "";
 
-            </div>
 
-        `;
+        channels
+            .slice(
+                0,
+                6
+            )
+            .forEach(
+                channel => {
+
+                    popular.appendChild(
+                        createChannelCard(
+                            channel
+                        )
+                    );
+
+                }
+            );
+
+    }
+
+
+    if (newest) {
+
+        newest.innerHTML =
+            "";
+
+
+        channels
+            .slice(
+                -6
+            )
+            .forEach(
+                channel => {
+
+                    newest.appendChild(
+                        createChannelCard(
+                            channel
+                        )
+                    );
+
+                }
+            );
 
     }
 
@@ -1321,7 +1823,7 @@ function showError(
 
 
 /* =========================================================
-   ICONOS DE CATEGORÍAS
+   ICONOS
 ========================================================= */
 
 function getCategoryIcon(
@@ -1344,22 +1846,14 @@ function getCategoryIcon(
         name.includes(
             "relig"
         )
-    ) {
-
-        return "✝️";
-
-    }
+    ) return "✝️";
 
 
     if (
         name.includes(
             "anime"
         )
-    ) {
-
-        return "🍥";
-
-    }
+    ) return "🍥";
 
 
     if (
@@ -1372,11 +1866,7 @@ function getCategoryIcon(
         name.includes(
             "infantil"
         )
-    ) {
-
-        return "🎨";
-
-    }
+    ) return "🎨";
 
 
     if (
@@ -1386,11 +1876,7 @@ function getCategoryIcon(
         name.includes(
             "sport"
         )
-    ) {
-
-        return "⚽";
-
-    }
+    ) return "⚽";
 
 
     if (
@@ -1400,11 +1886,7 @@ function getCategoryIcon(
         name.includes(
             "document"
         )
-    ) {
-
-        return "🔬";
-
-    }
+    ) return "🔬";
 
 
     if (
@@ -1414,11 +1896,7 @@ function getCategoryIcon(
         name.includes(
             "news"
         )
-    ) {
-
-        return "📰";
-
-    }
+    ) return "📰";
 
 
     if (
@@ -1428,11 +1906,7 @@ function getCategoryIcon(
         name.includes(
             "music"
         )
-    ) {
-
-        return "🎵";
-
-    }
+    ) return "🎵";
 
 
     if (
@@ -1442,11 +1916,7 @@ function getCategoryIcon(
         name.includes(
             "movie"
         )
-    ) {
-
-        return "🎬";
-
-    }
+    ) return "🎬";
 
 
     return "📺";
@@ -1455,7 +1925,7 @@ function getCategoryIcon(
 
 
 /* =========================================================
-   LIMPIAR NOMBRE DEL CANAL
+   LIMPIAR NOMBRE
 ========================================================= */
 
 function cleanChannelName(
@@ -1484,7 +1954,7 @@ function cleanChannelName(
 
 
 /* =========================================================
-   ESCAPAR HTML
+   SEGURIDAD
 ========================================================= */
 
 function escapeHTML(
@@ -1518,10 +1988,6 @@ function escapeHTML(
 }
 
 
-/* =========================================================
-   ESCAPAR ATRIBUTOS
-========================================================= */
-
 function escapeAttribute(
     value
 ) {
@@ -1534,7 +2000,49 @@ function escapeAttribute(
 
 
 /* =========================================================
-   LIMPIEZA AL SALIR
+   ERROR GENERAL
+========================================================= */
+
+function showError(
+    message
+) {
+
+    console.error(
+        "NETVISION:",
+        message
+    );
+
+
+    if (
+        tvCategories
+    ) {
+
+        tvCategories.innerHTML = `
+
+            <div
+                style="
+                    padding:15px;
+                    color:#ff6b6b;
+                    font-size:13px;
+                "
+            >
+
+                ⚠️
+                ${escapeHTML(
+                    message
+                )}
+
+            </div>
+
+        `;
+
+    }
+
+}
+
+
+/* =========================================================
+   LIMPIEZA
 ========================================================= */
 
 window.addEventListener(

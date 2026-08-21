@@ -608,9 +608,83 @@ function setupProfile() {
     ) return;
 
 
+    const profileCard =
+        profileMenu.querySelector(
+            ".profile-card"
+        );
+
+
+    /*
+       Crear botón X si todavía no existe
+    */
+
+    let closeBtn =
+        profileMenu.querySelector(
+            ".profile-close-btn"
+        );
+
+
+    if (
+        !closeBtn &&
+        profileCard
+    ) {
+
+        closeBtn =
+            document.createElement(
+                "button"
+            );
+
+
+        closeBtn.type =
+            "button";
+
+
+        closeBtn.className =
+            "profile-close-btn";
+
+
+        closeBtn.setAttribute(
+            "aria-label",
+            "Cerrar perfil"
+        );
+
+
+        closeBtn.innerHTML =
+            "×";
+
+
+        profileCard.prepend(
+            closeBtn
+        );
+
+
+        closeBtn.addEventListener(
+            "click",
+            event => {
+
+                event.preventDefault();
+
+                event.stopPropagation();
+
+                profileMenu.classList.remove(
+                    "active"
+                );
+
+            }
+        );
+
+    }
+
+
+    /*
+       Abrir / cerrar perfil
+    */
+
     profileBtn.addEventListener(
         "click",
         event => {
+
+            event.preventDefault();
 
             event.stopPropagation();
 
@@ -621,6 +695,10 @@ function setupProfile() {
         }
     );
 
+
+    /*
+       Cerrar al hacer click fuera
+    */
 
     document.addEventListener(
         "click",
@@ -642,9 +720,29 @@ function setupProfile() {
         }
     );
 
+
+    /*
+       Cerrar con ESC
+    */
+
+    document.addEventListener(
+        "keydown",
+        event => {
+
+            if (
+                event.key === "Escape"
+            ) {
+
+                profileMenu.classList.remove(
+                    "active"
+                );
+
+            }
+
+        }
+    );
+
 }
-
-
 /* =========================================================
    MODAL
 ========================================================= */

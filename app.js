@@ -170,16 +170,29 @@ function setupNavigation() {
 
         });
 
+navLinks.forEach(link => {
 
-        navLinks.forEach(link => {
+    link.addEventListener("click", () => {
 
-            link.classList.toggle(
-                "active",
-                link.dataset.page === pageName
-            );
+        const page =
+            link.dataset.page;
 
-        });
 
+        // Si salimos de TV,
+        // detener completamente el canal
+        if (page !== "tv") {
+            detenerTV();
+        }
+
+
+        mostrarPagina(page);
+
+    });
+
+});
+window.addEventListener("beforeunload", () => {
+    detenerTV();
+});
 
         if (mainNav) {
 
@@ -1709,7 +1722,62 @@ function playStream(
     showPlayerError();
 
 }
+function detenerTV() {
 
+    const video = document.getElementById("videoPlayer");
+
+    // Detener HLS
+    if (typeof hls !== "undefined" && hls) {
+        try {
+            hls.stopLoad();
+            hls.detachMedia();
+            hls.destroy();
+        } catch (error) {
+            console.log("HLS detenido");
+        }
+
+        hls = null;
+    }
+
+    // Detener completamente el video
+    if (video) {
+
+        try {
+            video.pause();
+        } catch (error) {}
+
+        video.removeAttribute("src");
+
+        video.src = "";
+
+        video.load();
+    }
+
+    // Limpiar información del canal
+    const channelName =
+        document.getElementById("selectedChannelName");
+
+    const channelCategory =
+        document.getElementById("selectedChannelCategory");
+
+    const channelLogo =
+        document.getElementById("currentChannelLogo");
+
+    if (channelName) {
+        channelName.textContent =
+            "Ningún canal seleccionado";
+    }
+
+    if (channelCategory) {
+        channelCategory.textContent =
+            "Selecciona un canal";
+    }
+
+    if (channelLogo) {
+        channelLogo.textContent = "TV";
+    }
+
+}
 
 /* =========================================================
    ERROR REPRODUCTOR

@@ -232,10 +232,11 @@ function setupSearch() {
         document.getElementById("globalSearch");
 
 
-    if (
-        searchBtn &&
-        searchOverlay
-    ) {
+    /* =========================================
+       ABRIR BUSCADOR
+    ========================================= */
+
+    if (searchBtn && searchOverlay) {
 
         searchBtn.addEventListener(
             "click",
@@ -245,13 +246,13 @@ function setupSearch() {
                     "active"
                 );
 
-
                 if (globalSearch) {
 
-                    setTimeout(
-                        () => globalSearch.focus(),
-                        100
-                    );
+                    globalSearch.value = "";
+
+                    setTimeout(() => {
+                        globalSearch.focus();
+                    }, 100);
 
                 }
 
@@ -261,10 +262,11 @@ function setupSearch() {
     }
 
 
-    if (
-        closeSearch &&
-        searchOverlay
-    ) {
+    /* =========================================
+       CERRAR CON X
+    ========================================= */
+
+    if (closeSearch && searchOverlay) {
 
         closeSearch.addEventListener(
             "click",
@@ -280,6 +282,10 @@ function setupSearch() {
     }
 
 
+    /* =========================================
+       CERRAR HACIENDO CLICK AFUERA
+    ========================================= */
+
     if (searchOverlay) {
 
         searchOverlay.addEventListener(
@@ -287,8 +293,7 @@ function setupSearch() {
             event => {
 
                 if (
-                    event.target ===
-                    searchOverlay
+                    event.target === searchOverlay
                 ) {
 
                     searchOverlay.classList.remove(
@@ -303,6 +308,10 @@ function setupSearch() {
     }
 
 
+    /* =========================================
+       BUSCADOR GENERAL
+    ========================================= */
+
     if (globalSearch) {
 
         globalSearch.addEventListener(
@@ -315,65 +324,11 @@ function setupSearch() {
                         .toLowerCase();
 
 
-                if (
-                    term &&
-                    channels.length
-                ) {
-
-                    const results =
-                        channels.filter(
-                            channel =>
-                                channel.name
-                                    .toLowerCase()
-                                    .includes(term)
-                        );
-
-
-                    if (results.length) {
-
-                        renderSearchResults(
-                            results
-                        );
-
-                    }
-
-                }
-
-            }
-        );
-
-    }
-
-
-    if (channelSearch) {
-
-        channelSearch.addEventListener(
-            "input",
-            () => {
-
-                const term =
-                    channelSearch.value
-                        .trim()
-                        .toLowerCase();
-
-
                 if (!term) {
 
-                    if (
-                        selectedCategory
-                    ) {
-
-                        selectCategory(
-                            selectedCategory
-                        );
-
-                    } else {
-
-                        renderTV(
-                            channels
-                        );
-
-                    }
+                    showSearchMessage(
+                        "Escribe el nombre de un canal para buscar."
+                    );
 
                     return;
 
@@ -381,25 +336,81 @@ function setupSearch() {
 
 
                 const results =
-                    channels.filter(
-                        channel =>
+                    channels.filter(channel => {
 
+                        const name =
                             channel.name
-                                .toLowerCase()
-                                .includes(term)
+                                .toLowerCase();
 
-                            ||
-
+                        const category =
                             channel.category
-                                .toLowerCase()
-                                .includes(term)
-                    );
+                                .toLowerCase();
+
+                        return (
+                            name.includes(term) ||
+                            category.includes(term)
+                        );
+
+                    });
 
 
-                renderSearchChannels(
+                renderSearchResults(
                     results,
                     term
                 );
+
+            }
+        );
+
+    }
+
+
+    /* =========================================
+       ENTER
+    ========================================= */
+
+    if (globalSearch) {
+
+        globalSearch.addEventListener(
+            "keydown",
+            event => {
+
+                if (
+                    event.key !== "Enter"
+                ) return;
+
+
+                const term =
+                    globalSearch.value
+                        .trim()
+                        .toLowerCase();
+
+
+                if (!term) return;
+
+
+                const result =
+                    channels.find(channel => {
+
+                        return (
+                            channel.name
+                                .toLowerCase()
+                                .includes(term) ||
+                            channel.category
+                                .toLowerCase()
+                                .includes(term)
+                        );
+
+                    });
+
+
+                if (result) {
+
+                    openChannelFromSearch(
+                        result
+                    );
+
+                }
 
             }
         );
@@ -498,22 +509,14 @@ function renderSearchChannels(
 ========================================================= */
 
 function renderSearchResults(
-    results
+    results,
+    term = ""
 ) {
 
     const searchOverlay =
         document.getElementById(
             "searchOverlay"
         );
-
-
-    if (searchOverlay) {
-
-        searchOverlay.classList.remove(
-            "active"
-        );
-
-    }
 
 
     const tvPage =
@@ -525,79 +528,233 @@ function renderSearchResults(
     if (!tvPage) return;
 
 
-    document.querySelectorAll(
-        ".page"
-    ).forEach(
-        page => {
+    /*
+       Mostrar TV
+    */
+
+    document
+        .querySelectorAll(".page")
+        .forEach(page => {
 
             page.classList.toggle(
                 "active-page",
                 page === tvPage
             );
 
-        }
-    );
+        });
 
 
-    document.querySelectorAll(
-        ".nav-link"
-    ).forEach(
-        link => {
+    /*
+       Activar botón TV
+    */
+
+    document
+        .querySelectorAll(".nav-link")
+        .forEach(link => {
 
             link.classList.toggle(
                 "active",
                 link.dataset.page === "tv"
             );
 
-        }
-    );
+        });
 
 
-    if (
-        selectedCategoryChannels
-    ) {
+    /*
+       Cerrar buscador
+    */
 
-        if (
-            selectedCategoryTitle
-        ) {
+    if (searchOverlay) {
 
-            selectedCategoryTitle.innerHTML =
-                "🔎 RESULTADOS DE BÚSQUEDA";
-
-        }
-
-
-        if (
-            selectedCategoryCount
-        ) {
-
-            selectedCategoryCount.textContent =
-                `${results.length} canales`;
-
-        }
-
-
-        selectedCategoryChannels.innerHTML =
-            "";
-
-
-        results.forEach(
-            channel => {
-
-                selectedCategoryChannels.appendChild(
-                    createChannelCard(
-                        channel
-                    )
-                );
-
-            }
+        searchOverlay.classList.remove(
+            "active"
         );
 
     }
 
+
+    /*
+       Mostrar resultados
+    */
+
+    if (!selectedCategoryChannels)
+        return;
+
+
+    if (selectedCategoryTitle) {
+
+        selectedCategoryTitle.innerHTML =
+            `🔎 RESULTADOS PARA: <span>${escapeHTML(term)}</span>`;
+
+    }
+
+
+    if (selectedCategoryCount) {
+
+        selectedCategoryCount.textContent =
+            `${results.length} ${
+                results.length === 1
+                    ? "canal"
+                    : "canales"
+            }`;
+
+    }
+
+
+    selectedCategoryChannels.innerHTML = "";
+
+
+    /*
+       Sin resultados
+    */
+
+    if (!results.length) {
+
+        selectedCategoryChannels.innerHTML = `
+
+            <div
+                style="
+                    padding:20px;
+                    color:var(--text-soft);
+                    grid-column:1/-1;
+                "
+            >
+
+                🔎 No encontramos
+                ningún canal para
+                "<strong>${escapeHTML(term)}</strong>".
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    /*
+       Crear tarjetas
+    */
+
+    results.forEach(channel => {
+
+        selectedCategoryChannels.appendChild(
+            createChannelCard(channel)
+        );
+
+    });
+
+
+    /*
+       Subir al reproductor
+    */
+
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
+
 }
+function openChannelFromSearch(channel) {
+
+    const searchOverlay =
+        document.getElementById(
+            "searchOverlay"
+        );
 
 
+    /*
+       Cerrar buscador
+    */
+
+    if (searchOverlay) {
+
+        searchOverlay.classList.remove(
+            "active"
+        );
+
+    }
+
+
+    /*
+       Mostrar página TV
+    */
+
+    const tvPage =
+        document.getElementById(
+            "page-tv"
+        );
+
+
+    if (tvPage) {
+
+        document
+            .querySelectorAll(".page")
+            .forEach(page => {
+
+                page.classList.toggle(
+                    "active-page",
+                    page === tvPage
+                );
+
+            });
+
+    }
+
+
+    /*
+       Activar botón TV
+    */
+
+    document
+        .querySelectorAll(".nav-link")
+        .forEach(link => {
+
+            link.classList.toggle(
+                "active",
+                link.dataset.page === "tv"
+            );
+
+        });
+
+
+    /*
+       Seleccionar categoría
+    */
+
+    if (
+        channel.category &&
+        tvCategories
+    ) {
+
+        selectedCategory =
+            channel.category;
+
+        selectCategory(
+            channel.category
+        );
+
+    }
+
+
+    /*
+       Reproducir canal
+    */
+
+    selectChannel(channel);
+
+
+    /*
+       Regresar al reproductor
+    */
+
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
+
+}
 /* =========================================================
    PERFIL
 ========================================================= */

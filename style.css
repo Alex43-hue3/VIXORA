@@ -2389,3 +2389,506 @@ footer p {
     }
 
 }
+/* =========================================================
+   NETVISION - AJUSTES TV
+   No reemplaza el diseño original.
+   Agregar al FINAL de style.css
+========================================================= */
+
+
+/* =========================================================
+   1. OCULTAR BUSCADOR GRANDE DE TV
+   El buscador seguirá disponible mediante el icono 🔍
+   del encabezado.
+========================================================= */
+
+#page-tv > .search-container {
+    display: none !important;
+}
+
+
+/* =========================================================
+   2. DISTRIBUCIÓN DE TV
+========================================================= */
+
+#page-tv {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 340px;
+    grid-template-areas:
+
+        "heading heading"
+        "tv-layout tv-layout"
+        "channels channels";
+
+    column-gap: 18px;
+}
+
+
+/* Encabezado */
+
+#page-tv .page-heading {
+    grid-area: heading;
+}
+
+
+/* =========================================================
+   3. CONTENEDOR PRINCIPAL TV
+========================================================= */
+
+#page-tv .tv-player-layout {
+
+    grid-area: tv-layout;
+
+    display: grid;
+
+    grid-template-columns:
+        minmax(0, 1fr)
+        340px;
+
+    gap: 14px;
+
+    align-items: stretch;
+
+}
+
+
+/* =========================================================
+   4. REPRODUCTOR
+========================================================= */
+
+#page-tv .player-box {
+
+    width: 100%;
+
+    aspect-ratio: 16 / 9;
+
+    max-height: 520px;
+
+    min-height: 0;
+
+}
+
+
+/* Video */
+
+#page-tv .player-box video {
+
+    width: 100%;
+
+    height: 100%;
+
+    object-fit: contain;
+
+}
+
+
+/* =========================================================
+   5. PANEL DERECHO
+========================================================= */
+
+#page-tv .now-playing {
+
+    width: 100%;
+
+    min-width: 0;
+
+    height: auto;
+
+    max-height: 100%;
+
+    overflow-y: auto;
+
+}
+
+
+/* =========================================================
+   6. CANALES DE LA CATEGORÍA
+========================================================= */
+
+#page-tv .selected-category-section {
+
+    grid-area: channels;
+
+    margin-top: 14px;
+
+}
+
+
+/*
+   Las tarjetas permanecen en fila
+*/
+
+#page-tv .selected-channel-row {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(
+            auto-fill,
+            minmax(150px, 1fr)
+        );
+
+    gap: 12px;
+
+}
+
+
+/* =========================================================
+   7. TARJETAS DE CANALES
+========================================================= */
+
+#page-tv .channel-card {
+
+    min-width: 0;
+
+    width: 100%;
+
+}
+
+
+/* =========================================================
+   8. CATEGORÍAS
+========================================================= */
+
+#page-tv .tv-category-list {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 6px;
+
+}
+
+
+/* =========================================================
+   9. PERFIL - BOTÓN X
+========================================================= */
+
+.profile-card {
+
+    position: relative;
+
+}
+
+
+.profile-close-btn {
+
+    position: absolute;
+
+    top: 10px;
+
+    right: 10px;
+
+    width: 32px;
+
+    height: 32px;
+
+    border: none;
+
+    border-radius: 50%;
+
+    background: rgba(
+        255,
+        255,
+        255,
+        0.08
+    );
+
+    color: white;
+
+    font-size: 22px;
+
+    line-height: 1;
+
+    cursor: pointer;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    transition:
+        background 0.2s ease,
+        transform 0.2s ease;
+
+}
+
+
+.profile-close-btn:hover {
+
+    background: rgba(
+        255,
+        255,
+        255,
+        0.16
+    );
+
+    transform: scale(1.05);
+
+}
+
+
+/* =========================================================
+   10. RESPONSIVE - TABLET
+========================================================= */
+
+@media (
+    max-width: 900px
+) {
+
+    #page-tv {
+
+        display: block;
+
+    }
+
+
+    #page-tv .tv-player-layout {
+
+        display: grid;
+
+        grid-template-columns:
+            minmax(0, 1fr)
+            300px;
+
+        gap: 12px;
+
+    }
+
+
+    #page-tv .player-box {
+
+        aspect-ratio: 16 / 9;
+
+    }
+
+
+    #page-tv .selected-category-section {
+
+        margin-top: 12px;
+
+    }
+
+}
+
+
+/* =========================================================
+   11. RESPONSIVE - CELULAR
+========================================================= */
+
+@media (
+    max-width: 700px
+) {
+
+    /* Página */
+
+    #page-tv {
+
+        display: block;
+
+        width: 100%;
+
+    }
+
+
+    /* Reproductor + panel */
+
+    #page-tv .tv-player-layout {
+
+        display: flex;
+
+        flex-direction: column;
+
+        width: 100%;
+
+        gap: 10px;
+
+    }
+
+
+    /* Reproductor */
+
+    #page-tv .player-box {
+
+        width: 100%;
+
+        aspect-ratio: 16 / 9;
+
+        max-height: none;
+
+    }
+
+
+    #page-tv .player-box video {
+
+        width: 100%;
+
+        height: 100%;
+
+    }
+
+
+    /* Panel */
+
+    #page-tv .now-playing {
+
+        width: 100%;
+
+        max-height: none;
+
+        overflow: visible;
+
+    }
+
+
+    /* Categorías */
+
+    #page-tv .tv-category-list {
+
+        display: grid;
+
+        grid-template-columns:
+            repeat(
+                2,
+                minmax(0, 1fr)
+            );
+
+        gap: 7px;
+
+    }
+
+
+    /* Canales */
+
+    #page-tv .selected-category-section {
+
+        width: 100%;
+
+        margin-top: 10px;
+
+    }
+
+
+    #page-tv .selected-channel-row {
+
+        display: grid;
+
+        grid-template-columns:
+            repeat(
+                2,
+                minmax(0, 1fr)
+            );
+
+        gap: 8px;
+
+    }
+
+
+    /* Tarjetas */
+
+    #page-tv .channel-card {
+
+        min-width: 0;
+
+    }
+
+
+    /* Título */
+
+    #page-tv .page-heading h1 {
+
+        font-size: 32px;
+
+    }
+
+
+}
+
+
+/* =========================================================
+   12. CELULARES PEQUEÑOS
+========================================================= */
+
+@media (
+    max-width: 430px
+) {
+
+    #page-tv .page-heading h1 {
+
+        font-size: 28px;
+
+    }
+
+
+    #page-tv .tv-category-list {
+
+        grid-template-columns:
+            1fr;
+
+    }
+
+
+    #page-tv .selected-channel-row {
+
+        grid-template-columns:
+            1fr 1fr;
+
+    }
+
+
+    #page-tv .channel-card {
+
+        font-size: 12px;
+
+    }
+
+
+    #page-tv .current-channel-info {
+
+        align-items: center;
+
+    }
+
+}
+
+
+/* =========================================================
+   13. HEADER RESPONSIVE
+========================================================= */
+
+@media (
+    max-width: 700px
+) {
+
+    .navbar {
+
+        padding-left: 12px;
+
+        padding-right: 12px;
+
+    }
+
+
+    .profile-name {
+
+        display: none;
+
+    }
+
+
+    .profile-btn {
+
+        padding: 4px;
+
+    }
+
+
+    .nav-right {
+
+        gap: 5px;
+
+    }
+
+}

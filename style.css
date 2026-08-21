@@ -1807,3 +1807,585 @@ footer p {
     }
 
 }
+/* =========================================================
+   NETVISION TV - NUEVA DISTRIBUCIÓN
+========================================================= */
+
+
+/* =========================================================
+   INFORMACIÓN DEL CANAL ACTUAL
+========================================================= */
+
+.current-channel-info {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 14px;
+
+    margin-top: 20px;
+
+    padding-bottom: 20px;
+
+    border-bottom:
+        1px solid rgba(
+            255,
+            255,
+            255,
+            0.08
+        );
+
+}
+
+
+.current-channel-logo {
+
+    width: 72px;
+
+    height: 72px;
+
+    flex-shrink: 0;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    background:
+        rgba(
+            255,
+            255,
+            255,
+            0.04
+        );
+
+    border-radius: 12px;
+
+    overflow: hidden;
+
+    color:
+        var(--text-soft);
+
+    font-weight: 700;
+
+}
+
+
+.current-channel-logo img {
+
+    width: 100%;
+
+    height: 100%;
+
+    object-fit: contain;
+
+}
+
+
+/* =========================================================
+   CATEGORÍAS
+========================================================= */
+
+.tv-category-menu {
+
+    margin-top: 20px;
+
+}
+
+
+.tv-category-menu h4 {
+
+    margin-bottom: 12px;
+
+    font-size: 12px;
+
+    letter-spacing: 1.5px;
+
+    color:
+        var(--text-soft);
+
+}
+
+
+/* =========================================================
+   LISTA DE CATEGORÍAS
+========================================================= */
+
+.tv-category-list {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 7px;
+
+    max-height: 430px;
+
+    overflow-y: auto;
+
+    padding-right: 4px;
+
+}
+
+
+/* scrollbar */
+
+.tv-category-list::-webkit-scrollbar {
+
+    width: 4px;
+
+}
+
+
+.tv-category-list::-webkit-scrollbar-thumb {
+
+    background:
+        rgba(
+            255,
+            255,
+            255,
+            0.15
+        );
+
+    border-radius: 10px;
+
+}
+
+
+/* =========================================================
+   BOTÓN DE CATEGORÍA
+========================================================= */
+
+.tv-category-button {
+
+    width: 100%;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 11px;
+
+    padding: 11px 12px;
+
+    border:
+        1px solid rgba(
+            255,
+            255,
+            255,
+            0.07
+        );
+
+    border-radius: 9px;
+
+    background:
+        rgba(
+            255,
+            255,
+            255,
+            0.025
+        );
+
+    color:
+        var(--text);
+
+    cursor: pointer;
+
+    text-align: left;
+
+    transition:
+        0.2s ease;
+
+}
+
+
+.tv-category-button:hover {
+
+    background:
+        rgba(
+            255,
+            255,
+            255,
+            0.06
+        );
+
+    transform:
+        translateX(2px);
+
+}
+
+
+.tv-category-button.active {
+
+    background:
+        rgba(
+            40,
+            130,
+            255,
+            0.15
+        );
+
+    border-color:
+        rgba(
+            60,
+            160,
+            255,
+            0.7
+        );
+
+}
+
+
+.category-icon {
+
+    width: 22px;
+
+    text-align: center;
+
+    font-size: 16px;
+
+}
+
+
+.category-arrow {
+
+    margin-left: auto;
+
+    font-size: 20px;
+
+    color:
+        var(--text-soft);
+
+}
+
+
+/* =========================================================
+   CANALES DE LA CATEGORÍA
+========================================================= */
+
+.selected-category-section {
+
+    margin-top: 18px;
+
+    padding: 18px;
+
+    background:
+        rgba(
+            255,
+            255,
+            255,
+            0.025
+        );
+
+    border:
+        1px solid rgba(
+            255,
+            255,
+            255,
+            0.07
+        );
+
+    border-radius: 14px;
+
+}
+
+
+/* =========================================================
+   ENCABEZADO
+========================================================= */
+
+.selected-category-header {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 15px;
+
+    margin-bottom: 15px;
+
+}
+
+
+.selected-category-header h2 {
+
+    margin: 0;
+
+    font-size: 18px;
+
+}
+
+
+.selected-category-header h2 span {
+
+    color:
+        #5aaeff;
+
+}
+
+
+.selected-category-header > span {
+
+    color:
+        var(--text-soft);
+
+    font-size: 13px;
+
+}
+
+
+/* =========================================================
+   FILA DE CANALES
+========================================================= */
+
+.selected-channel-row {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(
+            auto-fill,
+            minmax(
+                230px,
+                1fr
+            )
+        );
+
+    gap: 12px;
+
+}
+
+
+/* =========================================================
+   TARJETA DE CANAL
+========================================================= */
+
+.selected-channel-row .channel-card {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+    min-height: 78px;
+
+    padding: 10px;
+
+    background:
+        rgba(
+            255,
+            255,
+            255,
+            0.025
+        );
+
+    border:
+        1px solid rgba(
+            255,
+            255,
+            255,
+            0.07
+        );
+
+    border-radius: 10px;
+
+    cursor: pointer;
+
+    transition:
+        transform 0.2s ease,
+        border-color 0.2s ease,
+        background 0.2s ease;
+
+}
+
+
+.selected-channel-row .channel-card:hover {
+
+    transform:
+        translateY(-2px);
+
+    border-color:
+        rgba(
+            70,
+            160,
+            255,
+            0.7
+        );
+
+    background:
+        rgba(
+            70,
+            160,
+            255,
+            0.07
+        );
+
+}
+
+
+/* =========================================================
+   LOGO
+========================================================= */
+
+.selected-channel-row .channel-logo {
+
+    width: 58px;
+
+    height: 58px;
+
+    flex-shrink: 0;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    overflow: hidden;
+
+    border-radius: 8px;
+
+    background:
+        rgba(
+            255,
+            255,
+            255,
+            0.04
+        );
+
+}
+
+
+.selected-channel-row .channel-logo img {
+
+    width: 100%;
+
+    height: 100%;
+
+    object-fit: contain;
+
+}
+
+
+/* =========================================================
+   INFORMACIÓN
+========================================================= */
+
+.channel-card-info {
+
+    min-width: 0;
+
+}
+
+
+.selected-channel-row .channel-name {
+
+    font-size: 13px;
+
+    font-weight: 600;
+
+    line-height: 1.3;
+
+}
+
+
+.channel-meta {
+
+    margin-top: 5px;
+
+    font-size: 10px;
+
+    color:
+        #ff4f5e;
+
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (
+    max-width: 900px
+) {
+
+    .tv-player-layout {
+
+        grid-template-columns:
+            1fr;
+
+    }
+
+
+    .tv-category-list {
+
+        display: grid;
+
+        grid-template-columns:
+            repeat(
+                2,
+                1fr
+            );
+
+        max-height: none;
+
+    }
+
+}
+
+
+@media (
+    max-width: 600px
+) {
+
+    .tv-category-list {
+
+        display: flex;
+
+        flex-direction: row;
+
+        overflow-x: auto;
+
+        overflow-y: hidden;
+
+        padding-bottom: 5px;
+
+    }
+
+
+    .tv-category-button {
+
+        min-width: 125px;
+
+        flex-shrink: 0;
+
+    }
+
+
+    .selected-category-section {
+
+        padding: 13px;
+
+    }
+
+
+    .selected-channel-row {
+
+        grid-template-columns:
+            1fr;
+
+    }
+
+
+    .selected-category-header h2 {
+
+        font-size: 15px;
+
+    }
+
+}

@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>NETVISION | Entertainment & Media</title>
+
+    <meta
+        name="description"
+        content="NETVISION - Entertainment & Media"
+    >
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- =====================================================
+         APP
+    ====================================================== -->
+
+    <div id="app">
+
+        <!-- =================================================
+             HEADER
+        ================================================== -->
+
+        <header class="navbar">
+
+            <div class="nav-left">
+
+                <button
+                    class="mobile-menu-btn"
+                    id="mobileMenuBtn"
+                    aria-label="Abrir menú"
+                >
+                    ☰
+                </button>
+
+                <button
+                    class="logo"
+                    data-page="home"
+                >
+                    <span>NET</span>VISION
+                </button>
+
+            </div>
+
+
+            <nav class="main-nav" id="mainNav">
+
+                <button
+                    class="nav-link active"
+                    data-page="home"
+                >
+                    Inicio
+                </button>
+
+                <button
+                    class="nav-link"
+                    data-page="tv"
+                >
+                    TV
+                </button>
+
+                <button
+                    class="nav-link"
+                    data-page="movies"
+                >
+                    Películas
+                </button>
+
+                <button
+                    class="nav-link"
+                    data-page="series"
+                >
+                    Series
+                </button>
+
+            </nav>
+
+
+            <div class="nav-right">
+
+                <button
+                    class="icon-btn"
+                    id="searchBtn"
+                    aria-label="Buscar"
+                >
+                    🔍
+                </button>
+
+                <button
+                    class="profile-btn"
+                    id="profileBtn"
+                >
+                    <span class="profile-avatar">A</span>
+                    <span class="profile-name">Perfil</span>
+                </button>
+
+            </div>
+
+        </header>
+
+
+        <!-- =================================================
+             CONTENIDO PRINCIPAL
+        ================================================== -->
+
+        <main id="mainContent">
+
+
+            <!-- =================================================
+                 INICIO
+            ================================================== -->
+
+            <section
+                class="page active-page"
+                id="page-home"
+            >
+
+                <!-- HERO -->
+
+                <section class="hero">
+
+                    <div class="hero-content">
+
+                        <span class="hero-label">
+                            NETVISION
+                        </span>
+
+                        <h1>
+                            Todo tu entretenimiento
+                            <strong>en un solo lugar.</strong>
+                        </h1>
+
+                        <p>
+                            Disfruta de televisión, películas y series
+                            desde cualquier dispositivo.
+                        </p>
+
+                        <div class="hero-buttons">
+
+                            <button
+                                class="primary-btn"
+                                data-page="tv"
+                            >
+                                📺 Ver TV
+                            </button>
+
+                            <button
+                                class="secondary-btn"
+                                data-page="movies"
+                            >
+                                🎬 Películas y Series
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+
+                <!-- CONECTADOS -->
+
+                <div class="connected-bar">
+
+                    <span class="status-dot"></span>
+
+                    <span>
+                        <strong id="connectedUsers">
+                            100
+                        </strong>
+                        usuarios conectados
+                    </span>
+
+                </div>
+
+
+                <!-- MÁS VISTOS -->
+
+                <section class="content-section">
+
+                    <div class="section-header">
+
+                        <div>
+                            <span class="section-kicker">
+                                DESTACADOS
+                            </span>
+
+                            <h2>
+                                🔥 Películas más vistas
+                            </h2>
+                        </div>
+
+                        <button
+                            class="see-all"
+                            data-page="movies"
+                        >
+                            Ver todo →
+                        </button>
+
+                    </div>
+
+                    <div
+                        class="movie-row"
+                        id="homePopularMovies"
+                    ></div>
+
+                </section>
+
+
+                <!-- CANALES MÁS VISTOS -->
+
+                <section class="content-section">
+
+                    <div class="section-header">
+
+                        <div>
+                            <span class="section-kicker">
+                                TV
+                            </span>
+
+                            <h2>
+                                📺 Canales más vistos
+                            </h2>
+                        </div>
+
+                        <button
+                            class="see-all"
+                            data-page="tv"
+                        >
+                            Ver todos →
+                        </button>
+
+                    </div>
+
+                    <div
+                        class="channel-row"
+                        id="homePopularChannels"
+                    ></div>
+
+                </section>
+
+
+                <!-- NUEVAS PELÍCULAS -->
+
+                <section class="content-section">
+
+                    <div class="section-header">
+
+                        <div>
+                            <span class="section-kicker">
+                                NUEVO
+                            </span>
+
+                            <h2>
+                                🆕 Nuevas películas
+                            </h2>
+                        </div>
+
+                        <button
+                            class="see-all"
+                            data-page="movies"
+                        >
+                            Ver todo →
+                        </button>
+
+                    </div>
+
+                    <div
+                        class="movie-row"
+                        id="homeNewMovies"
+                    ></div>
+
+                </section>
+
+
+                <!-- NUEVOS CANALES -->
+
+                <section class="content-section">
+
+                    <div class="section-header">
+
+                        <div>
+                            <span class="section-kicker">
+                                NUEVO
+                            </span>
+
+                            <h2>
+                                🆕 Nuevos canales
+                            </h2>
+                        </div>
+
+                        <button
+                            class="see-all"
+                            data-page="tv"
+                        >
+                            Ver todos →
+                        </button>
+
+                    </div>
+
+                    <div
+                        class="channel-row"
+                        id="homeNewChannels"
+                    ></div>
+
+                </section>
+
+            </section>
+
+
+            <!-- =================================================
+                 TV
+            ================================================== -->
+
+            <section
+                class="page"
+                id="page-tv"
+            >
+
+                <section class="page-heading">
+
+                    <span class="section-kicker">
+                        NETVISION
+                    </span>
+
+                    <h1>
+                        Televisión
+                    </h1>
+
+                    <p>
+                        Encuentra tus canales favoritos.
+                    </p>
+
+                </section>
+
+
+        
+
+
+                <!-- REPRODUCTOR -->
+
+         <section class="tv-player-layout">
+
+    <!-- =========================================
+         REPRODUCTOR
+    ========================================== -->
+
+    <div class="player-box">
+
+        <video
+            id="videoPlayer"
+            controls
+            playsinline
+            preload="metadata"
+        ></video>
+
+        <div
+            class="player-placeholder"
+            id="playerPlaceholder"
+        >
+
+            <div class="player-icon">
+                ▶
+            </div>
+
+            <h3>
+                Selecciona un canal
+            </h3>
+
+            <p>
+                Elige un canal para comenzar a reproducir.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================================
+         PANEL DERECHO
+    ========================================== -->
+
+    <aside class="now-playing">
+
+        <span class="live-label">
+            ● EN VIVO
+        </span>
+
+
+        <!-- INFORMACIÓN DEL CANAL -->
+
+        <div class="current-channel-info">
+
+            <div
+                class="current-channel-logo"
+                id="currentChannelLogo"
+            >
+                TV
+            </div>
+
+            <div>
+
+                <h3 id="selectedChannelName">
+                    Ningún canal seleccionado
+                </h3>
+
+                <p id="selectedChannelCategory">
+                    Selecciona un canal
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- =====================================
+             CATEGORÍAS
+        ====================================== -->
+
+        <div class="tv-category-menu">
+
+            <h4>
+                CATEGORÍAS
+            </h4>
+
+            <div
+                id="tvCategories"
+                class="tv-category-list"
+            ></div>
+
+        </div>
+
+    </aside>
+
+</section>
+
+
+<!-- =========================================
+     CANALES DE LA CATEGORÍA
+========================================== -->
+
+<section
+    class="selected-category-section"
+    id="selectedCategorySection"
+>
+
+    <div class="selected-category-header">
+
+        <h2 id="selectedCategoryTitle">
+            📺 CANALES
+        </h2>
+
+        <span id="selectedCategoryCount">
+            0 canales
+        </span>
+
+    </div>
+
+
+    <div
+        id="selectedCategoryChannels"
+        class="selected-channel-row"
+    ></div>
+
+</section>
+
+
+            <!-- =================================================
+                 PELÍCULAS
+            ================================================== -->
+
+            <section
+                class="page"
+                id="page-movies"
+            >
+
+                <section class="page-heading">
+
+                    <span class="section-kicker">
+                        NETVISION
+                    </span>
+
+                    <h1>
+                        Películas
+                    </h1>
+
+                    <p>
+                        Descubre películas para todos los gustos.
+                    </p>
+
+                </section>
+
+
+                <div id="movieCategories"></div>
+
+            </section>
+
+
+            <!-- =================================================
+                 SERIES
+            ================================================== -->
+
+            <section
+                class="page"
+                id="page-series"
+            >
+
+                <section class="page-heading">
+
+                    <span class="section-kicker">
+                        NETVISION
+                    </span>
+
+                    <h1>
+                        Series
+                    </h1>
+
+                    <p>
+                        Encuentra tus series favoritas.
+                    </p>
+
+                </section>
+
+
+                <div id="seriesCategories"></div>
+
+            </section>
+
+        </main>
+
+
+        <!-- =================================================
+             SEARCH OVERLAY
+        ================================================== -->
+
+        <div
+            class="search-overlay"
+            id="searchOverlay"
+        >
+
+            <div class="search-modal">
+
+                <button
+                    class="close-btn"
+                    id="closeSearch"
+                >
+                    ×
+                </button>
+
+                <span class="section-kicker">
+                    NETVISION
+                </span>
+
+                <h2>
+                    ¿Qué quieres ver?
+                </h2>
+
+                <div class="global-search">
+
+                    <span>🔍</span>
+
+                    <input
+                        type="text"
+                        id="globalSearch"
+                        placeholder="Buscar películas, series o canales..."
+                    >
+
+                </div>
+
+                <div id="searchResults" class="search-results"></div>
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             PROFILE MENU
+        ================================================== -->
+
+        <div
+            class="profile-menu"
+            id="profileMenu"
+        >
+
+            <div class="profile-card">
+
+                <div class="profile-large">
+                    A
+                </div>
+
+                <h3>
+                    Mi perfil
+                </h3>
+
+                <p>
+                    Usuario NETVISION
+                </p>
+
+                <button class="profile-option">
+                    👤 Mi cuenta
+                </button>
+
+                <button class="profile-option">
+                    ❤️ Favoritos
+                </button>
+
+                <button class="profile-option">
+                    ⚙️ Configuración
+                </button>
+
+                <button
+                    class="profile-option logout"
+                >
+                    Cerrar sesión
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             MOVIE MODAL
+        ================================================== -->
+
+        <div
+            class="content-modal"
+            id="contentModal"
+        >
+
+            <div class="content-modal-inner">
+
+                <button
+                    class="close-btn"
+                    id="closeContent"
+                >
+                    ×
+                </button>
+
+                <div
+                    class="modal-poster"
+                    id="modalPoster"
+                ></div>
+
+                <div class="modal-info">
+
+                    <span
+                        class="section-kicker"
+                        id="modalType"
+                    >
+                        PELÍCULA
+                    </span>
+
+                    <h2 id="modalTitle">
+                        Contenido
+                    </h2>
+
+                    <p id="modalDescription">
+                        Descripción del contenido.
+                    </p>
+
+                    <button class="primary-btn">
+                        ▶ Reproducir
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             FOOTER
+        ================================================== -->
+
+        <footer>
+
+            <div class="footer-logo">
+                <span>NET</span>VISION
+            </div>
+
+            <p>
+                Entertainment & Media
+            </p>
+
+            <div class="footer-links">
+
+                <span>
+                    © 2026 NETVISION
+                </span>
+
+                <span>
+                    Privacidad
+                </span>
+
+                <span>
+                    Términos
+                </span>
+
+            </div>
+
+        </footer>
+
+    </div>
+
+
+   <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+    <script src="app.js"></script>
+
+</body>
+</html>
+
+

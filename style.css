@@ -2813,3 +2813,577 @@ button {
         height: 42px;
     }
 }
+/* =========================================================
+   NETVISION - AJUSTE FINAL DE TV RESPONSIVE
+========================================================= */
+
+/* Evitar desbordamiento horizontal */
+html,
+body {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
+/* La página nunca debe ser más ancha que la pantalla */
+.page {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
+
+/* =========================================================
+   TV EN ESCRITORIO
+========================================================= */
+
+.tv-player-layout {
+    width: min(92%, 1400px);
+    max-width: 1400px;
+
+    margin: 0 auto 35px;
+
+    display: grid;
+
+    grid-template-columns:
+        minmax(0, 2.1fr)
+        minmax(260px, 0.9fr);
+
+    gap: 18px;
+
+    align-items: stretch;
+}
+
+
+/* =========================================================
+   REPRODUCTOR
+========================================================= */
+
+.player-box {
+    position: relative;
+
+    width: 100%;
+
+    aspect-ratio: 16 / 9;
+
+    min-width: 0;
+    min-height: 0;
+
+    height: auto;
+
+    overflow: hidden;
+
+    border-radius: 13px;
+}
+
+
+#videoPlayer {
+    display: block;
+
+    width: 100%;
+    height: 100%;
+
+    min-width: 0;
+    min-height: 0;
+
+    aspect-ratio: 16 / 9;
+
+    background: #000;
+
+    object-fit: contain;
+}
+
+
+/* Placeholder */
+
+.player-placeholder {
+    position: absolute;
+
+    inset: 0;
+
+    width: 100%;
+    height: 100%;
+
+    min-height: 0;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    flex-direction: column;
+
+    text-align: center;
+
+    padding: 20px;
+
+    box-sizing: border-box;
+}
+
+
+/* =========================================================
+   PANEL DERECHO
+========================================================= */
+
+.now-playing {
+    width: 100%;
+
+    min-width: 0;
+
+    box-sizing: border-box;
+
+    overflow: hidden;
+}
+
+
+.current-channel-info {
+    min-width: 0;
+}
+
+
+.current-channel-info > div:last-child {
+    min-width: 0;
+}
+
+
+.current-channel-info h3,
+.current-channel-info p {
+    overflow: hidden;
+
+    text-overflow: ellipsis;
+
+    white-space: nowrap;
+}
+
+
+/* Categorías */
+
+.tv-category-menu {
+    min-width: 0;
+}
+
+
+.tv-category-list {
+    width: 100%;
+
+    max-width: 100%;
+
+    max-height: 330px;
+
+    overflow-y: auto;
+    overflow-x: hidden;
+
+    box-sizing: border-box;
+}
+
+
+.tv-category-button {
+    width: 100%;
+
+    min-width: 0;
+
+    box-sizing: border-box;
+}
+
+
+/* =========================================================
+   CANALES
+========================================================= */
+
+.selected-category-section {
+    width: min(92%, 1400px);
+
+    max-width: 1400px;
+
+    margin-left: auto;
+    margin-right: auto;
+
+    box-sizing: border-box;
+
+    overflow: hidden;
+}
+
+
+.selected-channel-row {
+    width: 100%;
+
+    max-width: 100%;
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(
+            auto-fit,
+            minmax(200px, 1fr)
+        );
+
+    gap: 12px;
+
+    box-sizing: border-box;
+}
+
+
+.channel-card {
+    min-width: 0;
+
+    max-width: 100%;
+
+    box-sizing: border-box;
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 1000px) {
+
+    .tv-player-layout {
+        width: calc(100% - 28px);
+
+        grid-template-columns: 1fr;
+
+        gap: 15px;
+    }
+
+
+    .player-box {
+        width: 100%;
+
+        aspect-ratio: 16 / 9;
+    }
+
+
+    #videoPlayer {
+        width: 100%;
+        height: 100%;
+    }
+
+
+    .now-playing {
+        width: 100%;
+    }
+
+
+    .tv-category-list {
+
+        display: grid;
+
+        grid-template-columns:
+            repeat(
+                2,
+                minmax(0, 1fr)
+            );
+
+        gap: 8px;
+
+        max-height: none;
+    }
+
+
+    .selected-category-section {
+        width: calc(100% - 28px);
+    }
+
+}
+
+
+/* =========================================================
+   CELULAR
+========================================================= */
+
+@media (max-width: 600px) {
+
+    .tv-player-layout {
+
+        width: 100%;
+
+        margin-left: 0;
+        margin-right: 0;
+
+        padding-left: 10px;
+        padding-right: 10px;
+
+        box-sizing: border-box;
+
+        grid-template-columns: 1fr;
+
+        gap: 12px;
+    }
+
+
+    /* -----------------------------------------
+       REPRODUCTOR
+    ----------------------------------------- */
+
+    .player-box {
+
+        width: 100%;
+
+        aspect-ratio: 16 / 9;
+
+        min-height: 0;
+
+        height: auto;
+
+        border-radius: 10px;
+    }
+
+
+    #videoPlayer {
+
+        width: 100%;
+
+        height: 100%;
+
+        min-height: 0;
+
+        aspect-ratio: 16 / 9;
+
+        object-fit: contain;
+    }
+
+
+    .player-placeholder {
+
+        padding: 15px;
+    }
+
+
+    .player-placeholder h3 {
+
+        font-size: 16px;
+
+    }
+
+
+    .player-placeholder p {
+
+        font-size: 12px;
+
+        max-width: 270px;
+
+    }
+
+
+    /* -----------------------------------------
+       PANEL
+    ----------------------------------------- */
+
+    .now-playing {
+
+        width: 100%;
+
+        padding: 15px;
+
+        box-sizing: border-box;
+
+        border-radius: 10px;
+
+    }
+
+
+    .current-channel-info {
+
+        width: 100%;
+
+        display: flex;
+
+        align-items: center;
+
+        gap: 10px;
+
+    }
+
+
+    .current-channel-info h3 {
+
+        font-size: 17px;
+
+    }
+
+
+    .current-channel-info p {
+
+        font-size: 12px;
+
+    }
+
+
+    /* -----------------------------------------
+       CATEGORÍAS
+    ----------------------------------------- */
+
+    .tv-category-list {
+
+        width: 100%;
+
+        display: flex;
+
+        flex-direction: row;
+
+        gap: 8px;
+
+        overflow-x: auto;
+
+        overflow-y: hidden;
+
+        max-height: none;
+
+        padding-bottom: 6px;
+
+        scrollbar-width: thin;
+    }
+
+
+    .tv-category-button {
+
+        flex:
+
+            0 0 auto;
+
+        width: auto;
+
+        min-width: 125px;
+
+        max-width: 180px;
+
+    }
+
+
+    /* -----------------------------------------
+       CANALES
+    ----------------------------------------- */
+
+    .selected-category-section {
+
+        width: 100%;
+
+        padding-left: 10px;
+        padding-right: 10px;
+
+        box-sizing: border-box;
+
+    }
+
+
+    .selected-channel-row {
+
+        grid-template-columns: 1fr;
+
+        gap: 10px;
+
+    }
+
+
+    .channel-card {
+
+        width: 100%;
+
+        min-width: 0;
+
+    }
+
+}
+
+
+/* =========================================================
+   CELULARES MUY PEQUEÑOS
+========================================================= */
+
+@media (max-width: 380px) {
+
+    .tv-player-layout {
+
+        padding-left: 7px;
+        padding-right: 7px;
+
+    }
+
+
+    .player-box {
+
+        border-radius: 8px;
+
+    }
+
+
+    .now-playing {
+
+        padding: 12px;
+
+    }
+
+
+    .tv-category-button {
+
+        min-width: 115px;
+
+    }
+
+
+    .selected-category-section {
+
+        padding-left: 7px;
+        padding-right: 7px;
+
+    }
+
+}
+
+
+/* =========================================================
+   CELULAR HORIZONTAL
+========================================================= */
+
+@media (
+    max-width: 900px
+) and (
+    orientation: landscape
+) {
+
+    .tv-player-layout {
+
+        width: 100%;
+
+        padding-left: 12px;
+        padding-right: 12px;
+
+        grid-template-columns:
+            minmax(0, 1.8fr)
+            minmax(220px, 0.8fr);
+
+    }
+
+
+    .player-box {
+
+        aspect-ratio: 16 / 9;
+
+    }
+
+
+    .tv-category-list {
+
+        display: flex;
+
+        flex-direction: column;
+
+        overflow-y: auto;
+
+        overflow-x: hidden;
+
+        max-height: 250px;
+
+    }
+
+
+    .tv-category-button {
+
+        width: 100%;
+
+        min-width: 0;
+
+    }
+
+}

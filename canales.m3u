@@ -11,16 +11,16 @@ http://179.60.51.134:8888/NICK/index.m3u8
 #EXTINF:-1 tvg-id="beINSPORTSXTRAenEspanol.us@SD" tvg-logo="https://i.imgur.com/V562tpO.png" group-title="Deportes",beIN Sports XTRA
 https://dc1644a9jazgj.cloudfront.net/beIN_Sports_Xtra_Espanol.m3u8
 
-#EXTINF:-1 tvg-id="" tvg-logo="" group-title="Curiosity",Curiosity Animales 
+#EXTINF:-1 tvg-id="" tvg-logo="" group-title="Documentales",Curiosity Animales 
 https://d2j2obpavpuw3t.cloudfront.net/CuriosityAnimales.m3u8
 
-#EXTINF:-1 tvg-id="" tvg-logo="" group-title="Curiosity",Curiosity Explora 
+#EXTINF:-1 tvg-id="" tvg-logo="" group-title="Documentales",Curiosity Explora 
 https://d2bvy2sb4c0dbv.cloudfront.net/CuriosityEspanol.m3u8
 
-#EXTINF:-1 tvg-id="" tvg-logo="" group-title="Curiosity",Curiosity Motores 
+#EXTINF:-1 tvg-id="" tvg-logo="" group-title="Documentales",Curiosity Motores 
 https://d5ts03kapml2e.cloudfront.net/CuriosityMotores.m3u8
 
-#EXTINF:-1 tvg-id="" tvg-logo="" group-title="Curiosity",Curiosity Now 
+#EXTINF:-1 tvg-id="" tvg-logo="" group-title="Documentales",Curiosity Now 
 https://amg00170-curiositystream-amg00170c3-rakuten-us-2289.playouts.now.amagi.tv/playlist/amg00170-curiositystreamllcfast-curiositynowrow-rakutenus/playlist.m3u8
 
 #EXTINF:-1 tvg-id="DisneyChannelLatinAmerica.ar@Center" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/f/ff/2024_Disney_Channel_text_logo.svg" group-title="Kids",Disney Channel 

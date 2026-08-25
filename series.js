@@ -1,34 +1,62 @@
 /* =========================================================
-   NETVISION - SERIES ANIMADAS
+   NETVISION
+   SERIES ANIMADAS
+   VERSIÓN AISLADA DE TV
+========================================================= */
+
+"use strict";
+
+
+/* =========================================================
+   CONFIGURACIÓN
 ========================================================= */
 
 const SERIES_M3U =
     "dibujos-animados.m3u";
 
-let seriesItems = [];
-let seriesGroups = {};
-let currentSeries = null;
-let seriesVideo = null;
-
 
 /* =========================================================
-   INICIAR
+   VARIABLES
 ========================================================= */
 
+let seriesItems = [];
+
+let seriesGroups = {};
+
+let currentSeries = null;
+
+let seriesPlayer = null;
+
+
+/*
+ * IMPORTANTE:
+ *
+ * Este archivo NO hace:
+ *
+ * document.addEventListener("DOMContentLoaded"...)
+ *
+ * porque no queremos que interfiera con TV.
+ *
+ * Las series solamente se cargan cuando:
+ *
+ * loadAnimatedSeries()
+ *
+ * sea llamada desde tu menú.
+ */
 
 
 /* =========================================================
-   CARGAR M3U
+   CARGAR SERIES
 ========================================================= */
 
 async function loadAnimatedSeries() {
 
-    try {
+    console.log(
+        "NETVISION - Cargando Series..."
+    );
 
-        console.log(
-            "Cargando:",
-            SERIES_M3U
-        );
+
+    try {
 
         const response =
             await fetch(
@@ -38,45 +66,70 @@ async function loadAnimatedSeries() {
                 }
             );
 
+
         if (!response.ok) {
 
             throw new Error(
-                `HTTP ${response.status}`
+                "No se pudo cargar dibujos-animados.m3u. HTTP " +
+                response.status
             );
 
         }
 
+
         const text =
             await response.text();
 
+
+        if (
+            !text ||
+            text.trim().length === 0
+        ) {
+
+            throw new Error(
+                "La lista M3U está vacía."
+            );
+
+        }
+
+
         console.log(
-            "M3U cargado correctamente"
+            "NETVISION - M3U cargado correctamente"
         );
 
+
         seriesItems =
-            parseM3U(text);
+            parseSeriesM3U(
+                text
+            );
+
 
         console.log(
-            "Episodios encontrados:",
+            "NETVISION - Episodios:",
             seriesItems.length
         );
 
+
         organizeSeries();
 
-        renderSeries();
+
+        renderSeriesPage();
+
 
     } catch (error) {
 
         console.error(
-            "NETVISION - ERROR M3U:",
+            "NETVISION - Error Series:",
             error
         );
 
-        showSeriesError(
+
+        renderSeriesError(
             error.message
         );
 
     }
+
 }
 
 
@@ -84,7 +137,9 @@ async function loadAnimatedSeries() {
    PARSEAR M3U
 ========================================================= */
 
-function parseM3U(text) {
+function parseSeriesM3U(
+    text
+) {
 
     const lines =
         text
@@ -92,13 +147,11 @@ function parseM3U(text) {
             .map(
                 line =>
                     line.trim()
-            )
-            .filter(
-                line =>
-                    line.length > 0
             );
 
+
     const items = [];
+
 
     for (
         let i = 0;
@@ -109,6 +162,7 @@ function parseM3U(text) {
         const line =
             lines[i];
 
+
         if (
             !line.startsWith(
                 "#EXTINF"
@@ -116,41 +170,100 @@ function parseM3U(text) {
         ) {
 
             continue;
+
         }
 
 
-        const info =
-            line.substring(
-                line.indexOf(",") + 1
+        /*
+         * Obtener título
+         */
+
+        let title =
+            "";
+
+
+        const comma =
+            line.indexOf(
+                ","
             );
 
 
-        const url =
-            lines[i + 1] &&
-            !lines[i + 1].startsWith("#")
-                ? lines[i + 1]
-                : "";
+        if (
+            comma !== -1
+        ) {
+
+            title =
+                line
+                    .substring(
+                        comma + 1
+                    )
+                    .trim();
+
+        }
+
+
+        /*
+         * Obtener URL
+         */
+
+        let url =
+            "";
+
+
+        for (
+            let j = i + 1;
+            j < lines.length;
+            j++
+        ) {
+
+            if (
+                !lines[j]
+            ) {
+
+                continue;
+
+            }
+
+
+            if (
+                lines[j].startsWith(
+                    "#"
+                )
+            ) {
+
+                continue;
+
+            }
+
+
+            url =
+                lines[j];
+
+            break;
+
+        }
 
 
         if (!url) {
 
             continue;
+
         }
 
 
-        const title =
-            info.trim();
-
+        /*
+         * Atributos
+         */
 
         const logo =
-            getM3UAttribute(
+            getSeriesAttribute(
                 line,
                 "tvg-logo"
             );
 
 
         const group =
-            getM3UAttribute(
+            getSeriesAttribute(
                 line,
                 "group-title"
             ) ||
@@ -158,7 +271,7 @@ function parseM3U(text) {
 
 
         const tvgName =
-            getM3UAttribute(
+            getSeriesAttribute(
                 line,
                 "tvg-name"
             );
@@ -172,35 +285,29 @@ function parseM3U(text) {
                 "Episodio",
 
             logo:
-
-                logo ||
-                "",
+                logo,
 
             group:
-
                 group,
 
             url:
-
-                url,
-
-            raw:
-
-                line
+                url
 
         });
 
     }
 
+
     return items;
+
 }
 
 
 /* =========================================================
-   ATRIBUTOS M3U
+   OBTENER ATRIBUTO M3U
 ========================================================= */
 
-function getM3UAttribute(
+function getSeriesAttribute(
     line,
     attribute
 ) {
@@ -212,19 +319,30 @@ function getM3UAttribute(
             "i"
         );
 
+
     const match =
         line.match(
             regex
         );
 
-    return match
-        ? match[1]
-        : "";
+
+    if (
+        match &&
+        match[1]
+    ) {
+
+        return match[1];
+
+    }
+
+
+    return "";
+
 }
 
 
 /* =========================================================
-   ORGANIZAR SERIES
+   ORGANIZAR
 ========================================================= */
 
 function organizeSeries() {
@@ -233,10 +351,10 @@ function organizeSeries() {
 
 
     seriesItems.forEach(
-        item => {
+        episode => {
 
             const group =
-                item.group ||
+                episode.group ||
                 "Series animadas";
 
 
@@ -250,7 +368,7 @@ function organizeSeries() {
 
 
             seriesGroups[group].push(
-                item
+                episode
             );
 
         }
@@ -258,73 +376,45 @@ function organizeSeries() {
 
 
     console.log(
-        "Series organizadas:",
-        seriesGroups
+        "NETVISION - Categorías Series:",
+        Object.keys(
+            seriesGroups
+        )
     );
+
 }
 
 
 /* =========================================================
-   CONTENEDOR
+   RENDER PRINCIPAL
 ========================================================= */
 
-function getSeriesContainer() {
+function renderSeriesPage() {
 
-    let container =
+    const container =
         document.getElementById(
             "animatedSeries"
         );
 
 
+    /*
+     * MUY IMPORTANTE:
+     *
+     * Si el contenedor no existe,
+     * NO creamos nada en body.
+     *
+     * Esto evita modificar TV.
+     */
+
     if (!container) {
 
-        container =
-            document.createElement(
-                "section"
-            );
+        console.warn(
+            "NETVISION - No existe #animatedSeries"
+        );
 
-        container.id =
-            "animatedSeries";
-
-        container.className =
-            "netvision-series-section";
-
-
-        const moviesGrid =
-            document.getElementById(
-                "moviesGrid"
-            );
-
-
-        if (moviesGrid) {
-
-            moviesGrid.parentNode.insertBefore(
-                container,
-                moviesGrid.nextSibling
-            );
-
-        } else {
-
-            document.body.appendChild(
-                container
-            );
-
-        }
+        return;
 
     }
-
-    return container;
-}
-
-
-/* =========================================================
-   MOSTRAR SERIES
-========================================================= */
-
-function renderSeries() {
-
-    const container =
-        getSeriesContainer();
 
 
     const groups =
@@ -337,30 +427,37 @@ function renderSeries() {
         groups.length === 0
     ) {
 
-        showSeriesError(
-            "No se encontraron series."
+        renderSeriesError(
+            "No se encontraron series en la lista M3U."
         );
 
         return;
+
     }
 
 
     container.innerHTML = `
 
-        <div class="series-header">
+        <div
+            class="netvision-series-header"
+        >
 
             <div>
 
-                <span class="series-kicker">
+                <span
+                    class="netvision-series-kicker"
+                >
                     NETVISION
                 </span>
+
 
                 <h2>
                     Series animadas
                 </h2>
 
+
                 <p>
-                    Disfruta tus series y episodios.
+                    Series y episodios disponibles
                 </p>
 
             </div>
@@ -369,24 +466,27 @@ function renderSeries() {
 
 
         <div
-            class="series-categories"
+            class="netvision-series-categories"
             id="seriesCategories"
         >
 
             ${groups.map(
-                (group, index) => `
+                (
+                    group,
+                    index
+                ) => `
 
                     <button
                         type="button"
                         class="
-                            series-category-btn
+                            netvision-series-category
                             ${
                                 index === 0
                                     ? "active"
                                     : ""
                             }
                         "
-                        data-group="${escapeSeriesAttr(
+                        data-series-group="${escapeSeriesAttr(
                             group
                         )}"
                     >
@@ -405,16 +505,21 @@ function renderSeries() {
 
         <div
             id="seriesContent"
-            class="series-content"
+            class="netvision-series-content"
         >
+
         </div>
 
     `;
 
 
+    /*
+     * Eventos categorías
+     */
+
     const buttons =
         container.querySelectorAll(
-            ".series-category-btn"
+            ".netvision-series-category"
         );
 
 
@@ -426,10 +531,13 @@ function renderSeries() {
                 () => {
 
                     buttons.forEach(
-                        b =>
-                            b.classList.remove(
+                        item => {
+
+                            item.classList.remove(
                                 "active"
-                            )
+                            );
+
+                        }
                     );
 
 
@@ -439,7 +547,8 @@ function renderSeries() {
 
 
                     renderSeriesGroup(
-                        button.dataset.group
+                        button.dataset
+                            .seriesGroup
                     );
 
                 }
@@ -452,6 +561,10 @@ function renderSeries() {
     renderSeriesGroup(
         groups[0]
     );
+
+
+    injectSeriesStyles();
+
 }
 
 
@@ -472,6 +585,7 @@ function renderSeriesGroup(
     if (!container) {
 
         return;
+
     }
 
 
@@ -482,13 +596,16 @@ function renderSeriesGroup(
 
     container.innerHTML = `
 
-        <div class="series-group-title">
+        <div
+            class="netvision-series-group-header"
+        >
 
             <h3>
                 ${escapeSeriesHTML(
                     group
                 )}
             </h3>
+
 
             <span>
                 ${episodes.length}
@@ -499,84 +616,90 @@ function renderSeriesGroup(
 
 
         <div
-            class="series-grid"
+            class="netvision-series-grid"
         >
 
             ${episodes.map(
-                (episode, index) => {
+                (
+                    episode,
+                    index
+                ) => `
 
-                    return `
+                    <article
+                        class="netvision-series-card"
+                        data-series-index="${index}"
+                    >
 
-                        <article
-                            class="series-card"
-                            data-index="${index}"
+                        <div
+                            class="netvision-series-poster"
                         >
 
-                            <div
-                                class="series-card-poster"
-                            >
+                            ${
+                                episode.logo
+                                    ? `
 
-                                ${
-                                    episode.logo
-                                        ? `
-                                            <img
-                                                src="${escapeSeriesAttr(
-                                                    episode.logo
-                                                )}"
-                                                alt="${escapeSeriesAttr(
-                                                    episode.title
-                                                )}"
-                                                loading="lazy"
-                                            >
-                                        `
-                                        : `
-                                            <div
-                                                class="
-                                                    series-poster-empty
-                                                "
-                                            >
-                                                📺
-                                            </div>
-                                        `
-                                }
+                                        <img
+                                            src="${escapeSeriesAttr(
+                                                episode.logo
+                                            )}"
+                                            alt="${escapeSeriesAttr(
+                                                episode.title
+                                            )}"
+                                            loading="lazy"
+                                        >
 
+                                    `
+                                    : `
 
-                                <div
-                                    class="
-                                        series-play-overlay
-                                    "
-                                >
+                                        <div
+                                            class="
+                                                netvision-series-empty
+                                            "
+                                        >
 
-                                    ▶
+                                            📺
 
-                                </div>
+                                        </div>
 
-                            </div>
+                                    `
+                            }
 
 
                             <div
-                                class="series-card-info"
+                                class="
+                                    netvision-series-play
+                                "
                             >
 
-                                <h4>
-                                    ${escapeSeriesHTML(
-                                        episode.title
-                                    )}
-                                </h4>
-
-                                <span>
-                                    ${escapeSeriesHTML(
-                                        group
-                                    )}
-                                </span>
+                                ▶
 
                             </div>
 
-                        </article>
+                        </div>
 
-                    `;
 
-                }
+                        <div
+                            class="netvision-series-info"
+                        >
+
+                            <h4>
+                                ${escapeSeriesHTML(
+                                    episode.title
+                                )}
+                            </h4>
+
+
+                            <span>
+                                ${escapeSeriesHTML(
+                                    group
+                                )}
+                            </span>
+
+                        </div>
+
+                    </article>
+
+                `
             ).join("")}
 
         </div>
@@ -584,9 +707,13 @@ function renderSeriesGroup(
     `;
 
 
+    /*
+     * Eventos episodios
+     */
+
     container
         .querySelectorAll(
-            ".series-card"
+            ".netvision-series-card"
         )
         .forEach(
             card => {
@@ -597,11 +724,17 @@ function renderSeriesGroup(
 
                         const index =
                             Number(
-                                card.dataset.index
+                                card.dataset
+                                    .seriesIndex
                             );
 
+
+                        const episode =
+                            episodes[index];
+
+
                         openSeriesEpisode(
-                            episodes[index]
+                            episode
                         );
 
                     }
@@ -609,6 +742,7 @@ function renderSeriesGroup(
 
             }
         );
+
 }
 
 
@@ -623,6 +757,18 @@ function openSeriesEpisode(
     if (!episode) {
 
         return;
+
+    }
+
+
+    if (!episode.url) {
+
+        console.warn(
+            "NETVISION - Episodio sin URL"
+        );
+
+        return;
+
     }
 
 
@@ -631,8 +777,8 @@ function openSeriesEpisode(
 
 
     console.log(
-        "NETVISION - EPISODIO:",
-        episode
+        "NETVISION - Reproduciendo:",
+        episode.title
     );
 
 
@@ -640,6 +786,7 @@ function openSeriesEpisode(
         episode.url,
         episode.title
     );
+
 }
 
 
@@ -649,15 +796,21 @@ function openSeriesEpisode(
 
 function createSeriesPlayer() {
 
+    /*
+     * El reproductor SOLO se crea cuando
+     * el usuario selecciona un episodio.
+     */
+
     let player =
         document.getElementById(
-            "seriesPlayer"
+            "netvisionSeriesPlayer"
         );
 
 
     if (player) {
 
         return player;
+
     }
 
 
@@ -668,7 +821,7 @@ function createSeriesPlayer() {
 
 
     player.id =
-        "seriesPlayer";
+        "netvisionSeriesPlayer";
 
 
     player.className =
@@ -678,7 +831,7 @@ function createSeriesPlayer() {
     player.innerHTML = `
 
         <div
-            class="series-player-top"
+            class="netvision-series-player-header"
         >
 
             <div>
@@ -687,8 +840,9 @@ function createSeriesPlayer() {
                     NETVISION
                 </span>
 
+
                 <strong
-                    id="seriesPlayerTitle"
+                    id="netvisionSeriesPlayerTitle"
                 >
                     Episodio
                 </strong>
@@ -698,8 +852,8 @@ function createSeriesPlayer() {
 
             <button
                 type="button"
-                id="seriesPlayerClose"
-                aria-label="Cerrar reproductor"
+                id="netvisionSeriesPlayerClose"
+                aria-label="Cerrar"
             >
 
                 ×
@@ -710,11 +864,11 @@ function createSeriesPlayer() {
 
 
         <div
-            class="series-player-video"
+            class="netvision-series-video-container"
         >
 
             <video
-                id="seriesVideo"
+                id="netvisionSeriesVideo"
                 controls
                 playsinline
                 preload="metadata"
@@ -730,9 +884,12 @@ function createSeriesPlayer() {
     );
 
 
+    injectSeriesPlayerStyles();
+
+
     const close =
         document.getElementById(
-            "seriesPlayerClose"
+            "netvisionSeriesPlayerClose"
         );
 
 
@@ -746,15 +903,13 @@ function createSeriesPlayer() {
     }
 
 
-    injectSeriesStyles();
-
-
     return player;
+
 }
 
 
 /* =========================================================
-   REPRODUCIR
+   REPRODUCIR MP4
 ========================================================= */
 
 function openSeriesPlayer(
@@ -762,41 +917,41 @@ function openSeriesPlayer(
     title
 ) {
 
-    if (!url) {
-
-        return;
-    }
-
-
     const player =
         createSeriesPlayer();
 
 
     const video =
         document.getElementById(
-            "seriesVideo"
+            "netvisionSeriesVideo"
         );
 
 
-    const playerTitle =
+    const titleElement =
         document.getElementById(
-            "seriesPlayerTitle"
+            "netvisionSeriesPlayerTitle"
         );
 
 
     if (!video) {
 
         return;
+
     }
 
 
-    if (playerTitle) {
+    if (titleElement) {
 
-        playerTitle.textContent =
+        titleElement.textContent =
             title ||
             "Episodio";
+
     }
 
+
+    /*
+     * Detener reproducción anterior
+     */
 
     video.pause();
 
@@ -809,6 +964,10 @@ function openSeriesPlayer(
     video.load();
 
 
+    /*
+     * Nueva URL
+     */
+
     video.src =
         url;
 
@@ -818,6 +977,10 @@ function openSeriesPlayer(
     );
 
 
+    /*
+     * Intentar reproducir
+     */
+
     video.addEventListener(
         "loadedmetadata",
         () => {
@@ -825,8 +988,31 @@ function openSeriesPlayer(
             video
                 .play()
                 .catch(
-                    () => {}
+                    error => {
+
+                        console.warn(
+                            "NETVISION - Autoplay bloqueado:",
+                            error
+                        );
+
+                    }
                 );
+
+        },
+        {
+            once: true
+        }
+    );
+
+
+    video.addEventListener(
+        "error",
+        () => {
+
+            console.error(
+                "NETVISION - Error reproduciendo:",
+                url
+            );
 
         },
         {
@@ -838,14 +1024,14 @@ function openSeriesPlayer(
 
 
 /* =========================================================
-   CERRAR
+   CERRAR REPRODUCTOR
 ========================================================= */
 
 function closeSeriesPlayer() {
 
     const video =
         document.getElementById(
-            "seriesVideo"
+            "netvisionSeriesVideo"
         );
 
 
@@ -853,9 +1039,11 @@ function closeSeriesPlayer() {
 
         video.pause();
 
+
         video.removeAttribute(
             "src"
         );
+
 
         video.load();
 
@@ -864,7 +1052,7 @@ function closeSeriesPlayer() {
 
     const player =
         document.getElementById(
-            "seriesPlayer"
+            "netvisionSeriesPlayer"
         );
 
 
@@ -879,6 +1067,7 @@ function closeSeriesPlayer() {
 
     currentSeries =
         null;
+
 }
 
 
@@ -886,44 +1075,56 @@ function closeSeriesPlayer() {
    ERROR
 ========================================================= */
 
-function showSeriesError(
+function renderSeriesError(
     message
 ) {
 
     const container =
-        getSeriesContainer();
+        document.getElementById(
+            "animatedSeries"
+        );
+
+
+    if (!container) {
+
+        return;
+
+    }
 
 
     container.innerHTML = `
 
         <div
-            class="series-error"
+            class="netvision-series-error"
         >
 
             <div>
                 ⚠️
             </div>
 
+
             <h3>
                 No se pudieron cargar
                 las series
             </h3>
 
+
             <p>
                 ${escapeSeriesHTML(
                     message ||
-                    "Comprueba que exista data/dibujos-animados.m3u"
+                    "No se pudo leer la lista."
                 )}
             </p>
 
         </div>
 
     `;
+
 }
 
 
 /* =========================================================
-   ESTILOS
+   ESTILOS DE SERIES
 ========================================================= */
 
 function injectSeriesStyles() {
@@ -935,6 +1136,7 @@ function injectSeriesStyles() {
     ) {
 
         return;
+
     }
 
 
@@ -952,120 +1154,94 @@ function injectSeriesStyles() {
 
         .netvision-series-section {
 
-            width:
-                100%;
+            width: 100%;
 
-            margin:
-                35px auto;
-
-            padding:
-                0 20px;
-
-            box-sizing:
-                border-box;
+            box-sizing: border-box;
 
         }
 
 
-        .series-header {
+        .netvision-series-header {
 
-            margin-bottom:
-                20px;
-
-        }
-
-
-        .series-kicker {
-
-            font-size:
-                12px;
-
-            opacity:
-                .65;
-
-            letter-spacing:
-                2px;
+            margin-bottom: 20px;
 
         }
 
 
-        .series-header h2 {
+        .netvision-series-kicker {
 
-            margin:
-                5px 0;
+            font-size: 11px;
 
-        }
+            letter-spacing: 2px;
 
-
-        .series-header p {
-
-            margin:
-                0;
-
-            opacity:
-                .65;
+            opacity: .55;
 
         }
 
 
-        .series-categories {
+        .netvision-series-header h2 {
 
-            display:
-                flex;
-
-            gap:
-                10px;
-
-            overflow-x:
-                auto;
-
-            padding-bottom:
-                10px;
-
-            scrollbar-width:
-                thin;
+            margin: 5px 0;
 
         }
 
 
-        .series-category-btn {
+        .netvision-series-header p {
 
-            flex:
-                0 0 auto;
+            margin: 0;
 
-            border:
-                1px solid
+            opacity: .6;
+
+        }
+
+
+        .netvision-series-categories {
+
+            display: flex;
+
+            gap: 10px;
+
+            overflow-x: auto;
+
+            padding-bottom: 12px;
+
+            scrollbar-width: thin;
+
+        }
+
+
+        .netvision-series-category {
+
+            flex: 0 0 auto;
+
+            padding: 10px 15px;
+
+            border: 1px solid
                 rgba(
                     255,
                     255,
                     255,
-                    .15
+                    .12
                 );
+
+            border-radius: 10px;
 
             background:
                 rgba(
                     255,
                     255,
                     255,
-                    .06
+                    .05
                 );
 
-            color:
-                inherit;
+            color: inherit;
 
-            border-radius:
-                10px;
-
-            padding:
-                10px 16px;
-
-            cursor:
-                pointer;
+            cursor: pointer;
 
         }
 
 
-        .series-category-btn.active {
+        .netvision-series-category.active {
 
             background:
                 rgba(
@@ -1078,49 +1254,38 @@ function injectSeriesStyles() {
         }
 
 
-        .series-group-title {
+        .netvision-series-group-header {
 
-            display:
-                flex;
+            display: flex;
 
-            align-items:
-                center;
+            align-items: center;
 
-            justify-content:
-                space-between;
+            justify-content: space-between;
 
-            gap:
-                20px;
-
-            margin:
-                20px 0 15px;
+            margin: 20px 0 15px;
 
         }
 
 
-        .series-group-title h3 {
+        .netvision-series-group-header h3 {
 
-            margin:
-                0;
-
-        }
-
-
-        .series-group-title span {
-
-            opacity:
-                .6;
-
-            font-size:
-                13px;
+            margin: 0;
 
         }
 
 
-        .series-grid {
+        .netvision-series-group-header span {
 
-            display:
-                grid;
+            opacity: .55;
+
+            font-size: 13px;
+
+        }
+
+
+        .netvision-series-grid {
+
+            display: grid;
 
             grid-template-columns:
                 repeat(
@@ -1131,30 +1296,29 @@ function injectSeriesStyles() {
                     )
                 );
 
-            gap:
-                18px;
+            gap: 18px;
 
         }
 
 
-        .series-card {
+        .netvision-series-card {
 
-            cursor:
-                pointer;
+            cursor: pointer;
 
-            min-width:
-                0;
+            min-width: 0;
 
         }
 
 
-        .series-card-poster {
+        .netvision-series-poster {
 
-            position:
-                relative;
+            position: relative;
 
-            aspect-ratio:
-                2 / 3;
+            aspect-ratio: 2 / 3;
+
+            overflow: hidden;
+
+            border-radius: 12px;
 
             background:
                 rgba(
@@ -1164,71 +1328,50 @@ function injectSeriesStyles() {
                     .05
                 );
 
-            border-radius:
-                12px;
+        }
 
-            overflow:
-                hidden;
+
+        .netvision-series-poster img {
+
+            width: 100%;
+
+            height: 100%;
+
+            object-fit: cover;
+
+            display: block;
 
         }
 
 
-        .series-card-poster img {
+        .netvision-series-empty {
 
-            width:
-                100%;
+            width: 100%;
 
-            height:
-                100%;
+            height: 100%;
 
-            object-fit:
-                cover;
+            display: flex;
 
-            display:
-                block;
+            align-items: center;
 
-        }
+            justify-content: center;
 
-
-        .series-poster-empty {
-
-            width:
-                100%;
-
-            height:
-                100%;
-
-            display:
-                flex;
-
-            align-items:
-                center;
-
-            justify-content:
-                center;
-
-            font-size:
-                40px;
+            font-size: 40px;
 
         }
 
 
-        .series-play-overlay {
+        .netvision-series-play {
 
-            position:
-                absolute;
+            position: absolute;
 
-            inset:
-                0;
+            inset: 0;
 
-            display:
-                flex;
+            display: flex;
 
-            align-items:
-                center;
+            align-items: center;
 
-            justify-content:
-                center;
+            justify-content: center;
 
             background:
                 rgba(
@@ -1238,125 +1381,135 @@ function injectSeriesStyles() {
                     .35
                 );
 
-            opacity:
-                0;
+            opacity: 0;
 
             transition:
                 opacity .2s;
 
-            font-size:
-                42px;
+            font-size: 40px;
 
         }
 
 
-        .series-card:hover
-        .series-play-overlay {
+        .netvision-series-card:hover
+        .netvision-series-play {
 
-            opacity:
-                1;
-
-        }
-
-
-        .series-card-info {
-
-            padding:
-                8px 2px;
+            opacity: 1;
 
         }
 
 
-        .series-card-info h4 {
+        .netvision-series-info {
 
-            margin:
-                0 0 5px;
-
-            font-size:
-                14px;
-
-            line-height:
-                1.3;
+            padding: 8px 2px;
 
         }
 
 
-        .series-card-info span {
+        .netvision-series-info h4 {
 
-            font-size:
-                12px;
+            margin: 0 0 5px;
 
-            opacity:
-                .55;
+            font-size: 14px;
 
-        }
-
-
-        .series-error {
-
-            text-align:
-                center;
-
-            padding:
-                50px 20px;
+            line-height: 1.3;
 
         }
 
 
-        /* =================================================
-           REPRODUCTOR
-        ================================================= */
+        .netvision-series-info span {
+
+            font-size: 12px;
+
+            opacity: .55;
+
+        }
+
+
+        .netvision-series-error {
+
+            text-align: center;
+
+            padding: 50px 20px;
+
+        }
+
+    `;
+
+
+    document.head.appendChild(
+        style
+    );
+
+}
+
+
+/* =========================================================
+   ESTILOS DEL REPRODUCTOR
+========================================================= */
+
+function injectSeriesPlayerStyles() {
+
+    if (
+        document.getElementById(
+            "netvisionSeriesPlayerStyles"
+        )
+    ) {
+
+        return;
+
+    }
+
+
+    const style =
+        document.createElement(
+            "style"
+        );
+
+
+    style.id =
+        "netvisionSeriesPlayerStyles";
+
+
+    style.textContent = `
 
         .netvision-series-player {
 
-            position:
-                fixed;
+            position: fixed;
 
-            inset:
-                0;
+            inset: 0;
 
-            z-index:
-                100000;
+            z-index: 999999;
 
-            display:
-                none;
+            display: none;
 
-            flex-direction:
-                column;
+            flex-direction: column;
 
-            background:
-                #000;
+            background: #000;
 
         }
 
 
         .netvision-series-player.active {
 
-            display:
-                flex;
+            display: flex;
 
         }
 
 
-        .series-player-top {
+        .netvision-series-player-header {
 
-            min-height:
-                60px;
+            min-height: 60px;
 
-            display:
-                flex;
+            display: flex;
 
-            align-items:
-                center;
+            align-items: center;
 
-            justify-content:
-                space-between;
+            justify-content: space-between;
 
-            padding:
-                10px 18px;
+            padding: 10px 18px;
 
-            box-sizing:
-                border-box;
+            box-sizing: border-box;
 
             background:
                 rgba(
@@ -1366,61 +1519,59 @@ function injectSeriesStyles() {
                     .96
                 );
 
-            color:
-                #fff;
+            color: #fff;
 
         }
 
 
-        .series-player-top div {
+        .netvision-series-player-header div {
 
-            display:
-                flex;
+            display: flex;
 
-            flex-direction:
-                column;
+            flex-direction: column;
 
-            gap:
-                3px;
+            gap: 3px;
 
-        }
-
-
-        .series-player-top span {
-
-            font-size:
-                10px;
-
-            opacity:
-                .55;
-
-            letter-spacing:
-                2px;
+            min-width: 0;
 
         }
 
 
-        .series-player-top strong {
+        .netvision-series-player-header span {
 
-            font-size:
-                15px;
+            font-size: 10px;
+
+            letter-spacing: 2px;
+
+            opacity: .55;
 
         }
 
 
-        .series-player-top button {
+        .netvision-series-player-header strong {
 
-            width:
-                42px;
+            font-size: 15px;
 
-            height:
-                42px;
+            white-space: nowrap;
 
-            border:
-                0;
+            overflow: hidden;
 
-            border-radius:
-                50%;
+            text-overflow: ellipsis;
+
+            max-width: 75vw;
+
+        }
+
+
+        .netvision-series-player-header button {
+
+            width: 42px;
+
+            height: 42px;
+
+            border: 0;
+
+            border-radius: 50%;
 
             background:
                 rgba(
@@ -1430,51 +1581,41 @@ function injectSeriesStyles() {
                     .1
                 );
 
-            color:
-                #fff;
+            color: #fff;
 
-            font-size:
-                28px;
+            font-size: 28px;
 
-            cursor:
-                pointer;
+            cursor: pointer;
 
-        }
-
-
-        .series-player-video {
-
-            flex:
-                1;
-
-            min-height:
-                0;
-
-            display:
-                flex;
-
-            align-items:
-                center;
-
-            justify-content:
-                center;
-
-            background:
-                #000;
+            flex-shrink: 0;
 
         }
 
 
-        .series-player-video video {
+        .netvision-series-video-container {
 
-            width:
-                100%;
+            flex: 1;
 
-            height:
-                100%;
+            min-height: 0;
 
-            object-fit:
-                contain;
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            background: #000;
+
+        }
+
+
+        .netvision-series-video-container video {
+
+            width: 100%;
+
+            height: 100%;
+
+            object-fit: contain;
 
         }
 
@@ -1483,15 +1624,7 @@ function injectSeriesStyles() {
             max-width: 700px
         ) {
 
-            .netvision-series-section {
-
-                padding:
-                    0 12px;
-
-            }
-
-
-            .series-grid {
+            .netvision-series-grid {
 
                 grid-template-columns:
                     repeat(
@@ -1502,24 +1635,14 @@ function injectSeriesStyles() {
                         )
                     );
 
-                gap:
-                    12px;
+                gap: 12px;
 
             }
 
 
-            .series-card-info h4 {
+            .netvision-series-player-header {
 
-                font-size:
-                    13px;
-
-            }
-
-
-            .series-player-top {
-
-                min-height:
-                    54px;
+                min-height: 54px;
 
                 padding:
                     8px 12px;
@@ -1534,6 +1657,7 @@ function injectSeriesStyles() {
     document.head.appendChild(
         style
     );
+
 }
 
 
@@ -1590,8 +1714,10 @@ function escapeSeriesAttr(
 window.loadAnimatedSeries =
     loadAnimatedSeries;
 
+
 window.openSeriesEpisode =
     openSeriesEpisode;
+
 
 window.closeSeriesPlayer =
     closeSeriesPlayer;

@@ -120,3 +120,15 @@ https://59ef525c24caa.streamlock.net/vmtv/vmlatino/playlist.m3u8
 
 #EXTINF:-1 tvg-id="XITESiempreLatino.us@SD" tvg-logo="https://i.imgur.com/bwmIEgG.png" group-title="Música",XITE Siempre Latino 
 https://d1xc25jm9e0l4b.cloudfront.net/v1/master/3722c60a815c199d9c0ef36c5b73da68a62b09d1/cc-xplkt8i7m24dc/XITE_Siempre_Latino.m3u8
+
+#EXTINF:-1 tvg-id="981PearlFM.sx" tvg-logo="https://i.imgur.com/GY750xh.jpg" group-title="Música",Pearl
+https://live2.tensila.com/pearl-v-1.pearlfm/hls/live/mystream.m3u8
+
+#EXTINF:-1 tvg-id="13Festival.cl" tvg-logo="https://i.imgur.com/hTUe0Pw.png" group-title="Música",13 Festival
+https://origin.dpsgo.com/ssai/event/Nftd0fM2SXasfDlRphvUsg/master.m3u8
+
+#EXTINF:-1 tvg-id="1014" tvg-name="PlanetaTV" tvg-logo="https://cdn.m3u.cl/logo/1014_PlanetaTV.png" group-title="Música", PlanetaTV
+https://tls-cl.cdnz.cl/planetatv/live/playlist.m3u8
+
+#EXTINF:-1 tvg-logo="https://telechancho.github.io/telechancho-iptv/movielogos/OnegaiMyMelody.png" group-title="Anime",Onegai My Melody - T1 E01
+https://archive.org/download/onegai-my-melody-temporada-1-espanol/Onegai%20my%20melody%20cap%C3%ADtulo%201%20temporada.mp4

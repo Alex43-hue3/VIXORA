@@ -122,3 +122,8 @@ https://origin.dpsgo.com/ssai/event/Nftd0fM2SXasfDlRphvUsg/master.m3u8
 #EXTINF:-1 tvg-id="1014" tvg-name="PlanetaTV" tvg-logo="https://cdn.m3u.cl/logo/1014_PlanetaTV.png" group-title="Música", PlanetaTV
 https://tls-cl.cdnz.cl/planetatv/live/playlist.m3u8
 
+#EXTINF:-1 tvg-logo="https://graph.facebook.com/CanalExtremadura/picture?width=200&height=200" group-title="Caricaturas" tvg-name="Infantil (Canal Extremadura)",Infantil 
+https://cdn-canalextremadura.watchity.net/fast2/master.m3u8
+
+#EXTINF:-1 tvg-logo="https://graph.facebook.com/TBNEspana/picture?width=200&height=200" group-title="Religioso" tvg-name="TBN España",TBN España
+https://edge.xn--tbnespaa-j3a.es/LiveApp/streams/tbnlive.m3u8

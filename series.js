@@ -3,7 +3,7 @@
 ========================================================= */
 
 const SERIES_M3U =
-    "data/dibujos-animados.m3u";
+    "dibujos-animados.m3u";
 
 let seriesItems = [];
 let seriesGroups = {};

@@ -12,7 +12,7 @@
 ========================================================= */
 
 const MOVIES_API =
-    "https://pelisplushd.tvymas.workers.dev/";
+    "https://pelisplushd.tvymas.workers.dev/?page=";
 const MOVIE_DETAIL_API =
     "https://pelisplushd.tvymas.workers.dev/pelicula/";
 
@@ -98,7 +98,7 @@ async function loadMovies(
 
         const response =
             await fetch(
-                `${MOVIES_API}?page=${page}`,
+               `${MOVIES_API}${page}`,
                 {
                     cache: "no-store"
                 }

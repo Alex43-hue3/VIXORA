@@ -15,18 +15,6 @@ let seriesVideo = null;
    INICIAR
 ========================================================= */
 
-document.addEventListener(
-    "DOMContentLoaded",
-    () => {
-
-        console.log(
-            "NETVISION - series.js iniciado"
-        );
-
-        loadAnimatedSeries();
-
-    }
-);
 
 
 /* =========================================================

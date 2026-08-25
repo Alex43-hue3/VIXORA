@@ -1,6 +1,6 @@
 /* =========================================================
-   NETVISION - PELÍCULAS
-   Catálogo conectado a la API
+   NETVISION - MÓDULO DE PELÍCULAS
+   API DE CATÁLOGO
 ========================================================= */
 
 "use strict";
@@ -8,14 +8,14 @@
 const MOVIES_API =
     "https://pelisplushd.tvymas.workers.dev/peliculas";
 
-let movies = [];
+let netvisionMovies = [];
 let moviesPage = 1;
 let moviesTotalPages = 1;
 let moviesLoading = false;
 
 
 /* =========================================================
-   INICIAR
+   INICIO
 ========================================================= */
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -26,7 +26,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 /* =========================================================
-   CARGAR PELÍCULAS
+   CARGAR CATÁLOGO
 ========================================================= */
 
 async function loadMovies(page = 1) {
@@ -47,32 +47,42 @@ async function loadMovies(page = 1) {
         );
 
         if (!response.ok) {
+
             throw new Error(
                 `HTTP ${response.status}`
             );
+
         }
 
-        const data = await response.json();
+        const data =
+            await response.json();
 
         console.log(
-            "NETVISION películas:",
+            "NETVISION - API PELÍCULAS:",
             data
         );
 
-        movies = data.movies || [];
+        netvisionMovies =
+            Array.isArray(data.movies)
+                ? data.movies
+                : [];
 
         moviesPage =
-            data.page || page;
+            Number(data.page) || page;
 
         moviesTotalPages =
-            data.total_pages || 1;
+            Number(data.total_pages) || 1;
 
-        renderMovies(movies);
+        renderMovies(
+            netvisionMovies
+        );
+
+        updateMoviesPagination();
 
     } catch (error) {
 
         console.error(
-            "Error cargando películas:",
+            "NETVISION - ERROR PELÍCULAS:",
             error
         );
 
@@ -88,36 +98,38 @@ async function loadMovies(page = 1) {
 
 
 /* =========================================================
-   MOSTRAR PELÍCULAS
+   RENDER PELÍCULAS
 ========================================================= */
 
 function renderMovies(list) {
 
-    const container =
+    const grid =
         document.getElementById(
             "moviesGrid"
         );
 
-    if (!container) {
+    if (!grid) {
 
         console.warn(
-            "No existe #moviesGrid"
+            "NETVISION: no existe #moviesGrid"
         );
 
         return;
+
     }
 
-    container.innerHTML = "";
+    grid.innerHTML = "";
 
     if (!list.length) {
 
-        container.innerHTML = `
-            <div class="movies-empty">
+        grid.innerHTML = `
+            <div class="movies-message">
                 No hay películas disponibles.
             </div>
         `;
 
         return;
+
     }
 
     list.forEach(movie => {
@@ -125,7 +137,7 @@ function renderMovies(list) {
         const card =
             createMovieCard(movie);
 
-        container.appendChild(card);
+        grid.appendChild(card);
 
     });
 
@@ -133,7 +145,7 @@ function renderMovies(list) {
 
 
 /* =========================================================
-   TARJETA
+   TARJETA DE PELÍCULA
 ========================================================= */
 
 function createMovieCard(movie) {
@@ -142,7 +154,9 @@ function createMovieCard(movie) {
         document.createElement("article");
 
     card.className =
-        "movie-card";
+        "netvision-movie-card";
+
+    card.tabIndex = 0;
 
     const poster =
         movie.tmdb_poster ||
@@ -150,8 +164,10 @@ function createMovieCard(movie) {
         "";
 
     const rating =
-        movie.tmdb_rating ??
-        "N/A";
+        movie.tmdb_rating !== undefined &&
+        movie.tmdb_rating !== null
+            ? Number(movie.tmdb_rating).toFixed(1)
+            : "N/A";
 
     const genres =
         Array.isArray(movie.tmdb_genres)
@@ -160,48 +176,95 @@ function createMovieCard(movie) {
                 .join(" · ")
             : "";
 
+    const year =
+        movie.tmdb_release_date
+            ? movie.tmdb_release_date.substring(0, 4)
+            : "";
+
     card.innerHTML = `
 
-        <div class="movie-poster">
+        <div class="netvision-movie-poster">
 
             ${
                 poster
-                ?
-                `<img
-                    src="${escapeMovieAttr(poster)}"
-                    alt="${escapeMovieAttr(movie.title)}"
-                    loading="lazy"
-                >`
-                :
-                `<div class="movie-no-poster">
-                    🎬
-                </div>`
+                    ? `
+                        <img
+                            src="${escapeMovieAttr(poster)}"
+                            alt="${escapeMovieAttr(movie.title)}"
+                            loading="lazy"
+                        >
+                    `
+                    : `
+                        <div class="movie-poster-empty">
+                            🎬
+                        </div>
+                    `
             }
 
-            <div class="movie-rating">
-                ★ ${escapeMovieHTML(rating)}
+            <div class="netvision-movie-rating">
+                ★ ${rating}
+            </div>
+
+            <div class="netvision-movie-overlay">
+                <span>
+                    ▶
+                </span>
             </div>
 
         </div>
 
-        <div class="movie-info">
+
+        <div class="netvision-movie-info">
 
             <h3>
                 ${escapeMovieHTML(movie.title)}
             </h3>
 
-            <p>
-                ${escapeMovieHTML(genres)}
-            </p>
+            <div class="netvision-movie-meta">
+
+                ${
+                    year
+                        ? `<span>${escapeMovieHTML(year)}</span>`
+                        : ""
+                }
+
+                ${
+                    genres
+                        ? `<span>${escapeMovieHTML(genres)}</span>`
+                        : ""
+                }
+
+            </div>
 
         </div>
 
     `;
 
+
     card.addEventListener(
         "click",
-        () => openMovie(movie)
+        () => openMovieDetails(movie)
     );
+
+
+    card.addEventListener(
+        "keydown",
+        event => {
+
+            if (
+                event.key === "Enter" ||
+                event.key === " "
+            ) {
+
+                event.preventDefault();
+
+                openMovieDetails(movie);
+
+            }
+
+        }
+    );
+
 
     return card;
 
@@ -209,37 +272,33 @@ function createMovieCard(movie) {
 
 
 /* =========================================================
-   DETALLE DE PELÍCULA
+   DETALLE
 ========================================================= */
 
-function openMovie(movie) {
+function openMovieDetails(movie) {
 
     console.log(
-        "Película seleccionada:",
+        "NETVISION - PELÍCULA:",
         movie
     );
+
 
     const modal =
         document.getElementById(
             "movieModal"
         );
 
-    if (!modal) {
 
-        /*
-         * Por ahora mostramos la información
-         * en consola.
-         *
-         * En el siguiente paso crearemos
-         * el reproductor y la ficha completa.
-         */
+    if (!modal) {
 
         alert(
             movie.title
         );
 
         return;
+
     }
+
 
     const poster =
         document.getElementById(
@@ -266,6 +325,7 @@ function openMovie(movie) {
             "movieModalGenres"
         );
 
+
     if (poster) {
 
         poster.src =
@@ -278,12 +338,14 @@ function openMovie(movie) {
 
     }
 
+
     if (title) {
 
         title.textContent =
             movie.title;
 
     }
+
 
     if (overview) {
 
@@ -293,12 +355,17 @@ function openMovie(movie) {
 
     }
 
+
     if (rating) {
 
         rating.textContent =
-            `★ ${movie.tmdb_rating ?? "N/A"}`;
+            `★ ${
+                movie.tmdb_rating ??
+                "N/A"
+            }`;
 
     }
+
 
     if (genres) {
 
@@ -306,36 +373,132 @@ function openMovie(movie) {
             Array.isArray(
                 movie.tmdb_genres
             )
-            ?
-            movie.tmdb_genres.join(" · ")
-            :
-            "";
+                ? movie.tmdb_genres.join(" · ")
+                : "";
 
     }
 
-    modal.classList.add("show");
+
+    modal.classList.add(
+        "active"
+    );
 
 }
 
 
 /* =========================================================
-   CARGANDO
+   PAGINACIÓN
+========================================================= */
+
+function updateMoviesPagination() {
+
+    const pageInfo =
+        document.getElementById(
+            "moviesPageInfo"
+        );
+
+    const previous =
+        document.getElementById(
+            "moviesPrevious"
+        );
+
+    const next =
+        document.getElementById(
+            "moviesNext"
+        );
+
+
+    if (pageInfo) {
+
+        pageInfo.textContent =
+            `Página ${moviesPage} de ${moviesTotalPages}`;
+
+    }
+
+
+    if (previous) {
+
+        previous.disabled =
+            moviesPage <= 1;
+
+    }
+
+
+    if (next) {
+
+        next.disabled =
+            moviesPage >= moviesTotalPages;
+
+    }
+
+}
+
+
+function previousMoviesPage() {
+
+    if (
+        moviesPage <= 1 ||
+        moviesLoading
+    ) {
+        return;
+    }
+
+
+    loadMovies(
+        moviesPage - 1
+    );
+
+
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
+
+}
+
+
+function nextMoviesPage() {
+
+    if (
+        moviesPage >= moviesTotalPages ||
+        moviesLoading
+    ) {
+        return;
+    }
+
+
+    loadMovies(
+        moviesPage + 1
+    );
+
+
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
+
+}
+
+
+/* =========================================================
+   LOADING
 ========================================================= */
 
 function showMoviesLoading() {
 
-    const container =
+    const grid =
         document.getElementById(
             "moviesGrid"
         );
 
-    if (!container) return;
+    if (!grid) return;
 
-    container.innerHTML = `
 
-        <div class="movies-loading">
+    grid.innerHTML = `
 
-            <div class="loading-spinner"></div>
+        <div class="movies-message">
+
+            <div class="movies-spinner"></div>
 
             <p>
                 Cargando películas...
@@ -354,16 +517,17 @@ function showMoviesLoading() {
 
 function showMoviesError() {
 
-    const container =
+    const grid =
         document.getElementById(
             "moviesGrid"
         );
 
-    if (!container) return;
+    if (!grid) return;
 
-    container.innerHTML = `
 
-        <div class="movies-error">
+    grid.innerHTML = `
+
+        <div class="movies-message movies-error">
 
             <div>
                 ⚠️
@@ -373,6 +537,11 @@ function showMoviesError() {
                 No se pudieron cargar
                 las películas
             </h3>
+
+            <p>
+                Comprueba tu conexión
+                e inténtalo nuevamente.
+            </p>
 
             <button
                 type="button"
@@ -389,56 +558,57 @@ function showMoviesError() {
 
 
 /* =========================================================
-   ESCAPAR HTML
+   UTILIDADES
 ========================================================= */
 
 function escapeMovieHTML(value) {
 
     return String(value ?? "")
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
+        .replace(
+            /&/g,
+            "&amp;"
+        )
+        .replace(
+            /</g,
+            "&lt;"
+        )
+        .replace(
+            />/g,
+            "&gt;"
+        )
+        .replace(
+            /"/g,
+            "&quot;"
+        )
+        .replace(
+            /'/g,
+            "&#039;"
+        );
 
 }
 
 
 function escapeMovieAttr(value) {
 
-    return escapeMovieHTML(value);
+    return escapeMovieHTML(
+        value
+    );
 
 }
 
 
 /* =========================================================
-   PAGINACIÓN
+   EXPORTAR PARA BOTONES HTML
 ========================================================= */
 
-function nextMoviesPage() {
+window.loadMovies =
+    loadMovies;
 
-    if (
-        moviesPage <
-        moviesTotalPages
-    ) {
+window.nextMoviesPage =
+    nextMoviesPage;
 
-        loadMovies(
-            moviesPage + 1
-        );
+window.previousMoviesPage =
+    previousMoviesPage;
 
-    }
-
-}
-
-
-function previousMoviesPage() {
-
-    if (moviesPage > 1) {
-
-        loadMovies(
-            moviesPage - 1
-        );
-
-    }
-
-}
+window.openMovieDetails =
+    openMovieDetails;

@@ -368,14 +368,13 @@ function createMovieCard(movie) {
     return card;
 
 }
-
-
 /* =========================================================
    ABRIR DETALLE
 ========================================================= */
-/* =========================================================
-   ABRIR DETALLE
-========================================================= */
+
+let moviePlayer = null;
+let movieHls = null;
+let currentMovieServer = null;
 
 async function openMovieDetails(movie) {
 
@@ -386,53 +385,28 @@ async function openMovieDetails(movie) {
         movie
     );
 
-
-    /* =====================================================
-       MODAL
-    ===================================================== */
-
     const modal =
         document.getElementById(
             "contentModal"
         );
 
-
     if (!modal) {
 
-        console.warn(
+        console.error(
             "NETVISION: No existe #contentModal"
         );
 
         return;
-
     }
 
-
     /* =====================================================
-       ELEMENTOS DEL MODAL
+       PORTADA
     ===================================================== */
 
     const poster =
         document.getElementById(
             "modalPoster"
         );
-
-
-    const title =
-        document.getElementById(
-            "modalTitle"
-        );
-
-
-    const description =
-        document.getElementById(
-            "modalDescription"
-        );
-
-
-    /* =====================================================
-       PORTADA
-    ===================================================== */
 
     if (poster) {
 
@@ -441,16 +415,14 @@ async function openMovieDetails(movie) {
             movie.image ||
             "";
 
-
         poster.innerHTML = posterURL
             ? `
                 <img
-                    src="${escapeMovieAttr(
-                        posterURL
-                    )}"
+                    src="${escapeMovieAttr(posterURL)}"
                     alt="${escapeMovieAttr(
-                        movie.title
+                        movie.title || "Película"
                     )}"
+                    class="netvision-modal-poster-img"
                 >
             `
             : `
@@ -458,35 +430,39 @@ async function openMovieDetails(movie) {
                     🎬
                 </div>
             `;
-
     }
-
 
     /* =====================================================
        TÍTULO
     ===================================================== */
+
+    const title =
+        document.getElementById(
+            "modalTitle"
+        );
 
     if (title) {
 
         title.textContent =
             movie.title ||
             "Película";
-
     }
-
 
     /* =====================================================
        DESCRIPCIÓN
     ===================================================== */
+
+    const description =
+        document.getElementById(
+            "modalDescription"
+        );
 
     if (description) {
 
         description.textContent =
             movie.tmdb_overview ||
             "Sinopsis no disponible.";
-
     }
-
 
     /* =====================================================
        ABRIR MODAL
@@ -496,373 +472,156 @@ async function openMovieDetails(movie) {
         "active"
     );
 
-
-    console.log(
-        "NETVISION: modal abierto"
+    document.body.classList.add(
+        "modal-open"
     );
 
-}
+    setupMovieModalClose();
 
     /* =====================================================
-       INFORMACIÓN BÁSICA
+       SERVIDORES
     ===================================================== */
 
-    const poster =
-        document.getElementById(
-            "movieModalPoster"
-        );
-
-
-    const title =
-        document.getElementById(
-            "movieModalTitle"
-        );
-
-
-    const overview =
-        document.getElementById(
-            "movieModalOverview"
-        );
-
-
-    const rating =
-        document.getElementById(
-            "movieModalRating"
-        );
-
-
-    const genres =
-        document.getElementById(
-            "movieModalGenres"
-        );
-
-
-    if (poster) {
-
-        poster.src =
-            movie.tmdb_poster ||
-            movie.image ||
-            "";
-
-
-        poster.alt =
-            movie.title;
-
-    }
-
-
-    if (title) {
-
-        title.textContent =
-            movie.title;
-
-    }
-
-
-    if (overview) {
-
-        overview.textContent =
-            movie.tmdb_overview ||
-            "Sinopsis no disponible.";
-
-    }
-
-
-    if (rating) {
-
-        rating.textContent =
-            `★ ${
-                movie.tmdb_rating ??
-                "N/A"
-            }`;
-
-    }
-
-
-    if (genres) {
-
-        genres.textContent =
-            Array.isArray(
-                movie.tmdb_genres
-            )
-                ? movie.tmdb_genres.join(
-                    " · "
-                )
-                : "";
-
-    }
-
-
-    /* =====================================================
-       MOSTRAR MODAL
-    ===================================================== */
-
-    modal.classList.add(
-        "active"
+    renderMovieServers(
+        Array.isArray(movie.servers)
+            ? movie.servers
+            : []
     );
-
-
-    /* =====================================================
-       PREPARAR BOTÓN
-    ===================================================== */
-
-    const playButton =
-        document.getElementById(
-            "playMovieBtn"
-        );
-
-
-    if (playButton) {
-
-        playButton.disabled =
-            true;
-
-
-        playButton.innerHTML =
-            "⏳ Buscando servidores...";
-
-
-        playButton.onclick =
-            null;
-
-    }
-
-
-    /* =====================================================
-       OBTENER SERVIDORES
-    ===================================================== */
-
-    await loadMovieServers(
-        movie
-    );
-
 }
 
 
 /* =========================================================
-   OBTENER SERVIDORES DE PELÍCULA
+   CERRAR MODAL
 ========================================================= */
 
-async function loadMovieServers(movie) {
+function setupMovieModalClose() {
 
-    const playButton =
+    const closeButton =
         document.getElementById(
-            "playMovieBtn"
+            "closeContent"
         );
 
+    if (
+        closeButton &&
+        !closeButton.dataset.netvisionBound
+    ) {
 
-    try {
+        closeButton.dataset.netvisionBound =
+            "1";
 
-        if (!movie.slug) {
+        closeButton.addEventListener(
+            "click",
+            closeMovieModal
+        );
+    }
+}
 
-            throw new Error(
-                "La película no tiene slug."
-            );
 
-        }
+function closeMovieModal() {
 
+    stopMoviePlayer();
 
-        console.log(
-            "NETVISION - CONSULTANDO DETALLE:",
-            movie.slug
+    const modal =
+        document.getElementById(
+            "contentModal"
         );
 
+    if (modal) {
 
-        const response =
-            await fetch(
-                `${MOVIE_DETAIL_API}${encodeURIComponent(movie.slug)}`,
-                {
-                    cache: "no-store"
-                }
-            );
-
-
-        if (!response.ok) {
-
-            throw new Error(
-                `HTTP ${response.status}`
-            );
-
-        }
-
-
-        const data =
-            await response.json();
-
-
-        console.log(
-            "NETVISION - DETALLE:",
-            data
+        modal.classList.remove(
+            "active"
         );
-
-
-        const servers =
-            data?.embeds?.video;
-
-
-        if (
-            !Array.isArray(servers) ||
-            servers.length === 0
-        ) {
-
-            throw new Error(
-                "No se encontraron servidores."
-            );
-
-        }
-
-
-        /* =================================================
-           GUARDAR SERVIDORES
-        ================================================= */
-
-        selectedMovie =
-            {
-                ...movie,
-                detail: data,
-                servers: servers
-            };
-
-
-        /* =================================================
-           MOSTRAR SERVIDORES
-        ================================================= */
-
-        renderMovieServers(
-            servers
-        );
-
-
-        /* =================================================
-           ACTIVAR BOTÓN
-        ================================================= */
-
-        if (playButton) {
-
-            playButton.disabled =
-                false;
-
-
-            playButton.innerHTML =
-                "▶ Ver servidores";
-
-
-            playButton.onclick =
-                () => {
-
-                    showMovieServers(
-                        servers
-                    );
-
-                };
-
-        }
-
-
-    } catch (error) {
-
-        console.error(
-            "NETVISION - ERROR SERVIDORES:",
-            error
-        );
-
-
-        renderMovieServersError(
-            error.message
-        );
-
-
-        if (playButton) {
-
-            playButton.disabled =
-                true;
-
-
-            playButton.innerHTML =
-                "⚠️ Sin servidores";
-
-        }
-
     }
 
+    document.body.classList.remove(
+        "modal-open"
+    );
 }
 
 
 /* =========================================================
-   MOSTRAR SERVIDORES
+   SERVIDORES
 ========================================================= */
 
 function renderMovieServers(
     servers
 ) {
 
+    const modalInfo =
+        document.querySelector(
+            "#contentModal .modal-info"
+        );
+
+    if (!modalInfo) {
+
+        console.warn(
+            "NETVISION: No existe .modal-info"
+        );
+
+        return;
+    }
+
     let container =
         document.getElementById(
             "movieServers"
         );
 
-
-    /* =====================================================
-       CREAR CONTENEDOR SI NO EXISTE
-    ===================================================== */
-
     if (!container) {
-
-        const modalInfo =
-            document.querySelector(
-                "#movieModal .modal-info"
-            );
-
-
-        if (!modalInfo) {
-            return;
-        }
-
 
         container =
             document.createElement(
                 "div"
             );
 
-
         container.id =
             "movieServers";
-
 
         container.className =
             "movie-servers";
 
-
-        const playButton =
-            document.getElementById(
-                "playMovieBtn"
-            );
-
-
-        if (playButton) {
-
-            playButton.before(
-                container
-            );
-
-        } else {
-
-            modalInfo.appendChild(
-                container
-            );
-
-        }
-
+        modalInfo.appendChild(
+            container
+        );
     }
 
+    /* =====================================================
+       SIN SERVIDORES
+    ===================================================== */
+
+    if (
+        !Array.isArray(servers) ||
+        servers.length === 0
+    ) {
+
+        container.innerHTML = `
+
+            <div class="movie-servers-empty">
+
+                <strong>
+                    🎬 Lista para reproducir
+                </strong>
+
+                <p>
+                    No hay una fuente de vídeo
+                    autorizada asociada a esta película.
+                </p>
+
+            </div>
+
+        `;
+
+        return;
+    }
+
+    /* =====================================================
+       LISTA
+    ===================================================== */
 
     container.innerHTML = `
 
         <div class="movie-servers-title">
 
-            <span>
-                SERVIDORES DISPONIBLES
-            </span>
+            SERVIDORES DISPONIBLES
 
         </div>
 
@@ -877,11 +636,9 @@ function renderMovieServers(
                         server.server ||
                         `Servidor ${index + 1}`;
 
-
                     const language =
                         server.language ||
                         "Disponible";
-
 
                     return `
 
@@ -891,19 +648,27 @@ function renderMovieServers(
                             data-server-index="${index}"
                         >
 
-                            <span class="server-play">
+                            <span
+                                class="server-play"
+                            >
                                 ▶
                             </span>
 
 
-                            <span class="server-info">
+                            <span
+                                class="server-info"
+                            >
 
                                 <strong>
-                                    ${escapeMovieHTML(name)}
+                                    ${escapeMovieHTML(
+                                        name
+                                    )}
                                 </strong>
 
                                 <small>
-                                    ${escapeMovieHTML(language)}
+                                    ${escapeMovieHTML(
+                                        language
+                                    )}
                                 </small>
 
                             </span>
@@ -911,7 +676,6 @@ function renderMovieServers(
                         </button>
 
                     `;
-
                 }
             ).join("")}
 
@@ -919,113 +683,34 @@ function renderMovieServers(
 
     `;
 
-
     /* =====================================================
        EVENTOS
     ===================================================== */
 
-    const buttons =
-        container.querySelectorAll(
+    container
+        .querySelectorAll(
             ".movie-server-btn"
-        );
+        )
+        .forEach(
+            button => {
 
+                button.addEventListener(
+                    "click",
+                    () => {
 
-    buttons.forEach(
-        button => {
+                        const index =
+                            Number(
+                                button.dataset
+                                    .serverIndex
+                            );
 
-            button.addEventListener(
-                "click",
-                () => {
-
-                    const index =
-                        Number(
-                            button.dataset
-                                .serverIndex
+                        selectMovieServer(
+                            servers[index]
                         );
-
-
-                    selectMovieServer(
-                        servers[index]
-                    );
-
-                }
-            );
-
-        }
-    );
-
-}
-
-
-/* =========================================================
-   ERROR DE SERVIDORES
-========================================================= */
-
-function renderMovieServersError(
-    message
-) {
-
-    let container =
-        document.getElementById(
-            "movieServers"
+                    }
+                );
+            }
         );
-
-
-    if (!container) {
-
-        const modalInfo =
-            document.querySelector(
-                "#movieModal .modal-info"
-            );
-
-
-        if (!modalInfo) {
-            return;
-        }
-
-
-        container =
-            document.createElement(
-                "div"
-            );
-
-
-        container.id =
-            "movieServers";
-
-
-        container.className =
-            "movie-servers";
-
-
-        modalInfo.appendChild(
-            container
-        );
-
-    }
-
-
-    container.innerHTML = `
-
-        <div class="movie-servers-error">
-
-            <strong>
-                ⚠️ No se encontraron servidores
-            </strong>
-
-            <p>
-                ${
-                    escapeMovieHTML(
-                        message ||
-                        "No disponible"
-                    )
-                }
-            </p>
-
-        </div>
-
-    `;
-
 }
 
 
@@ -1033,323 +718,416 @@ function renderMovieServersError(
    SELECCIONAR SERVIDOR
 ========================================================= */
 
-async function selectMovieServer(
+function selectMovieServer(
     server
 ) {
 
     if (!server) {
+
         return;
     }
 
+    const streamURL =
+        server.stream_url ||
+        server.url ||
+        server.src ||
+        "";
 
-    console.log(
-        "NETVISION - SERVIDOR SELECCIONADO:",
-        server
-    );
-
-
-    /* =====================================================
-       MOSTRAR ESTADO
-    ===================================================== */
-
-    showMovieServerLoading(
-        server
-    );
-
-
-    try {
-
-        if (!server.stream_url) {
-
-            throw new Error(
-                "Este servidor no tiene stream_url."
-            );
-
-        }
-
-
-        console.log(
-            "NETVISION - CONSULTANDO STREAM:",
-            server.stream_url
-        );
-
-
-        const response =
-            await fetch(
-                server.stream_url,
-                {
-                    cache: "no-store"
-                }
-            );
-
-
-        if (!response.ok) {
-
-            throw new Error(
-                `HTTP ${response.status}`
-            );
-
-        }
-
-
-        const contentType =
-            response.headers.get(
-                "content-type"
-            ) || "";
-
-
-        const text =
-            await response.text();
-
-
-        console.log(
-            "NETVISION - STREAM RESPONSE:",
-            {
-                contentType,
-                response: text
-            }
-        );
-
-
-        /*
-         * ==================================================
-         * IMPORTANTE
-         *
-         * En esta etapa NO intentamos reproducir
-         * automáticamente.
-         *
-         * Primero mostramos qué devuelve el endpoint.
-         * ==================================================
-         */
-
-
-        showMovieStreamResult(
-            server,
-            text,
-            contentType
-        );
-
-
-    } catch (error) {
-
-        console.error(
-            "NETVISION - ERROR STREAM:",
-            error
-        );
-
+    if (!streamURL) {
 
         showMovieStreamError(
             server,
-            error
+            new Error(
+                "El servidor no contiene una URL de vídeo."
+            )
         );
 
+        return;
     }
 
+    currentMovieServer =
+        server;
+
+    openMoviePlayer(
+        streamURL,
+        server.name ||
+        "NETVISION"
+    );
 }
 
 
 /* =========================================================
-   CARGANDO STREAM
+   CREAR REPRODUCTOR
 ========================================================= */
 
-function showMovieServerLoading(
-    server
-) {
+function ensureMoviePlayer() {
 
-    let container =
+    let player =
         document.getElementById(
-            "movieServers"
+            "netvisionMoviePlayer"
         );
 
+    if (player) {
 
-    if (!container) {
-        return;
+        return player;
     }
 
-
-    container.innerHTML = `
-
-        <div class="movie-stream-loading">
-
-            <div class="movies-spinner"></div>
-
-            <p>
-                Conectando con
-                <strong>
-                    ${escapeMovieHTML(
-                        server.name ||
-                        "servidor"
-                    )}
-                </strong>
-                ...
-            </p>
-
-        </div>
-
-    `;
-
-}
-
-
-/* =========================================================
-   RESULTADO DEL STREAM
-========================================================= */
-
-function showMovieStreamResult(
-    server,
-    response,
-    contentType
-) {
-
-    const container =
-        document.getElementById(
-            "movieServers"
+    player =
+        document.createElement(
+            "div"
         );
 
+    player.id =
+        "netvisionMoviePlayer";
 
-    if (!container) {
-        return;
-    }
+    player.className =
+        "netvision-movie-player";
 
+    player.innerHTML = `
 
-    const cleanResponse =
-        String(
-            response || ""
-        ).trim();
+        <div
+            class="netvision-player-header"
+        >
 
-
-    let detectedType =
-        "Respuesta desconocida";
-
-
-    if (
-        cleanResponse.includes(
-            "#EXTM3U"
-        )
-    ) {
-
-        detectedType =
-            "HLS / M3U8";
-
-    } else if (
-        contentType.includes(
-            "video/mp4"
-        )
-    ) {
-
-        detectedType =
-            "MP4";
-
-    } else if (
-        cleanResponse.startsWith(
-            "http://"
-        ) ||
-        cleanResponse.startsWith(
-            "https://"
-        )
-    ) {
-
-        detectedType =
-            "URL de vídeo";
-
-    }
-
-
-    container.innerHTML = `
-
-        <div class="movie-stream-result">
-
-            <div class="stream-result-icon">
-                ✓
-            </div>
-
-
-            <h3>
-                Servidor conectado
-            </h3>
-
-
-            <p>
-                ${
-                    escapeMovieHTML(
-                        server.name ||
-                        "Servidor"
-                    )
-                }
-            </p>
-
-
-            <div class="stream-result-type">
-
-                Tipo detectado:
-
-                <strong>
-                    ${detectedType}
-                </strong>
-
-            </div>
-
-
-            <details>
-
-                <summary>
-                    Ver respuesta técnica
-                </summary>
-
-
-                <pre>${escapeMovieHTML(
-                    cleanResponse
-                )}</pre>
-
-            </details>
+            <strong
+                id="netvisionPlayerTitle"
+            >
+                NETVISION
+            </strong>
 
 
             <button
                 type="button"
-                class="movie-back-servers"
-                id="backMovieServers"
+                id="netvisionPlayerClose"
+                aria-label="Cerrar reproductor"
             >
-                ← Volver a servidores
+                ×
             </button>
 
         </div>
 
+
+        <div
+            class="netvision-player-video-wrap"
+        >
+
+            <video
+                id="netvisionMovieVideo"
+                controls
+                playsinline
+                preload="metadata"
+            ></video>
+
+        </div>
+
+
+        <div
+            id="netvisionPlayerStatus"
+            class="netvision-player-status"
+        >
+        </div>
+
     `;
 
+    document.body.appendChild(
+        player
+    );
 
-    const backButton =
+    injectMoviePlayerStyles();
+
+    const closeButton =
         document.getElementById(
-            "backMovieServers"
+            "netvisionPlayerClose"
         );
 
+    if (closeButton) {
 
-    if (backButton) {
-
-        backButton.addEventListener(
+        closeButton.addEventListener(
             "click",
-            () => {
-
-                if (
-                    selectedMovie &&
-                    selectedMovie.servers
-                ) {
-
-                    renderMovieServers(
-                        selectedMovie.servers
-                    );
-
-                }
-
-            }
+            stopMoviePlayer
         );
-
     }
 
+    return player;
 }
 
 
 /* =========================================================
-   ERROR STREAM
+   REPRODUCTOR MP4 / HLS
+========================================================= */
+
+async function openMoviePlayer(
+    streamURL,
+    title
+) {
+
+    const player =
+        ensureMoviePlayer();
+
+    const video =
+        document.getElementById(
+            "netvisionMovieVideo"
+        );
+
+    const playerTitle =
+        document.getElementById(
+            "netvisionPlayerTitle"
+        );
+
+    const status =
+        document.getElementById(
+            "netvisionPlayerStatus"
+        );
+
+    if (!video) {
+
+        return;
+    }
+
+    stopMoviePlaybackOnly();
+
+    player.classList.add(
+        "active"
+    );
+
+    if (playerTitle) {
+
+        playerTitle.textContent =
+            title ||
+            "NETVISION";
+    }
+
+    if (status) {
+
+        status.textContent =
+            "Conectando...";
+    }
+
+    const isHLS =
+        /\.m3u8(?:$|[?#])/i.test(
+            streamURL
+        );
+
+
+    /* =====================================================
+       HLS.JS
+    ===================================================== */
+
+    if (
+        isHLS &&
+        window.Hls &&
+        Hls.isSupported()
+    ) {
+
+        movieHls =
+            new Hls();
+
+        movieHls.loadSource(
+            streamURL
+        );
+
+        movieHls.attachMedia(
+            video
+        );
+
+        movieHls.on(
+            Hls.Events.MANIFEST_PARSED,
+            () => {
+
+                if (status) {
+
+                    status.textContent =
+                        "Reproduciendo";
+                }
+
+                video
+                    .play()
+                    .catch(
+                        () => {}
+                    );
+            }
+        );
+
+        movieHls.on(
+            Hls.Events.ERROR,
+            (
+                event,
+                data
+            ) => {
+
+                if (
+                    data &&
+                    data.fatal
+                ) {
+
+                    console.error(
+                        "NETVISION HLS:",
+                        data
+                    );
+
+                    if (status) {
+
+                        status.textContent =
+                            "No se pudo reproducir la fuente.";
+                    }
+                }
+            }
+        );
+
+        return;
+    }
+
+
+    /* =====================================================
+       HLS NATIVO
+    ===================================================== */
+
+    if (
+        isHLS &&
+        video.canPlayType(
+            "application/vnd.apple.mpegurl"
+        )
+    ) {
+
+        video.src =
+            streamURL;
+
+        video.addEventListener(
+            "loadedmetadata",
+            () => {
+
+                if (status) {
+
+                    status.textContent =
+                        "Reproduciendo";
+                }
+
+                video
+                    .play()
+                    .catch(
+                        () => {}
+                    );
+            },
+            {
+                once: true
+            }
+        );
+
+        return;
+    }
+
+
+    /* =====================================================
+       MP4 / VIDEO DIRECTO
+    ===================================================== */
+
+    video.src =
+        streamURL;
+
+    video.addEventListener(
+        "loadedmetadata",
+        () => {
+
+            if (status) {
+
+                status.textContent =
+                    "Reproduciendo";
+            }
+
+            video
+                .play()
+                .catch(
+                    () => {}
+                );
+
+        },
+        {
+            once: true
+        }
+    );
+
+    video.addEventListener(
+        "error",
+        () => {
+
+            if (status) {
+
+                status.textContent =
+                    "El navegador no puede reproducir esta fuente.";
+            }
+
+        },
+        {
+            once: true
+        }
+    );
+}
+
+
+/* =========================================================
+   DETENER REPRODUCCIÓN
+========================================================= */
+
+function stopMoviePlaybackOnly() {
+
+    const video =
+        document.getElementById(
+            "netvisionMovieVideo"
+        );
+
+    if (movieHls) {
+
+        try {
+
+            movieHls.destroy();
+
+        } catch (error) {
+
+            console.warn(
+                error
+            );
+        }
+
+        movieHls =
+            null;
+    }
+
+    if (video) {
+
+        video.pause();
+
+        video.removeAttribute(
+            "src"
+        );
+
+        video.load();
+    }
+}
+
+
+function stopMoviePlayer() {
+
+    stopMoviePlaybackOnly();
+
+    const player =
+        document.getElementById(
+            "netvisionMoviePlayer"
+        );
+
+    if (player) {
+
+        player.classList.remove(
+            "active"
+        );
+    }
+
+    currentMovieServer =
+        null;
+}
+
+
+/* =========================================================
+   ERROR
 ========================================================= */
 
 function showMovieStreamError(
@@ -1362,116 +1140,457 @@ function showMovieStreamError(
             "movieServers"
         );
 
-
     if (!container) {
+
         return;
     }
 
-
     container.innerHTML = `
 
-        <div class="movie-stream-error">
+        <div
+            class="movie-stream-error"
+        >
 
-            <div class="stream-result-icon">
+            <div>
                 ⚠️
             </div>
 
-
             <h3>
-                No se pudo consultar
-                el servidor
+                No se pudo iniciar
             </h3>
 
-
             <p>
-
-                ${
-                    escapeMovieHTML(
-                        server.name ||
-                        "Servidor"
-                    )
-                }
-
+                ${escapeMovieHTML(
+                    server?.name ||
+                    "Servidor"
+                )}
             </p>
 
-
             <small>
-
-                ${
-                    escapeMovieHTML(
-                        error?.message ||
-                        "Error desconocido"
-                    )
-                }
-
+                ${escapeMovieHTML(
+                    error?.message ||
+                    "Fuente no disponible."
+                )}
             </small>
-
-
-            <button
-                type="button"
-                class="movie-back-servers"
-                id="backMovieServersError"
-            >
-                ← Volver a servidores
-            </button>
 
         </div>
 
     `;
-
-
-    const backButton =
-        document.getElementById(
-            "backMovieServersError"
-        );
-
-
-    if (backButton) {
-
-        backButton.addEventListener(
-            "click",
-            () => {
-
-                if (
-                    selectedMovie &&
-                    selectedMovie.servers
-                ) {
-
-                    renderMovieServers(
-                        selectedMovie.servers
-                    );
-
-                }
-
-            }
-        );
-
-    }
-
 }
 
 
 /* =========================================================
-   MOSTRAR SERVIDORES DESDE BOTÓN
+   ESTILOS DEL REPRODUCTOR
 ========================================================= */
 
-function showMovieServers(
-    servers
-) {
+function injectMoviePlayerStyles() {
 
     if (
-        !Array.isArray(
-            servers
+        document.getElementById(
+            "netvisionMoviePlayerStyles"
         )
     ) {
+
         return;
     }
 
+    const style =
+        document.createElement(
+            "style"
+        );
 
-    renderMovieServers(
-        servers
+    style.id =
+        "netvisionMoviePlayerStyles";
+
+    style.textContent = `
+
+        body.modal-open {
+            overflow: hidden;
+        }
+
+
+        .netvision-movie-player {
+
+            position: fixed;
+
+            inset: 0;
+
+            z-index: 99999;
+
+            display: none;
+
+            align-items: center;
+
+            justify-content: center;
+
+            padding: 20px;
+
+            background:
+                rgba(
+                    0,
+                    0,
+                    0,
+                    .96
+                );
+
+        }
+
+
+        .netvision-movie-player.active {
+
+            display: flex;
+
+        }
+
+
+        .netvision-player-video-wrap {
+
+            width:
+                min(
+                    1100px,
+                    100%
+                );
+
+            aspect-ratio:
+                16 / 9;
+
+            background:
+                #000;
+
+            border-radius:
+                14px;
+
+            overflow:
+                hidden;
+
+            box-shadow:
+                0 20px 70px
+                rgba(
+                    0,
+                    0,
+                    0,
+                    .55
+                );
+
+        }
+
+
+        .netvision-player-video-wrap video {
+
+            width:
+                100%;
+
+            height:
+                100%;
+
+            display:
+                block;
+
+            background:
+                #000;
+
+            object-fit:
+                contain;
+
+        }
+
+
+        .netvision-player-header {
+
+            position:
+                absolute;
+
+            top:
+                0;
+
+            left:
+                0;
+
+            right:
+                0;
+
+            min-height:
+                64px;
+
+            padding:
+                12px 20px;
+
+            display:
+                flex;
+
+            align-items:
+                center;
+
+            justify-content:
+                space-between;
+
+            background:
+                linear-gradient(
+                    to bottom,
+                    rgba(
+                        0,
+                        0,
+                        0,
+                        .9
+                    ),
+                    transparent
+                );
+
+            color:
+                #fff;
+
+            pointer-events:
+                none;
+
+        }
+
+
+        .netvision-player-header
+        strong,
+
+        .netvision-player-header
+        button {
+
+            pointer-events:
+                auto;
+
+        }
+
+
+        .netvision-player-header
+        button {
+
+            width:
+                42px;
+
+            height:
+                42px;
+
+            border:
+                0;
+
+            border-radius:
+                50%;
+
+            background:
+                rgba(
+                    255,
+                    255,
+                    255,
+                    .12
+                );
+
+            color:
+                #fff;
+
+            font-size:
+                28px;
+
+            cursor:
+                pointer;
+
+        }
+
+
+        .netvision-player-status {
+
+            position:
+                absolute;
+
+            bottom:
+                18px;
+
+            left:
+                50%;
+
+            transform:
+                translateX(-50%);
+
+            color:
+                #fff;
+
+            font-size:
+                13px;
+
+            text-align:
+                center;
+
+            pointer-events:
+                none;
+
+        }
+
+
+        .movie-servers {
+
+            margin-top:
+                18px;
+
+        }
+
+
+        .movie-servers-title {
+
+            margin-bottom:
+                10px;
+
+            font-weight:
+                700;
+
+        }
+
+
+        .movie-servers-list {
+
+            display:
+                flex;
+
+            flex-wrap:
+                wrap;
+
+            gap:
+                10px;
+
+        }
+
+
+        .movie-server-btn {
+
+            display:
+                flex;
+
+            align-items:
+                center;
+
+            gap:
+                10px;
+
+            padding:
+                10px 14px;
+
+            border:
+                1px solid
+                rgba(
+                    255,
+                    255,
+                    255,
+                    .14
+                );
+
+            border-radius:
+                10px;
+
+            background:
+                rgba(
+                    255,
+                    255,
+                    255,
+                    .06
+                );
+
+            color:
+                inherit;
+
+            cursor:
+                pointer;
+
+        }
+
+
+        .movie-server-btn:hover {
+
+            background:
+                rgba(
+                    255,
+                    255,
+                    255,
+                    .12
+                );
+
+        }
+
+
+        .server-info {
+
+            display:
+                flex;
+
+            flex-direction:
+                column;
+
+            align-items:
+                flex-start;
+
+        }
+
+
+        .server-info small {
+
+            opacity:
+                .7;
+
+        }
+
+
+        @media (
+            max-width: 700px
+        ) {
+
+            .netvision-movie-player {
+
+                padding:
+                    0;
+
+            }
+
+
+            .netvision-player-video-wrap {
+
+                width:
+                    100%;
+
+                border-radius:
+                    0;
+
+                aspect-ratio:
+                    16 / 9;
+
+            }
+
+
+            .netvision-player-header {
+
+                min-height:
+                    54px;
+
+                padding:
+                    8px 12px;
+
+            }
+
+
+            .movie-servers-list {
+
+                flex-direction:
+                    column;
+
+            }
+
+
+            .movie-server-btn {
+
+                width:
+                    100%;
+
+            }
+
+        }
+
+    `;
+
+    document.head.appendChild(
+        style
     );
-
 }
 
 
@@ -1486,42 +1605,34 @@ function updateMoviesPagination() {
             "moviesPageInfo"
         );
 
-
     const previous =
         document.getElementById(
             "moviesPrevious"
         );
-
 
     const next =
         document.getElementById(
             "moviesNext"
         );
 
-
     if (pageInfo) {
 
         pageInfo.textContent =
             `Página ${moviesPage} de ${moviesTotalPages}`;
-
     }
-
 
     if (previous) {
 
         previous.disabled =
             moviesPage <= 1;
-
     }
-
 
     if (next) {
 
         next.disabled =
-            moviesPage >= moviesTotalPages;
-
+            moviesPage >=
+            moviesTotalPages;
     }
-
 }
 
 
@@ -1531,48 +1642,45 @@ function previousMoviesPage() {
         moviesPage <= 1 ||
         moviesLoading
     ) {
+
         return;
     }
-
 
     loadMovies(
         moviesPage - 1
     );
 
-
     window.scrollTo({
         top: 0,
         behavior: "smooth"
     });
-
 }
 
 
 function nextMoviesPage() {
 
     if (
-        moviesPage >= moviesTotalPages ||
+        moviesPage >=
+            moviesTotalPages ||
         moviesLoading
     ) {
+
         return;
     }
-
 
     loadMovies(
         moviesPage + 1
     );
 
-
     window.scrollTo({
         top: 0,
         behavior: "smooth"
     });
-
 }
 
 
 /* =========================================================
-   LOADING CATÁLOGO
+   LOADING
 ========================================================= */
 
 function showMoviesLoading() {
@@ -1582,17 +1690,20 @@ function showMoviesLoading() {
             "moviesGrid"
         );
 
-
     if (!grid) {
+
         return;
     }
 
-
     grid.innerHTML = `
 
-        <div class="movies-message">
+        <div
+            class="movies-message"
+        >
 
-            <div class="movies-spinner"></div>
+            <div
+                class="movies-spinner"
+            ></div>
 
             <p>
                 Cargando películas...
@@ -1601,12 +1712,11 @@ function showMoviesLoading() {
         </div>
 
     `;
-
 }
 
 
 /* =========================================================
-   ERROR CATÁLOGO
+   ERROR
 ========================================================= */
 
 function showMoviesError() {
@@ -1616,32 +1726,33 @@ function showMoviesError() {
             "moviesGrid"
         );
 
-
     if (!grid) {
+
         return;
     }
 
-
     grid.innerHTML = `
 
-        <div class="movies-message movies-error">
+        <div
+            class="
+                movies-message
+                movies-error
+            "
+        >
 
             <div>
                 ⚠️
             </div>
-
 
             <h3>
                 No se pudieron cargar
                 las películas
             </h3>
 
-
             <p>
                 Comprueba tu conexión
                 e inténtalo nuevamente.
             </p>
-
 
             <button
                 type="button"
@@ -1653,7 +1764,6 @@ function showMoviesError() {
         </div>
 
     `;
-
 }
 
 
@@ -1725,3 +1835,12 @@ window.openMovieDetails =
 
 window.showMovieServers =
     showMovieServers;
+
+
+window.closeMovieModal =
+    closeMovieModal;
+
+
+window.stopMoviePlayer =
+    stopMoviePlayer;
+

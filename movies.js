@@ -373,12 +373,13 @@ function createMovieCard(movie) {
 /* =========================================================
    ABRIR DETALLE
 ========================================================= */
+/* =========================================================
+   ABRIR DETALLE
+========================================================= */
 
 async function openMovieDetails(movie) {
 
-    selectedMovie =
-        movie;
-
+    selectedMovie = movie;
 
     console.log(
         "NETVISION - PELÍCULA SELECCIONADA:",
@@ -386,21 +387,121 @@ async function openMovieDetails(movie) {
     );
 
 
- const modal =
-    document.getElementById(
-        "contentModal"
-    );
+    /* =====================================================
+       MODAL
+    ===================================================== */
+
+    const modal =
+        document.getElementById(
+            "contentModal"
+        );
+
 
     if (!modal) {
 
-      console.warn(
-    "No existe #contentModal"
-);
+        console.warn(
+            "NETVISION: No existe #contentModal"
+        );
 
         return;
 
     }
 
+
+    /* =====================================================
+       ELEMENTOS DEL MODAL
+    ===================================================== */
+
+    const poster =
+        document.getElementById(
+            "modalPoster"
+        );
+
+
+    const title =
+        document.getElementById(
+            "modalTitle"
+        );
+
+
+    const description =
+        document.getElementById(
+            "modalDescription"
+        );
+
+
+    /* =====================================================
+       PORTADA
+    ===================================================== */
+
+    if (poster) {
+
+        const posterURL =
+            movie.tmdb_poster ||
+            movie.image ||
+            "";
+
+
+        poster.innerHTML = posterURL
+            ? `
+                <img
+                    src="${escapeMovieAttr(
+                        posterURL
+                    )}"
+                    alt="${escapeMovieAttr(
+                        movie.title
+                    )}"
+                >
+            `
+            : `
+                <div class="movie-poster-empty">
+                    🎬
+                </div>
+            `;
+
+    }
+
+
+    /* =====================================================
+       TÍTULO
+    ===================================================== */
+
+    if (title) {
+
+        title.textContent =
+            movie.title ||
+            "Película";
+
+    }
+
+
+    /* =====================================================
+       DESCRIPCIÓN
+    ===================================================== */
+
+    if (description) {
+
+        description.textContent =
+            movie.tmdb_overview ||
+            "Sinopsis no disponible.";
+
+    }
+
+
+    /* =====================================================
+       ABRIR MODAL
+    ===================================================== */
+
+    modal.classList.add(
+        "active"
+    );
+
+
+    console.log(
+        "NETVISION: modal abierto"
+    );
+
+}
 
     /* =====================================================
        INFORMACIÓN BÁSICA

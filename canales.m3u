@@ -3,10 +3,6 @@
 #EXTINF:-1 tvg-id="MariaVision.mx@SD" tvg-logo="https://i.imgur.com/GylOPxE.png" group-title="Religioso",María Visión
 https://1601580044.rsc.cdn77.org/live/_jcn_/amlst:Mariavision/master.m3u8
 
-#EXTINF:-1 tvg-id="NickelodeonLatinAmerica.us@Panregional" tvg-logo="https://i.imgur.com/E84jnP8.png" group-title="Caricaturas",Nickelodeon 
-http://179.60.51.134:8888/NICK/index.m3u8
-
-
 
 #EXTINF:-1 tvg-id="beINSPORTSXTRAenEspanol.us@SD" tvg-logo="https://i.imgur.com/V562tpO.png" group-title="Deportes",beIN Sports XTRA
 https://dc1644a9jazgj.cloudfront.net/beIN_Sports_Xtra_Espanol.m3u8
@@ -23,10 +19,6 @@ https://d5ts03kapml2e.cloudfront.net/CuriosityMotores.m3u8
 #EXTINF:-1 tvg-id="" tvg-logo="" group-title="Documentales",Curiosity Now 
 https://amg00170-curiositystream-amg00170c3-rakuten-us-2289.playouts.now.amagi.tv/playlist/amg00170-curiositystreamllcfast-curiositynowrow-rakutenus/playlist.m3u8
 
-#EXTINF:-1 tvg-id="DisneyChannelLatinAmerica.ar@Center" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/f/ff/2024_Disney_Channel_text_logo.svg" group-title="Infantil",Disney Channel 
-
-#EXTINF:-1 tvg-id="DisneyJrLatinAmerica.ar@SouthHD" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/e/e3/2024_Disney_Jr._Logo.svg" group-title="Infantil",Disney Jr. 
-http://179.60.51.134:8888/DISNEY-JR/index.m3u8
 
 #EXTINF:-1 tvg-logo="https://imgur.com/76pIwxw.png" group-title="Entretenimiento" , Las Estrellas
 https://dai.google.com/ssai/event/_e1s_U52SCGL6zTnlTrbVQ/master.m3u8
@@ -130,5 +122,3 @@ https://origin.dpsgo.com/ssai/event/Nftd0fM2SXasfDlRphvUsg/master.m3u8
 #EXTINF:-1 tvg-id="1014" tvg-name="PlanetaTV" tvg-logo="https://cdn.m3u.cl/logo/1014_PlanetaTV.png" group-title="Música", PlanetaTV
 https://tls-cl.cdnz.cl/planetatv/live/playlist.m3u8
 
-#EXTINF:-1 tvg-logo="https://telechancho.github.io/telechancho-iptv/movielogos/OnegaiMyMelody.png" group-title="Anime",Onegai My Melody - T1 E01
-https://archive.org/download/onegai-my-melody-temporada-1-espanol/Onegai%20my%20melody%20cap%C3%ADtulo%201%20temporada.mp4

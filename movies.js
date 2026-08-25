@@ -1,4 +1,3 @@
-
 /* =========================================================
    NETVISION - PELÍCULAS
    Compatible con el index.html actual
@@ -12,7 +11,8 @@
 ========================================================= */
 
 const MOVIES_API =
-    "https://pelisplushd.tvymas.workers.dev/?page=";
+    "https://pelisplushd.tvymas.workers.dev/peliculas";
+
 const MOVIE_DETAIL_API =
     "https://pelisplushd.tvymas.workers.dev/pelicula/";
 
@@ -98,7 +98,7 @@ async function loadMovies(
 
         const response =
             await fetch(
-               `${MOVIES_API}${page}`,
+                `${MOVIES_API}?page=${page}`,
                 {
                     cache: "no-store"
                 }

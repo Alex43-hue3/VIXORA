@@ -386,17 +386,16 @@ async function openMovieDetails(movie) {
     );
 
 
-    const modal =
-        document.getElementById(
-            "movieModal"
-        );
-
+ const modal =
+    document.getElementById(
+        "contentModal"
+    );
 
     if (!modal) {
 
-        console.warn(
-            "No existe #movieModal"
-        );
+      console.warn(
+    "No existe #contentModal"
+);
 
         return;
 

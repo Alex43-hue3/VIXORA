@@ -12,8 +12,7 @@
 ========================================================= */
 
 const MOVIES_API =
-    "https://pelisplushd.tvymas.workers.dev/peliculas";
-
+    "https://pelisplushd.tvymas.workers.dev/";
 const MOVIE_DETAIL_API =
     "https://pelisplushd.tvymas.workers.dev/pelicula/";
 

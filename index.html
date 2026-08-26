@@ -1,1497 +1,1978 @@
-# `index.html` — NETVISION con perfiles y menú principal
-
-```html
 <!DOCTYPE html>
+
 <html lang="es">
+
 <head>
-    <meta charset="UTF-8">
 
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0, viewport-fit=cover"
-    >
+```
+<meta charset="UTF-8">
 
-    <meta name="theme-color" content="#07111f">
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+>
 
-    <title>NETVISION | Entertainment & Media</title>
+<meta
+    name="theme-color"
+    content="#07111f"
+>
 
-    <meta
-        name="description"
-        content="NETVISION - Entertainment & Media"
-    >
+<meta
+    name="description"
+    content="NETVISION - Entertainment & Media"
+>
 
-    <style>
-
-        /* =====================================================
-           NETVISION
-           INDEX PRINCIPAL
-        ===================================================== */
-
-        :root {
-
-            --bg: #050b14;
-            --bg-soft: #081321;
-            --panel: #0b1726;
-            --panel-light: #102238;
-
-            --blue: #48c7ff;
-            --blue-soft: #75dcff;
-
-            --text: #ffffff;
-            --muted: #8fa4ba;
-
-            --border: rgba(117, 220, 255, .14);
-
-            --radius: 22px;
-
-        }
+<title>
+    NETVISION | Entertainment & Media
+</title>
 
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+<style>
+
+    /* =====================================================
+       NETVISION
+       INDEX PRINCIPAL
+    ===================================================== */
+
+    :root {
+
+        --bg: #050b14;
+        --bg-soft: #081321;
+        --panel: #0b1726;
+        --panel-light: #102238;
+
+        --blue: #48c7ff;
+        --blue-soft: #75dcff;
+
+        --text: #ffffff;
+        --muted: #8fa4ba;
+
+        --border:
+            rgba(117,220,255,.14);
+
+        --radius: 22px;
+
+    }
 
 
-        html,
-        body {
+    * {
 
-            width: 100%;
-            min-height: 100%;
+        box-sizing: border-box;
 
-            background:
-                radial-gradient(
-                    circle at 50% 0%,
-                    rgba(72,199,255,.08),
-                    transparent 42%
-                ),
-                var(--bg);
+        margin: 0;
+        padding: 0;
 
-            color: var(--text);
-
-            font-family:
-                Inter,
-                system-ui,
-                -apple-system,
-                BlinkMacSystemFont,
-                "Segoe UI",
-                sans-serif;
-
-        }
+    }
 
 
-        body {
+    html,
+    body {
 
-            overflow-x: hidden;
+        width: 100%;
+        min-height: 100%;
 
-        }
+        background:
 
+            radial-gradient(
+                circle at 50% 0%,
+                rgba(72,199,255,.08),
+                transparent 42%
+            ),
 
-        button {
+            var(--bg);
 
-            font: inherit;
+        color: var(--text);
 
-        }
+        font-family:
+            Inter,
+            system-ui,
+            -apple-system,
+            BlinkMacSystemFont,
+            "Segoe UI",
+            sans-serif;
 
-
-        /* =====================================================
-           APP
-        ===================================================== */
-
-        #app {
-
-            width: 100%;
-            min-height: 100vh;
-
-        }
-
-
-        /* =====================================================
-           PANTALLAS
-        ===================================================== */
-
-        .screen {
-
-            position: fixed;
-
-            inset: 0;
-
-            width: 100vw;
-            height: 100dvh;
-
-            min-height: 100vh;
-
-            overflow: hidden;
-
-            display: none;
-
-        }
+    }
 
 
-        .screen.active {
+    body {
 
-            display: flex;
+        overflow-x: hidden;
 
-        }
-
-
-        /* =====================================================
-           PERFIL
-        ===================================================== */
-
-        #profileScreen {
-
-            align-items: center;
-            justify-content: center;
-
-            padding: 30px;
-
-            background:
-
-                radial-gradient(
-                    circle at 50% 25%,
-                    rgba(72,199,255,.12),
-                    transparent 40%
-                ),
-
-                linear-gradient(
-                    180deg,
-                    #07111f 0%,
-                    #050b14 100%
-                );
-
-        }
+    }
 
 
-        .profile-container {
+    button {
 
-            width: min(
-                900px,
-                100%
+        font: inherit;
+
+    }
+
+
+    #app {
+
+        width: 100%;
+        min-height: 100vh;
+
+    }
+
+
+    /* =====================================================
+       PANTALLAS
+    ===================================================== */
+
+    .screen {
+
+        position: fixed;
+
+        inset: 0;
+
+        width: 100vw;
+
+        height: 100vh;
+        height: 100dvh;
+
+        min-height: 100vh;
+
+        display: none;
+
+    }
+
+
+    .screen.active {
+
+        display: flex;
+
+    }
+
+
+    /* =====================================================
+       PANTALLA DE PERFIL
+    ===================================================== */
+
+    #profileScreen {
+
+        align-items: center;
+        justify-content: center;
+
+        padding:
+            max(18px, env(safe-area-inset-top))
+            max(18px, env(safe-area-inset-right))
+            max(18px, env(safe-area-inset-bottom))
+            max(18px, env(safe-area-inset-left));
+
+        background:
+
+            radial-gradient(
+                circle at 50% 25%,
+                rgba(72,199,255,.12),
+                transparent 40%
+            ),
+
+            linear-gradient(
+                180deg,
+                #07111f 0%,
+                #050b14 100%
             );
 
-            text-align: center;
+        overflow: auto;
 
-        }
+    }
 
 
-        .brand {
+    .profile-container {
 
-            font-size: clamp(
-                34px,
+        width: min(
+            900px,
+            100%
+        );
+
+        text-align: center;
+
+        display: flex;
+
+        flex-direction: column;
+
+        align-items: center;
+
+        justify-content: center;
+
+        min-height: 0;
+
+    }
+
+
+    /* =====================================================
+       LOGO
+    ===================================================== */
+
+    .brand {
+
+        font-size:
+            clamp(
+                32px,
                 5vw,
                 58px
             );
 
-            font-weight: 800;
+        font-weight: 800;
 
-            letter-spacing: -2px;
+        letter-spacing: -2px;
 
-            margin-bottom: 10px;
+        line-height: 1;
 
-        }
+        margin-bottom: 8px;
 
-
-        .brand span {
-
-            color: var(--blue);
-
-        }
+    }
 
 
-        .profile-question {
+    .brand span {
 
-            font-size: clamp(
+        color: var(--blue);
+
+    }
+
+
+    /* =====================================================
+       TEXTO PERFIL
+    ===================================================== */
+
+    .profile-question {
+
+        font-size:
+            clamp(
                 20px,
                 3vw,
                 32px
             );
 
-            font-weight: 600;
+        font-weight: 600;
 
-            margin-top: 20px;
+        margin-top: 14px;
 
-        }
+        line-height: 1.15;
 
+    }
 
-        .profile-subtitle {
 
-            color: var(--muted);
+    .profile-subtitle {
 
-            margin-top: 8px;
+        color: var(--muted);
 
-            font-size: 14px;
+        margin-top: 7px;
 
-        }
+        font-size: 14px;
 
+        line-height: 1.3;
 
-        /* =====================================================
-           PERFILES
-        ===================================================== */
+    }
 
-        .profiles {
 
-            display: flex;
+    /* =====================================================
+       PERFILES
+    ===================================================== */
 
-            justify-content: center;
+    .profiles {
 
-            align-items: flex-start;
+        display: flex;
 
-            gap: 28px;
+        justify-content: center;
 
-            margin-top: 45px;
+        align-items: flex-start;
 
-            flex-wrap: wrap;
+        gap: 28px;
 
-        }
+        margin-top: 32px;
 
+        flex-wrap: nowrap;
 
-        .profile-card {
+    }
 
-            width: 150px;
 
-            border: 0;
+    .profile-card {
 
-            background: transparent;
+        width: 150px;
 
-            color: white;
+        border: 0;
 
-            cursor: pointer;
+        background: transparent;
 
-            transition:
-                transform .25s ease,
-                opacity .25s ease;
+        color: white;
 
-        }
+        cursor: pointer;
 
+        transition:
+            transform .25s ease,
+            opacity .25s ease;
 
-        .profile-card:hover {
+        flex-shrink: 0;
 
-            transform:
-                translateY(-8px)
-                scale(1.03);
+    }
 
-        }
 
+    .profile-card:hover {
 
-        .profile-avatar {
+        transform:
+            translateY(-7px)
+            scale(1.03);
 
-            width: 125px;
-            height: 125px;
+    }
 
-            margin: auto;
 
-            border-radius: 50%;
+    .profile-avatar {
 
-            display: flex;
+        width: 125px;
 
-            align-items: center;
-            justify-content: center;
+        height: 125px;
 
-            font-size: 48px;
+        margin: auto;
 
-            font-weight: 700;
+        border-radius: 50%;
 
-            background:
+        display: flex;
 
-                linear-gradient(
-                    145deg,
-                    #153652,
-                    #0b1a2b
-                );
+        align-items: center;
 
-            border:
+        justify-content: center;
 
-                2px solid
-                rgba(117,220,255,.2);
+        font-size: 48px;
 
-            box-shadow:
+        font-weight: 700;
 
-                0 15px 45px
-                rgba(0,0,0,.35);
+        background:
 
-        }
+            linear-gradient(
+                145deg,
+                #153652,
+                #0b1a2b
+            );
 
+        border:
+            2px solid
+            rgba(117,220,255,.2);
 
-        .profile-card:hover
-        .profile-avatar {
+        box-shadow:
 
-            border-color:
-                var(--blue);
+            0 15px 45px
+            rgba(0,0,0,.35);
 
-            box-shadow:
+    }
 
-                0 0 35px
-                rgba(72,199,255,.22);
 
-        }
+    .profile-card:hover
+    .profile-avatar {
 
+        border-color:
+            var(--blue);
 
-        .profile-card.add
-        .profile-avatar {
+        box-shadow:
 
-            color: var(--blue);
+            0 0 35px
+            rgba(72,199,255,.22);
 
-            font-size: 42px;
+    }
 
-        }
 
+    .profile-card.add
+    .profile-avatar {
 
-        .profile-name {
+        color:
+            var(--blue);
 
-            display: block;
+        font-size: 42px;
 
-            margin-top: 14px;
+    }
 
-            font-size: 16px;
 
-            font-weight: 600;
+    .profile-name {
 
-        }
+        display: block;
 
+        margin-top: 12px;
 
-        .profile-card.add
-        .profile-name {
+        font-size: 16px;
 
-            color: var(--muted);
+        font-weight: 600;
 
-        }
+        line-height: 1.2;
 
+        white-space: normal;
 
-        /* =====================================================
-           BOTÓN ENTRAR
-        ===================================================== */
+    }
 
-        .enter-profile {
 
-            margin-top: 42px;
+    .profile-card.add
+    .profile-name {
 
-            padding:
-                13px 35px;
+        color: var(--muted);
 
-            border: 1px solid
-                rgba(72,199,255,.35);
+    }
 
-            border-radius: 999px;
 
-            background:
-                rgba(72,199,255,.08);
+    /* =====================================================
+       BOTÓN CONTINUAR
+    ===================================================== */
 
-            color: var(--blue-soft);
+    .enter-profile {
 
-            cursor: pointer;
+        margin-top: 30px;
 
-            font-weight: 700;
+        padding:
+            12px 34px;
 
-            transition:
-                background .2s ease,
-                transform .2s ease;
+        border:
+            1px solid
+            rgba(72,199,255,.35);
 
-        }
+        border-radius: 999px;
 
+        background:
+            rgba(72,199,255,.08);
 
-        .enter-profile:hover {
+        color:
+            var(--blue-soft);
 
-            background:
-                rgba(72,199,255,.16);
+        cursor: pointer;
 
-            transform:
-                translateY(-2px);
+        font-weight: 700;
 
-        }
+        transition:
+            background .2s ease,
+            transform .2s ease;
 
+    }
 
-        /* =====================================================
-           MENÚ PRINCIPAL
-        ===================================================== */
 
-        #mainScreen {
+    .enter-profile:hover {
 
-            flex-direction: column;
+        background:
+            rgba(72,199,255,.16);
 
-            background:
+        transform:
+            translateY(-2px);
 
-                radial-gradient(
-                    circle at 50% 0%,
-                    rgba(72,199,255,.12),
-                    transparent 42%
-                ),
+    }
 
-                linear-gradient(
-                    180deg,
-                    #07111f,
-                    #050b14
-                );
 
-        }
+    /* =====================================================
+       MENÚ PRINCIPAL
+    ===================================================== */
 
+    #mainScreen {
 
-        /* =====================================================
-           HEADER
-        ===================================================== */
+        flex-direction: column;
 
-        .main-header {
+        background:
 
-            width: 100%;
+            radial-gradient(
+                circle at 50% 0%,
+                rgba(72,199,255,.12),
+                transparent 42%
+            ),
 
-            display: flex;
+            linear-gradient(
+                180deg,
+                #07111f,
+                #050b14
+            );
 
-            align-items: center;
+    }
 
-            justify-content: space-between;
 
-            padding:
-                22px 38px;
+    /* =====================================================
+       HEADER
+    ===================================================== */
 
-            border-bottom:
-                1px solid var(--border);
+    .main-header {
 
-            flex-shrink: 0;
+        width: 100%;
 
-        }
+        display: flex;
 
+        align-items: center;
 
-        .header-logo {
+        justify-content: space-between;
 
-            font-size: 25px;
+        padding:
+            22px 38px;
 
-            font-weight: 800;
+        border-bottom:
+            1px solid
+            var(--border);
 
-            letter-spacing: -1px;
+        flex-shrink: 0;
 
-        }
+    }
 
 
-        .header-logo span {
+    .header-logo {
 
-            color: var(--blue);
+        font-size: 25px;
 
-        }
+        font-weight: 800;
 
+        letter-spacing: -1px;
 
-        .current-profile {
+    }
 
-            display: flex;
 
-            align-items: center;
+    .header-logo span {
 
-            gap: 10px;
+        color:
+            var(--blue);
 
-            border: 1px solid
-                var(--border);
+    }
 
-            background:
-                rgba(255,255,255,.03);
 
-            padding:
-                6px 12px 6px 7px;
+    .current-profile {
 
-            border-radius: 999px;
+        display: flex;
 
-            color: white;
+        align-items: center;
 
-            cursor: pointer;
+        gap: 10px;
 
-        }
+        border:
+            1px solid
+            var(--border);
 
+        background:
+            rgba(255,255,255,.03);
 
-        .current-avatar {
+        padding:
+            6px 12px 6px 7px;
 
-            width: 32px;
-            height: 32px;
+        border-radius: 999px;
 
-            border-radius: 50%;
+        color: white;
 
-            display: flex;
+        cursor: pointer;
 
-            align-items: center;
-            justify-content: center;
+    }
 
-            background:
-                #153652;
 
-            color: var(--blue-soft);
+    .current-avatar {
 
-            font-weight: 700;
+        width: 32px;
+        height: 32px;
 
-        }
+        border-radius: 50%;
 
+        display: flex;
 
-        .current-name {
+        align-items: center;
+        justify-content: center;
 
-            font-size: 14px;
+        background:
+            #153652;
 
-            font-weight: 600;
+        color:
+            var(--blue-soft);
 
-        }
+        font-weight: 700;
 
+    }
 
-        /* =====================================================
-           CONTENIDO PRINCIPAL
-        ===================================================== */
 
-        .main-content {
+    .current-name {
 
-            flex: 1;
+        font-size: 14px;
 
-            min-height: 0;
+        font-weight: 600;
 
-            width: 100%;
+    }
 
-            display: flex;
 
-            flex-direction: column;
+    /* =====================================================
+       CONTENIDO PRINCIPAL
+    ===================================================== */
 
-            align-items: center;
+    .main-content {
 
-            justify-content: center;
+        flex: 1;
 
-            padding:
-                30px 25px;
+        min-height: 0;
 
-        }
+        width: 100%;
 
+        display: flex;
 
-        .main-title {
+        flex-direction: column;
 
-            text-align: center;
+        align-items: center;
 
-            max-width: 800px;
+        justify-content: center;
 
-        }
+        padding:
+            30px 25px;
 
+    }
 
-        .main-title .kicker {
 
-            color: var(--blue);
+    .main-title {
 
-            font-size: 12px;
+        text-align: center;
 
-            letter-spacing: 3px;
+        max-width: 800px;
 
-            font-weight: 800;
+    }
 
-        }
 
+    .main-title .kicker {
 
-        .main-title h1 {
+        color:
+            var(--blue);
 
-            margin-top: 10px;
+        font-size: 12px;
 
-            font-size: clamp(
+        letter-spacing: 3px;
+
+        font-weight: 800;
+
+    }
+
+
+    .main-title h1 {
+
+        margin-top: 10px;
+
+        font-size:
+            clamp(
                 28px,
                 4vw,
                 48px
             );
 
-            line-height: 1.05;
+        line-height: 1.05;
 
-            letter-spacing: -1.5px;
+        letter-spacing: -1.5px;
 
-        }
-
-
-        .main-title h1 strong {
-
-            display: block;
-
-            color: var(--blue-soft);
-
-        }
+    }
 
 
-        .main-title p {
+    .main-title h1 strong {
 
-            margin-top: 12px;
+        display: block;
 
-            color: var(--muted);
+        color:
+            var(--blue-soft);
 
-            font-size: 15px;
-
-        }
+    }
 
 
-        /* =====================================================
-           TRES OPCIONES
-        ===================================================== */
+    .main-title p {
 
-        .content-options {
+        margin-top: 12px;
 
-            width: min(
+        color:
+            var(--muted);
+
+        font-size: 15px;
+
+    }
+
+
+    /* =====================================================
+       TRES OPCIONES
+    ===================================================== */
+
+    .content-options {
+
+        width:
+            min(
                 1050px,
                 100%
             );
 
-            display: grid;
+        display: grid;
 
-            grid-template-columns:
-                repeat(3, 1fr);
+        grid-template-columns:
+            repeat(3, 1fr);
 
-            gap: 20px;
+        gap: 20px;
 
-            margin-top: 35px;
+        margin-top: 35px;
+
+    }
+
+
+    .content-option {
+
+        position: relative;
+
+        min-height: 220px;
+
+        border:
+            1px solid
+            var(--border);
+
+        border-radius:
+            var(--radius);
+
+        overflow: hidden;
+
+        background:
+
+            linear-gradient(
+                145deg,
+                rgba(16,34,56,.96),
+                rgba(7,17,31,.96)
+            );
+
+        color: white;
+
+        cursor: pointer;
+
+        text-align: left;
+
+        transition:
+            transform .25s ease,
+            border-color .25s ease,
+            box-shadow .25s ease;
+
+    }
+
+
+    .content-option::before {
+
+        content: "";
+
+        position: absolute;
+
+        width: 180px;
+        height: 180px;
+
+        right: -45px;
+        top: -45px;
+
+        border-radius: 50%;
+
+        background:
+            rgba(72,199,255,.10);
+
+        filter:
+            blur(5px);
+
+    }
+
+
+    .content-option:hover {
+
+        transform:
+            translateY(-8px);
+
+        border-color:
+            rgba(72,199,255,.5);
+
+        box-shadow:
+
+            0 20px 50px
+            rgba(0,0,0,.3),
+
+            0 0 30px
+            rgba(72,199,255,.08);
+
+    }
+
+
+    .option-icon {
+
+        position: relative;
+
+        width: 70px;
+        height: 70px;
+
+        border-radius: 20px;
+
+        display: flex;
+
+        align-items: center;
+        justify-content: center;
+
+        background:
+            rgba(72,199,255,.10);
+
+        border:
+            1px solid
+            rgba(72,199,255,.18);
+
+        color:
+            var(--blue-soft);
+
+        font-size: 34px;
+
+        margin:
+            25px 25px 20px;
+
+    }
+
+
+    .content-option h2 {
+
+        position: relative;
+
+        margin:
+            0 25px;
+
+        font-size: 22px;
+
+    }
+
+
+    .content-option p {
+
+        position: relative;
+
+        margin:
+            7px 25px 25px;
+
+        color:
+            var(--muted);
+
+        font-size: 13px;
+
+        line-height: 1.4;
+
+    }
+
+
+    .option-arrow {
+
+        position: absolute;
+
+        right: 24px;
+
+        bottom: 23px;
+
+        color:
+            var(--blue);
+
+        font-size: 20px;
+
+    }
+
+
+    /* =====================================================
+       FOOTER
+    ===================================================== */
+
+    .main-footer {
+
+        flex-shrink: 0;
+
+        padding:
+            12px 20px;
+
+        text-align: center;
+
+        color:
+            rgba(143,164,186,.6);
+
+        font-size: 11px;
+
+    }
+
+
+    /* =====================================================
+       MENSAJE ORIENTACIÓN
+    ===================================================== */
+
+    .orientation-message {
+
+        display: none;
+
+        position: fixed;
+
+        inset: 0;
+
+        z-index: 9999;
+
+        background:
+            #050b14;
+
+        align-items: center;
+
+        justify-content: center;
+
+        text-align: center;
+
+        padding: 30px;
+
+    }
+
+
+    .orientation-message-inner {
+
+        max-width: 330px;
+
+    }
+
+
+    .orientation-icon {
+
+        font-size: 55px;
+
+        margin-bottom: 20px;
+
+    }
+
+
+    .orientation-message h2 {
+
+        font-size: 24px;
+
+    }
+
+
+    .orientation-message p {
+
+        color:
+            var(--muted);
+
+        margin-top: 10px;
+
+        line-height: 1.5;
+
+    }
+
+
+    /* =====================================================
+       TABLET
+    ===================================================== */
+
+    @media (max-width: 800px) {
+
+        .main-header {
+
+            padding:
+                15px 20px;
+
+        }
+
+
+        .content-options {
+
+            gap: 12px;
 
         }
 
 
         .content-option {
 
-            position: relative;
-
-            min-height: 220px;
-
-            border: 1px solid
-                var(--border);
-
-            border-radius:
-                var(--radius);
-
-            overflow: hidden;
-
-            background:
-                linear-gradient(
-                    145deg,
-                    rgba(16,34,56,.96),
-                    rgba(7,17,31,.96)
-                );
-
-            color: white;
-
-            cursor: pointer;
-
-            text-align: left;
-
-            transition:
-                transform .25s ease,
-                border-color .25s ease,
-                box-shadow .25s ease;
-
-        }
-
-
-        .content-option::before {
-
-            content: "";
-
-            position: absolute;
-
-            width: 180px;
-            height: 180px;
-
-            right: -45px;
-            top: -45px;
-
-            border-radius: 50%;
-
-            background:
-                rgba(72,199,255,.10);
-
-            filter: blur(5px);
-
-        }
-
-
-        .content-option:hover {
-
-            transform:
-                translateY(-8px);
-
-            border-color:
-                rgba(72,199,255,.5);
-
-            box-shadow:
-                0 20px 50px
-                rgba(0,0,0,.3),
-
-                0 0 30px
-                rgba(72,199,255,.08);
+            min-height: 185px;
 
         }
 
 
         .option-icon {
 
-            position: relative;
+            width: 55px;
+            height: 55px;
 
-            width: 70px;
-            height: 70px;
+            font-size: 27px;
 
-            border-radius: 20px;
-
-            display: flex;
-
-            align-items: center;
-            justify-content: center;
-
-            background:
-                rgba(72,199,255,.10);
-
-            border:
-                1px solid
-                rgba(72,199,255,.18);
-
-            color: var(--blue-soft);
-
-            font-size: 34px;
-
-            margin: 25px 25px 20px;
+            margin:
+                18px 18px 14px;
 
         }
 
 
         .content-option h2 {
 
-            position: relative;
+            margin-left: 18px;
+            margin-right: 18px;
 
-            margin:
-                0 25px;
-
-            font-size: 22px;
+            font-size: 18px;
 
         }
 
 
         .content-option p {
 
-            position: relative;
+            margin-left: 18px;
+            margin-right: 18px;
 
-            margin:
-                7px 25px 25px;
+        }
 
-            color: var(--muted);
+    }
+
+
+    /* =====================================================
+       MÓVIL
+    ===================================================== */
+
+    @media (max-width: 600px) {
+
+        #profileScreen {
+
+            padding:
+                12px;
+
+        }
+
+
+        .profile-container {
+
+            width: 100%;
+
+            min-height:
+                calc(
+                    100dvh -
+                    24px
+                );
+
+        }
+
+
+        .brand {
+
+            font-size: 31px;
+
+            margin-bottom: 4px;
+
+        }
+
+
+        .profile-question {
+
+            font-size: 19px;
+
+            margin-top: 10px;
+
+        }
+
+
+        .profile-subtitle {
+
+            font-size: 11px;
+
+            margin-top: 5px;
+
+            max-width: 280px;
+
+        }
+
+
+        .profiles {
+
+            gap: 12px;
+
+            margin-top: 22px;
+
+            width: 100%;
+
+        }
+
+
+        .profile-card {
+
+            width:
+                min(
+                    105px,
+                    30vw
+                );
+
+        }
+
+
+        .profile-avatar {
+
+            width:
+                min(
+                    82px,
+                    23vw
+                );
+
+            height:
+                min(
+                    82px,
+                    23vw
+                );
+
+            font-size: 31px;
+
+        }
+
+
+        .profile-card.add
+        .profile-avatar {
+
+            font-size: 29px;
+
+        }
+
+
+        .profile-name {
+
+            margin-top: 8px;
+
+            font-size: 12px;
+
+            line-height: 1.2;
+
+        }
+
+
+        .enter-profile {
+
+            margin-top: 20px;
+
+            padding:
+                10px 27px;
 
             font-size: 13px;
 
         }
 
 
-        .option-arrow {
+        /* =================================================
+           MENÚ PRINCIPAL MÓVIL
+        ================================================== */
 
-            position: absolute;
+        .main-header {
 
-            right: 24px;
-            bottom: 23px;
+            padding:
+                10px 13px;
 
-            color: var(--blue);
+        }
+
+
+        .header-logo {
 
             font-size: 20px;
 
         }
 
 
-        /* =====================================================
-           FOOTER PEQUEÑO
-        ===================================================== */
+        .current-profile {
+
+            padding:
+                4px 8px 4px 5px;
+
+            gap: 5px;
+
+        }
+
+
+        .current-avatar {
+
+            width: 29px;
+            height: 29px;
+
+        }
+
+
+        .current-name {
+
+            display: none;
+
+        }
+
+
+        .main-content {
+
+            padding:
+                14px 10px;
+
+        }
+
+
+        .main-title .kicker {
+
+            font-size: 9px;
+
+            letter-spacing: 2px;
+
+        }
+
+
+        .main-title h1 {
+
+            font-size: 25px;
+
+            line-height: 1.08;
+
+        }
+
+
+        .main-title p {
+
+            font-size: 11px;
+
+            margin-top: 8px;
+
+        }
+
+
+        .content-options {
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 7px;
+
+            margin-top: 18px;
+
+        }
+
+
+        .content-option {
+
+            min-height: 150px;
+
+            border-radius: 15px;
+
+        }
+
+
+        .option-icon {
+
+            width: 42px;
+            height: 42px;
+
+            margin:
+                13px 9px 11px;
+
+            border-radius: 12px;
+
+            font-size: 20px;
+
+        }
+
+
+        .content-option h2 {
+
+            margin:
+                0 9px;
+
+            font-size: 13px;
+
+        }
+
+
+        .content-option p {
+
+            margin:
+                5px 9px;
+
+            font-size: 9px;
+
+            line-height: 1.3;
+
+        }
+
+
+        .option-arrow {
+
+            right: 9px;
+
+            bottom: 8px;
+
+            font-size: 13px;
+
+        }
+
 
         .main-footer {
 
-            flex-shrink: 0;
-
             padding:
-                12px 20px;
+                6px 8px;
 
-            text-align: center;
+            font-size: 8px;
 
-            color:
-                rgba(143,164,186,.6);
+        }
+
+    }
+
+
+    /* =====================================================
+       MÓVILES MUY PEQUEÑOS
+    ===================================================== */
+
+    @media (
+        max-width: 380px
+    ) {
+
+        .brand {
+
+            font-size: 28px;
+
+        }
+
+
+        .profile-question {
+
+            font-size: 17px;
+
+        }
+
+
+        .profile-subtitle {
+
+            font-size: 10px;
+
+        }
+
+
+        .profiles {
+
+            gap: 8px;
+
+            margin-top: 18px;
+
+        }
+
+
+        .profile-card {
+
+            width: 96px;
+
+        }
+
+
+        .profile-avatar {
+
+            width: 72px;
+            height: 72px;
+
+            font-size: 28px;
+
+        }
+
+
+        .profile-card.add
+        .profile-avatar {
+
+            font-size: 26px;
+
+        }
+
+
+        .profile-name {
 
             font-size: 11px;
 
         }
 
 
-        /* =====================================================
-           ORIENTACIÓN
-        ===================================================== */
+        .enter-profile {
 
-        .orientation-message {
+            margin-top: 16px;
 
-            display: none;
+            padding:
+                9px 24px;
 
-            position: fixed;
-
-            inset: 0;
-
-            z-index: 9999;
-
-            background:
-                #050b14;
-
-            align-items: center;
-
-            justify-content: center;
-
-            text-align: center;
-
-            padding: 30px;
+            font-size: 12px;
 
         }
 
 
-        .orientation-message-inner {
+        .main-title h1 {
 
-            max-width: 330px;
-
-        }
-
-
-        .orientation-icon {
-
-            font-size: 55px;
-
-            margin-bottom: 20px;
+            font-size: 22px;
 
         }
 
 
-        .orientation-message h2 {
+        .content-option {
+
+            min-height: 140px;
+
+        }
+
+
+        .content-option h2 {
+
+            font-size: 12px;
+
+        }
+
+
+        .content-option p {
+
+            font-size: 8px;
+
+        }
+
+    }
+
+
+    /* =====================================================
+       MÓVIL HORIZONTAL
+    ===================================================== */
+
+    @media (
+        max-height: 500px
+    ) and (
+        orientation: landscape
+    ) {
+
+        #profileScreen {
+
+            padding:
+                8px 18px;
+
+        }
+
+
+        .profile-container {
+
+            min-height: 100%;
+
+        }
+
+
+        .brand {
+
+            font-size: 25px;
+
+        }
+
+
+        .profile-question {
+
+            font-size: 17px;
+
+            margin-top: 5px;
+
+        }
+
+
+        .profile-subtitle {
+
+            font-size: 9px;
+
+            margin-top: 3px;
+
+        }
+
+
+        .profiles {
+
+            margin-top: 12px;
+
+            gap: 16px;
+
+        }
+
+
+        .profile-card {
+
+            width: 90px;
+
+        }
+
+
+        .profile-avatar {
+
+            width: 58px;
+            height: 58px;
+
+            font-size: 23px;
+
+        }
+
+
+        .profile-card.add
+        .profile-avatar {
+
+            font-size: 21px;
+
+        }
+
+
+        .profile-name {
+
+            margin-top: 5px;
+
+            font-size: 10px;
+
+        }
+
+
+        .enter-profile {
+
+            margin-top: 10px;
+
+            padding:
+                7px 22px;
+
+            font-size: 11px;
+
+        }
+
+
+        .main-header {
+
+            padding:
+                7px 18px;
+
+        }
+
+
+        .main-content {
+
+            padding:
+                8px 18px;
+
+        }
+
+
+        .main-title h1 {
 
             font-size: 24px;
 
         }
 
 
-        .orientation-message p {
+        .main-title p {
 
-            color: var(--muted);
-
-            margin-top: 10px;
-
-            line-height: 1.5;
+            margin-top: 4px;
 
         }
 
 
-        /* =====================================================
-           RESPONSIVE TABLET
-        ===================================================== */
+        .content-options {
 
-        @media (max-width: 800px) {
-
-            .main-header {
-
-                padding:
-                    15px 20px;
-
-            }
-
-
-            .content-options {
-
-                gap: 12px;
-
-            }
-
-
-            .content-option {
-
-                min-height: 185px;
-
-            }
-
-
-            .option-icon {
-
-                width: 55px;
-                height: 55px;
-
-                font-size: 27px;
-
-                margin:
-                    18px 18px 14px;
-
-            }
-
-
-            .content-option h2 {
-
-                margin-left: 18px;
-                margin-right: 18px;
-
-                font-size: 18px;
-
-            }
-
-
-            .content-option p {
-
-                margin-left: 18px;
-                margin-right: 18px;
-
-            }
+            margin-top: 12px;
 
         }
 
 
-        /* =====================================================
-           MÓVIL
-        ===================================================== */
+        .content-option {
 
-        @media (max-width: 600px) {
-
-            #profileScreen {
-
-                padding: 20px;
-
-            }
-
-
-            .brand {
-
-                font-size: 36px;
-
-            }
-
-
-            .profiles {
-
-                gap: 18px;
-
-                margin-top: 30px;
-
-            }
-
-
-            .profile-card {
-
-                width: 115px;
-
-            }
-
-
-            .profile-avatar {
-
-                width: 90px;
-                height: 90px;
-
-                font-size: 35px;
-
-            }
-
-
-            .profile-name {
-
-                font-size: 14px;
-
-            }
-
-
-            .main-header {
-
-                padding:
-                    12px 15px;
-
-            }
-
-
-            .header-logo {
-
-                font-size: 21px;
-
-            }
-
-
-            .current-name {
-
-                display: none;
-
-            }
-
-
-            .main-content {
-
-                padding:
-                    18px 12px;
-
-            }
-
-
-            .main-title .kicker {
-
-                font-size: 10px;
-
-                letter-spacing: 2px;
-
-            }
-
-
-            .main-title h1 {
-
-                font-size: 27px;
-
-            }
-
-
-            .main-title p {
-
-                font-size: 12px;
-
-                max-width: 310px;
-
-            }
-
-
-            .content-options {
-
-                grid-template-columns:
-                    repeat(3, 1fr);
-
-                gap: 7px;
-
-                margin-top: 20px;
-
-            }
-
-
-            .content-option {
-
-                min-height: 155px;
-
-                border-radius: 15px;
-
-            }
-
-
-            .option-icon {
-
-                width: 42px;
-                height: 42px;
-
-                margin:
-                    14px 10px 12px;
-
-                border-radius: 13px;
-
-                font-size: 21px;
-
-            }
-
-
-            .content-option h2 {
-
-                margin:
-                    0 10px;
-
-                font-size: 14px;
-
-            }
-
-
-            .content-option p {
-
-                margin:
-                    5px 10px;
-
-                font-size: 10px;
-
-                line-height: 1.3;
-
-            }
-
-
-            .option-arrow {
-
-                right: 10px;
-                bottom: 9px;
-
-                font-size: 14px;
-
-            }
-
-
-            .main-footer {
-
-                padding:
-                    7px 10px;
-
-                font-size: 9px;
-
-            }
+            min-height: 135px;
 
         }
 
 
-        /* =====================================================
-           MÓVIL HORIZONTAL
-        ===================================================== */
+        .option-icon {
 
-        @media (
-            max-height: 500px
-        ) and (
-            orientation: landscape
-        ) {
+            width: 40px;
+            height: 40px;
 
-            .main-header {
+            margin:
+                10px 13px 7px;
 
-                padding:
-                    8px 18px;
-
-            }
-
-
-            .main-content {
-
-                padding:
-                    10px 18px;
-
-            }
-
-
-            .main-title h1 {
-
-                font-size: 25px;
-
-            }
-
-
-            .main-title p {
-
-                margin-top: 5px;
-
-            }
-
-
-            .content-options {
-
-                margin-top: 15px;
-
-            }
-
-
-            .content-option {
-
-                min-height: 145px;
-
-            }
-
-
-            .option-icon {
-
-                margin:
-                    12px 14px 8px;
-
-                width: 42px;
-                height: 42px;
-
-                font-size: 20px;
-
-            }
-
-
-            .content-option h2 {
-
-                margin-left: 14px;
-
-                font-size: 15px;
-
-            }
-
-
-            .content-option p {
-
-                margin:
-                    4px 14px;
-
-                font-size: 10px;
-
-            }
+            font-size: 19px;
 
         }
 
-    </style>
+
+        .content-option h2 {
+
+            margin-left: 13px;
+
+            font-size: 14px;
+
+        }
+
+
+        .content-option p {
+
+            margin:
+                4px 13px;
+
+            font-size: 9px;
+
+        }
+
+    }
+
+</style>
+```
+
 </head>
-
 
 <body>
 
 <div id="app">
 
+```
+<!-- =====================================================
+     PANTALLA DE PERFIL
+====================================================== -->
 
-    <!-- =====================================================
-         PANTALLA DE PERFIL
-    ====================================================== -->
+<section
+    id="profileScreen"
+    class="screen active"
+>
 
-    <section
-        id="profileScreen"
-        class="screen active"
-    >
-
-        <div class="profile-container">
-
-            <div class="brand">
-                <span>NET</span>VISION
-            </div>
-
-            <h1 class="profile-question">
-                ¿Quién está viendo?
-            </h1>
-
-            <p class="profile-subtitle">
-                Selecciona un perfil para continuar.
-            </p>
+    <div class="profile-container">
 
 
-            <div class="profiles">
+        <div class="brand">
 
-                <!-- PERFIL PRINCIPAL -->
-
-                <button
-                    type="button"
-                    class="profile-card"
-                    data-profile="Alex"
-                    data-avatar="A"
-                >
-
-                    <div class="profile-avatar">
-                        A
-                    </div>
-
-                    <span class="profile-name">
-                        Alex
-                    </span>
-
-                </button>
-
-
-                <!-- AGREGAR PERFIL -->
-
-                <button
-                    type="button"
-                    class="profile-card add"
-                    id="addProfile"
-                >
-
-                    <div class="profile-avatar">
-                        +
-                    </div>
-
-                    <span class="profile-name">
-                        Agregar perfil
-                    </span>
-
-                </button>
-
-            </div>
-
-
-            <button
-                type="button"
-                class="enter-profile"
-                id="enterProfile"
-            >
-                Continuar
-            </button>
+            <span>
+                NET
+            </span>VISION
 
         </div>
 
-    </section>
+
+        <h1 class="profile-question">
+
+            ¿Quién está viendo?
+
+        </h1>
 
 
-    <!-- =====================================================
-         PANTALLA PRINCIPAL
-    ====================================================== -->
+        <p class="profile-subtitle">
 
-    <section
-        id="mainScreen"
-        class="screen"
-    >
+            Selecciona un perfil para continuar.
 
-        <header class="main-header">
+        </p>
 
-            <div class="header-logo">
-                <span>NET</span>VISION
-            </div>
 
+        <div class="profiles">
+
+
+            <!-- PERFIL ALEX -->
 
             <button
                 type="button"
-                class="current-profile"
-                id="currentProfile"
+                class="profile-card"
+                data-profile="Alex"
+                data-avatar="A"
             >
 
-                <span
-                    class="current-avatar"
-                    id="currentAvatar"
-                >
+                <div class="profile-avatar">
+
                     A
-                </span>
 
-                <span
-                    class="current-name"
-                    id="currentName"
-                >
+                </div>
+
+
+                <span class="profile-name">
+
                     Alex
-                </span>
 
-                <span>
-                    ▾
                 </span>
 
             </button>
 
-        </header>
+
+            <!-- AGREGAR PERFIL -->
+
+            <button
+                type="button"
+                class="profile-card add"
+                id="addProfile"
+            >
+
+                <div class="profile-avatar">
+
+                    +
+
+                </div>
 
 
-        <main class="main-content">
+                <span class="profile-name">
 
-            <div class="main-title">
+                    Agregar perfil
 
-                <span class="kicker">
-                    NETVISION
                 </span>
 
-                <h1>
-                    Todo tu entretenimiento
-                    <strong>
-                        en un solo lugar.
-                    </strong>
-                </h1>
+            </button>
 
-                <p>
-                    Selecciona qué quieres disfrutar.
-                </p>
-
-            </div>
-
-
-            <div class="content-options">
-
-
-                <!-- =================================================
-                     TV
-                ================================================== -->
-
-                <button
-                    type="button"
-                    class="content-option"
-                    data-section="tv"
-                >
-
-                    <div class="option-icon">
-                        📺
-                    </div>
-
-                    <h2>
-                        TV
-                    </h2>
-
-                    <p>
-                        Canales en vivo
-                        y entretenimiento.
-                    </p>
-
-                    <span class="option-arrow">
-                        →
-                    </span>
-
-                </button>
-
-
-                <!-- =================================================
-                     PELÍCULAS
-                ================================================== -->
-
-                <button
-                    type="button"
-                    class="content-option"
-                    data-section="movies"
-                >
-
-                    <div class="option-icon">
-                        🎬
-                    </div>
-
-                    <h2>
-                        Películas
-                    </h2>
-
-                    <p>
-                        Descubre películas
-                        para todos los gustos.
-                    </p>
-
-                    <span class="option-arrow">
-                        →
-                    </span>
-
-                </button>
-
-
-                <!-- =================================================
-                     SERIES
-                ================================================== -->
-
-                <button
-                    type="button"
-                    class="content-option"
-                    data-section="series"
-                >
-
-                    <div class="option-icon">
-                        📚
-                    </div>
-
-                    <h2>
-                        Series
-                    </h2>
-
-                    <p>
-                        Encuentra tus
-                        series favoritas.
-                    </p>
-
-                    <span class="option-arrow">
-                        →
-                    </span>
-
-                </button>
-
-            </div>
-
-        </main>
-
-
-        <footer class="main-footer">
-            © 2026 NETVISION · Entertainment & Media
-        </footer>
-
-    </section>
-
-
-    <!-- =====================================================
-         MENSAJE DE ORIENTACIÓN
-    ====================================================== -->
-
-    <div
-        class="orientation-message"
-        id="orientationMessage"
-    >
-
-        <div class="orientation-message-inner">
-
-            <div class="orientation-icon">
-                ↻
-            </div>
-
-            <h2>
-                Gira tu dispositivo
-            </h2>
-
-            <p>
-                Para disfrutar NETVISION
-                en pantalla completa,
-                coloca tu teléfono
-                horizontalmente.
-            </p>
 
         </div>
+
+
+        <button
+            type="button"
+            class="enter-profile"
+            id="enterProfile"
+        >
+
+            Continuar
+
+        </button>
+
 
     </div>
 
+</section>
+
+
+
+<!-- =====================================================
+     PANTALLA PRINCIPAL
+====================================================== -->
+
+<section
+    id="mainScreen"
+    class="screen"
+>
+
+
+    <header class="main-header">
+
+
+        <div class="header-logo">
+
+            <span>
+                NET
+            </span>VISION
+
+        </div>
+
+
+        <button
+            type="button"
+            class="current-profile"
+            id="currentProfile"
+        >
+
+            <span
+                class="current-avatar"
+                id="currentAvatar"
+            >
+                A
+            </span>
+
+
+            <span
+                class="current-name"
+                id="currentName"
+            >
+                Alex
+            </span>
+
+
+            <span>
+                ▾
+            </span>
+
+        </button>
+
+
+    </header>
+
+
+
+    <main class="main-content">
+
+
+        <div class="main-title">
+
+
+            <span class="kicker">
+
+                NETVISION
+
+            </span>
+
+
+            <h1>
+
+                Todo tu entretenimiento
+
+                <strong>
+                    en un solo lugar.
+                </strong>
+
+            </h1>
+
+
+            <p>
+
+                Selecciona qué quieres disfrutar.
+
+            </p>
+
+
+        </div>
+
+
+
+        <div class="content-options">
+
+
+            <!-- =================================================
+                 TV
+            ================================================== -->
+
+            <button
+                type="button"
+                class="content-option"
+                data-section="tv"
+            >
+
+                <div class="option-icon">
+
+                    📺
+
+                </div>
+
+
+                <h2>
+
+                    TV
+
+                </h2>
+
+
+                <p>
+
+                    Canales en vivo
+                    y entretenimiento.
+
+                </p>
+
+
+                <span class="option-arrow">
+
+                    →
+
+                </span>
+
+            </button>
+
+
+
+            <!-- =================================================
+                 PELÍCULAS
+            ================================================== -->
+
+            <button
+                type="button"
+                class="content-option"
+                data-section="movies"
+            >
+
+                <div class="option-icon">
+
+                    🎬
+
+                </div>
+
+
+                <h2>
+
+                    Películas
+
+                </h2>
+
+
+                <p>
+
+                    Descubre películas
+                    para todos los gustos.
+
+                </p>
+
+
+                <span class="option-arrow">
+
+                    →
+
+                </span>
+
+            </button>
+
+
+
+            <!-- =================================================
+                 SERIES
+            ================================================== -->
+
+            <button
+                type="button"
+                class="content-option"
+                data-section="series"
+            >
+
+                <div class="option-icon">
+
+                    📚
+
+                </div>
+
+
+                <h2>
+
+                    Series
+
+                </h2>
+
+
+                <p>
+
+                    Encuentra tus
+                    series favoritas.
+
+                </p>
+
+
+                <span class="option-arrow">
+
+                    →
+
+                </span>
+
+            </button>
+
+
+        </div>
+
+
+    </main>
+
+
+
+    <footer class="main-footer">
+
+        © 2026 NETVISION · Entertainment & Media
+
+    </footer>
+
+
+</section>
+
+
+
+<!-- =====================================================
+     ORIENTACIÓN
+====================================================== -->
+
+<div
+    class="orientation-message"
+    id="orientationMessage"
+>
+
+    <div class="orientation-message-inner">
+
+
+        <div class="orientation-icon">
+
+            ↻
+
+        </div>
+
+
+        <h2>
+
+            Gira tu dispositivo
+
+        </h2>
+
+
+        <p>
+
+            Para disfrutar NETVISION
+            en pantalla completa,
+            coloca tu teléfono
+            horizontalmente.
+
+        </p>
+
+
+    </div>
 
 </div>
+```
 
+</div>
 
 <script>
 
@@ -1546,6 +2027,12 @@
             );
 
 
+        const addProfile =
+            document.getElementById(
+                "addProfile"
+            );
+
+
         let selectedProfile = {
 
             name: "Alex",
@@ -1570,6 +2057,7 @@
                         "click",
                         () => {
 
+
                             selectedProfile = {
 
                                 name:
@@ -1589,7 +2077,7 @@
                                     item => {
 
                                         item.style.opacity =
-                                            "0.55";
+                                            "0.45";
 
                                     }
                                 );
@@ -1617,8 +2105,10 @@
             "click",
             async () => {
 
+
                 currentName.textContent =
                     selectedProfile.name;
+
 
                 currentAvatar.textContent =
                     selectedProfile.avatar;
@@ -1643,19 +2133,24 @@
 
 
                 /*
-                 * Intentamos bloquear la orientación
-                 * horizontal cuando el navegador lo permita.
+                 * Intentar orientación horizontal.
                  */
 
                 await requestLandscape();
 
 
                 /*
-                 * Pantalla completa cuando sea posible.
+                 * Intentar pantalla completa.
                  */
 
                 await requestFullscreen();
 
+
+                /*
+                 * Actualizar aviso.
+                 */
+
+                checkOrientation();
 
             }
         );
@@ -1678,6 +2173,9 @@
                     "active"
                 );
 
+
+                checkOrientation();
+
             }
         );
 
@@ -1686,15 +2184,10 @@
            AGREGAR PERFIL
         ================================================== */
 
-        const addProfile =
-            document.getElementById(
-                "addProfile"
-            );
-
-
         addProfile?.addEventListener(
             "click",
             () => {
+
 
                 const name =
                     prompt(
@@ -1703,9 +2196,17 @@
 
 
                 if (!name) {
+
                     return;
+
                 }
 
+
+                /*
+                 * Por ahora mostramos confirmación.
+                 * Posteriormente podemos convertirlo
+                 * en un sistema real de perfiles.
+                 */
 
                 alert(
                     `Perfil "${name}" preparado.`
@@ -1729,6 +2230,7 @@
                     button.addEventListener(
                         "click",
                         () => {
+
 
                             const section =
                                 button.dataset.section;
@@ -1776,12 +2278,8 @@
 
         async function requestFullscreen() {
 
-            /*
-             * Los navegadores móviles pueden bloquear
-             * fullscreen hasta que el usuario interactúe.
-             */
-
             try {
+
 
                 if (
                     !document.fullscreenElement &&
@@ -1789,12 +2287,16 @@
                         .requestFullscreen
                 ) {
 
-                    await document.documentElement
+                    await document
+                        .documentElement
                         .requestFullscreen();
 
                 }
 
-            } catch (error) {
+
+            }
+
+            catch (error) {
 
                 console.log(
                     "NETVISION: fullscreen no disponible."
@@ -1813,6 +2315,7 @@
 
             try {
 
+
                 if (
                     screen.orientation &&
                     screen.orientation.lock
@@ -1826,7 +2329,10 @@
 
                 }
 
-            } catch (error) {
+
+            }
+
+            catch (error) {
 
                 console.log(
                     "NETVISION: orientación automática no permitida."
@@ -1834,14 +2340,6 @@
 
             }
 
-
-            /*
-             * Si el navegador no permite bloquear
-             * orientación, no rompemos la interfaz.
-             *
-             * Mostramos el aviso solamente en móvil
-             * vertical.
-             */
 
             checkOrientation();
 
@@ -1854,6 +2352,7 @@
 
         function checkOrientation() {
 
+
             const isMobile =
                 window.innerWidth <= 800;
 
@@ -1863,21 +2362,28 @@
                 window.innerWidth;
 
 
+            /*
+             * Solo mostramos el aviso
+             * cuando ya estamos en el menú.
+             *
+             * Nunca aparece encima
+             * de la pantalla de perfiles.
+             */
+
             if (
+                mainScreen.classList.contains(
+                    "active"
+                ) &&
                 isMobile &&
                 isPortrait
             ) {
 
-                /*
-                 * No bloqueamos el contenido.
-                 *
-                 * Solamente avisamos al usuario.
-                 */
-
                 orientationMessage.style.display =
                     "flex";
 
-            } else {
+            }
+
+            else {
 
                 orientationMessage.style.display =
                     "none";
@@ -1905,6 +2411,7 @@
 
         try {
 
+
             const saved =
                 localStorage.getItem(
                     "netvisionProfile"
@@ -1912,6 +2419,7 @@
 
 
             if (saved) {
+
 
                 const profile =
                     JSON.parse(
@@ -1931,7 +2439,10 @@
 
             }
 
-        } catch (error) {
+
+        }
+
+        catch (error) {
 
             console.warn(
                 "NETVISION: no se pudo recuperar el perfil."
@@ -1940,10 +2451,18 @@
         }
 
 
+        /*
+         * Al comenzar NO mostramos el menú.
+         * Primero se debe seleccionar perfil.
+         */
+
+        checkOrientation();
+
+
     })();
 
 </script>
 
 </body>
-</html>
 
+</html>

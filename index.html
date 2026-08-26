@@ -482,11 +482,6 @@
 
             </section>
 
-            <!-- =================================================
-                 PELÍCULAS
-            ================================================== -->
-
-           
 <!-- =================================================
      PELÍCULAS
 ================================================== -->
@@ -513,14 +508,48 @@
     </section>
 
 
-    <!-- CATEGORÍAS -->
+    <!-- =============================================
+         CONTENEDOR DEL CATÁLOGO
+    ============================================== -->
 
     <div
-        id="movieCategories"
-        class="movie-categories"
+        id="moviesGrid"
+        class="movies-grid"
     ></div>
 
 
+    <!-- =============================================
+         PAGINACIÓN
+    ============================================== -->
+
+    <div
+        class="movies-pagination"
+        id="moviesPagination"
+    >
+
+        <button
+            type="button"
+            id="moviesPrevious"
+        >
+            ← Anterior
+        </button>
+
+
+        <span id="moviesPageInfo">
+            Página 1 de 1
+        </span>
+
+
+        <button
+            type="button"
+            id="moviesNext"
+        >
+            Siguiente →
+        </button>
+
+    </div>
+
+</section>
     <!-- =================================================
          CATÁLOGO DE PELÍCULAS
     ================================================== -->
@@ -713,8 +742,6 @@
 
         </div>
 
-
-     
 <!-- =================================================
      MOVIE MODAL
 ================================================== -->
@@ -735,7 +762,9 @@
         </button>
 
 
-        <!-- POSTER -->
+        <!-- =========================================
+             POSTER
+        ========================================== -->
 
         <div class="modal-poster">
 
@@ -748,20 +777,22 @@
         </div>
 
 
-        <!-- INFORMACIÓN -->
+        <!-- =========================================
+             INFORMACIÓN
+        ========================================== -->
 
         <div class="modal-info">
 
             <span
                 class="section-kicker"
-                id="movieModalType"
+                id="modalType"
             >
                 PELÍCULA
             </span>
 
 
             <h2 id="movieModalTitle">
-                Contenido
+                Película
             </h2>
 
 
@@ -776,32 +807,27 @@
             <div
                 id="movieModalGenres"
                 class="movie-modal-genres"
-            ></div>
+            >
+            </div>
 
 
             <p id="movieModalOverview">
-                Descripción del contenido.
+                Sinopsis no disponible.
             </p>
 
 
-            <!-- BOTÓN -->
+            <!-- Aquí movies.js creará los servidores -->
+
+            <div id="movieServers"></div>
+
 
             <button
                 type="button"
                 class="primary-btn"
                 id="playMovieBtn"
-                disabled
             >
-                ⏳ Buscando servidores...
+                ▶ Ver servidores
             </button>
-
-
-            <!-- SERVIDORES -->
-
-            <div
-                id="movieServers"
-                class="movie-servers"
-            ></div>
 
         </div>
 

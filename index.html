@@ -1,9 +1,6 @@
-```html
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
-
     <meta charset="UTF-8">
 
     <meta
@@ -15,103 +12,1229 @@
 
     <meta
         name="description"
-        content="NETVISION - Televisión, películas y series"
+        content="NETVISION - Televisión, películas y series en un solo lugar."
     >
 
-    <link
-        rel="stylesheet"
-        href="style.css"
-    >
+    <style>
+
+        /* =====================================================
+           NETVISION
+           PÁGINA PRINCIPAL
+        ===================================================== */
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+
+        body {
+
+            min-height: 100vh;
+
+            font-family:
+                Arial,
+                Helvetica,
+                sans-serif;
+
+            background:
+                #02050a;
+
+            color: #ffffff;
+
+            overflow-x: hidden;
+
+        }
+
+
+        button,
+        a {
+            font-family: inherit;
+        }
+
+
+        /* =====================================================
+           FONDO GENERAL
+        ===================================================== */
+
+        .netvision-home {
+
+            position: relative;
+
+            min-height: 100vh;
+
+            overflow: hidden;
+
+            background:
+
+                radial-gradient(
+                    circle at 50% 40%,
+                    rgba(0, 94, 255, 0.12),
+                    transparent 35%
+                ),
+
+                linear-gradient(
+                    180deg,
+                    #02050a 0%,
+                    #020811 45%,
+                    #010307 100%
+                );
+
+        }
+
+
+        /* =====================================================
+           LUCES LATERALES
+        ===================================================== */
+
+        .side-glow {
+
+            position: absolute;
+
+            top: 90px;
+
+            width: 42vw;
+
+            height: 800px;
+
+            pointer-events: none;
+
+            opacity: .55;
+
+            filter: blur(70px);
+
+        }
+
+
+        .side-glow.left {
+
+            left: -30vw;
+
+            background:
+                radial-gradient(
+                    circle,
+                    rgba(0, 112, 255, .35),
+                    transparent 65%
+                );
+
+        }
+
+
+        .side-glow.right {
+
+            right: -30vw;
+
+            background:
+                radial-gradient(
+                    circle,
+                    rgba(31, 255, 91, .18),
+                    transparent 65%
+                );
+
+        }
+
+
+        /* =====================================================
+           POSTER WALL LATERAL
+        ===================================================== */
+
+        .poster-wall {
+
+            position: absolute;
+
+            top: 90px;
+
+            width: 42vw;
+
+            height: 760px;
+
+            pointer-events: none;
+
+            opacity: .16;
+
+            overflow: hidden;
+
+        }
+
+
+        .poster-wall.left {
+
+            left: -5vw;
+
+            transform:
+                perspective(900px)
+                rotateY(22deg)
+                scale(1.15);
+
+            background-image:
+
+                linear-gradient(
+                    90deg,
+                    #02050a 0%,
+                    transparent 35%
+                ),
+
+                repeating-linear-gradient(
+                    0deg,
+                    rgba(20, 120, 255, .10) 0,
+                    rgba(20, 120, 255, .10) 120px,
+                    transparent 120px,
+                    transparent 135px
+                );
+
+        }
+
+
+        .poster-wall.right {
+
+            right: -5vw;
+
+            transform:
+                perspective(900px)
+                rotateY(-22deg)
+                scale(1.15);
+
+            background-image:
+
+                linear-gradient(
+                    -90deg,
+                    #02050a 0%,
+                    transparent 35%
+                ),
+
+                repeating-linear-gradient(
+                    0deg,
+                    rgba(35, 255, 100, .08) 0,
+                    rgba(35, 255, 100, .08) 120px,
+                    transparent 120px,
+                    transparent 135px
+                );
+
+        }
+
+
+        /* =====================================================
+           HEADER
+        ===================================================== */
+
+        .top-header {
+
+            position: relative;
+
+            z-index: 20;
+
+            height: 88px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            padding:
+                0
+                36px;
+
+            border-bottom:
+                1px solid
+                rgba(255,255,255,.035);
+
+            background:
+                rgba(1, 4, 9, .82);
+
+            backdrop-filter:
+                blur(18px);
+
+        }
+
+
+        /* =====================================================
+           LOGO
+        ===================================================== */
+
+        .logo {
+
+            font-size: 32px;
+
+            font-weight: 900;
+
+            letter-spacing: -1.5px;
+
+            color: #ffffff;
+
+            text-decoration: none;
+
+        }
+
+
+        .logo span {
+
+            color: #1598ff;
+
+        }
+
+
+        /* =====================================================
+           PERFIL
+        ===================================================== */
+
+        .profile-button {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 12px;
+
+            padding:
+                7px
+                12px
+                7px
+                7px;
+
+            border-radius: 40px;
+
+            border:
+                1px solid
+                rgba(255,255,255,.14);
+
+            background:
+                rgba(8, 17, 28, .85);
+
+            color: #ffffff;
+
+            cursor: pointer;
+
+            transition:
+                .25s ease;
+
+        }
+
+
+        .profile-button:hover {
+
+            border-color:
+                rgba(20, 150, 255, .55);
+
+            background:
+                rgba(15, 29, 46, .95);
+
+            transform:
+                translateY(-1px);
+
+        }
+
+
+        .profile-avatar {
+
+            width: 42px;
+
+            height: 42px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            border-radius: 50%;
+
+            font-size: 20px;
+
+            font-weight: 700;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    #168fff,
+                    #0065e8
+                );
+
+            box-shadow:
+                0 0 20px
+                rgba(0, 125, 255, .35);
+
+        }
+
+
+        .profile-name {
+
+            font-size: 16px;
+
+            font-weight: 600;
+
+        }
+
+
+        .profile-arrow {
+
+            font-size: 14px;
+
+            opacity: .8;
+
+        }
+
+
+        /* =====================================================
+           CONTENIDO PRINCIPAL
+        ===================================================== */
+
+        .hero {
+
+            position: relative;
+
+            z-index: 5;
+
+            max-width: 1450px;
+
+            min-height:
+                calc(100vh - 88px);
+
+            margin:
+                0 auto;
+
+            padding:
+                55px
+                45px
+                45px;
+
+            display: flex;
+
+            flex-direction: column;
+
+            align-items: center;
+
+            justify-content: center;
+
+        }
+
+
+        /* =====================================================
+           TEXTO CENTRAL
+        ===================================================== */
+
+        .hero-content {
+
+            width: 100%;
+
+            max-width: 1050px;
+
+            text-align: center;
+
+            margin-bottom: 45px;
+
+        }
+
+
+        .hero-brand {
+
+            display: block;
+
+            margin-bottom: 14px;
+
+            color: #159dff;
+
+            font-size: 23px;
+
+            font-weight: 800;
+
+            letter-spacing: 5px;
+
+        }
+
+
+        .hero-title {
+
+            font-size:
+                clamp(
+                    45px,
+                    5.3vw,
+                    78px
+                );
+
+            line-height: .98;
+
+            letter-spacing: -3px;
+
+            font-weight: 900;
+
+            color: #ffffff;
+
+            text-shadow:
+                0 8px 35px
+                rgba(0,0,0,.35);
+
+        }
+
+
+        .hero-title strong {
+
+            display: block;
+
+            color: #159cff;
+
+            font-weight: 900;
+
+        }
+
+
+        .hero-description {
+
+            max-width: 760px;
+
+            margin:
+                25px auto 0;
+
+            font-size:
+                clamp(
+                    17px,
+                    2vw,
+                    22px
+                );
+
+            line-height: 1.5;
+
+            color:
+                rgba(225,235,248,.82);
+
+        }
+
+
+        /* =====================================================
+           TARJETAS
+        ===================================================== */
+
+        .content-options {
+
+            width: 100%;
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 26px;
+
+        }
+
+
+        /* =====================================================
+           TARJETA BASE
+        ===================================================== */
+
+        .content-card {
+
+            position: relative;
+
+            min-height: 430px;
+
+            display: flex;
+
+            flex-direction: column;
+
+            align-items: center;
+
+            justify-content: center;
+
+            padding: 35px 25px;
+
+            text-align: center;
+
+            text-decoration: none;
+
+            color: #ffffff;
+
+            overflow: hidden;
+
+            border-radius: 22px;
+
+            background:
+                linear-gradient(
+                    180deg,
+                    rgba(7,16,28,.78),
+                    rgba(2,6,12,.94)
+                );
+
+            transition:
+                transform .3s ease,
+                box-shadow .3s ease,
+                border-color .3s ease;
+
+        }
+
+
+        .content-card::before {
+
+            content: "";
+
+            position: absolute;
+
+            inset: 0;
+
+            background:
+                radial-gradient(
+                    circle at 50% 25%,
+                    var(--card-glow),
+                    transparent 52%
+                );
+
+            opacity: .28;
+
+            pointer-events: none;
+
+        }
+
+
+        .content-card::after {
+
+            content: "";
+
+            position: absolute;
+
+            inset: 0;
+
+            background:
+                linear-gradient(
+                    180deg,
+                    transparent 0%,
+                    rgba(0,0,0,.15) 45%,
+                    rgba(0,0,0,.75) 100%
+                );
+
+            pointer-events: none;
+
+        }
+
+
+        .content-card:hover {
+
+            transform:
+                translateY(-10px);
+
+            box-shadow:
+                0 25px 60px
+                rgba(0,0,0,.45);
+
+        }
+
+
+        /* =====================================================
+           TV
+        ===================================================== */
+
+        .card-tv {
+
+            --card-color: #159cff;
+
+            --card-glow:
+                rgba(0, 148, 255, .8);
+
+            border:
+                1px solid
+                rgba(21,156,255,.95);
+
+            box-shadow:
+                inset 0 0 50px
+                rgba(0,130,255,.07);
+
+        }
+
+
+        .card-tv:hover {
+
+            box-shadow:
+                0 25px 65px
+                rgba(0,130,255,.18),
+
+                inset 0 0 50px
+                rgba(0,130,255,.08);
+
+        }
+
+
+        /* =====================================================
+           PELÍCULAS
+        ===================================================== */
+
+        .card-movies {
+
+            --card-color: #d04aff;
+
+            --card-glow:
+                rgba(190, 35, 255, .85);
+
+            border:
+                1px solid
+                rgba(205,68,255,.95);
+
+            box-shadow:
+                inset 0 0 50px
+                rgba(190,40,255,.07);
+
+        }
+
+
+        .card-movies:hover {
+
+            box-shadow:
+                0 25px 65px
+                rgba(190,40,255,.18),
+
+                inset 0 0 50px
+                rgba(190,40,255,.08);
+
+        }
+
+
+        /* =====================================================
+           SERIES
+        ===================================================== */
+
+        .card-series {
+
+            --card-color: #43ef2b;
+
+            --card-glow:
+                rgba(50, 255, 40, .7);
+
+            border:
+                1px solid
+                rgba(57,235,40,.95);
+
+            box-shadow:
+                inset 0 0 50px
+                rgba(45,230,35,.06);
+
+        }
+
+
+        .card-series:hover {
+
+            box-shadow:
+                0 25px 65px
+                rgba(35,220,35,.17),
+
+                inset 0 0 50px
+                rgba(35,220,35,.08);
+
+        }
+
+
+        /* =====================================================
+           ICONO
+        ===================================================== */
+
+        .card-icon {
+
+            position: relative;
+
+            z-index: 3;
+
+            width: 145px;
+
+            height: 145px;
+
+            margin-bottom: 28px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            border-radius: 50%;
+
+            color: var(--card-color);
+
+            filter:
+                drop-shadow(
+                    0 0 18px
+                    var(--card-color)
+                );
+
+        }
+
+
+        .card-icon svg {
+
+            width: 125px;
+
+            height: 125px;
+
+            stroke:
+                currentColor;
+
+            fill:
+                none;
+
+            stroke-width: 2;
+
+            stroke-linecap: round;
+
+            stroke-linejoin: round;
+
+        }
+
+
+        /* =====================================================
+           CONTENIDO TARJETA
+        ===================================================== */
+
+        .card-title {
+
+            position: relative;
+
+            z-index: 3;
+
+            font-size: 31px;
+
+            font-weight: 900;
+
+            margin-bottom: 10px;
+
+            letter-spacing: -.5px;
+
+        }
+
+
+        .card-description {
+
+            position: relative;
+
+            z-index: 3;
+
+            font-size: 18px;
+
+            color:
+                rgba(230,238,248,.82);
+
+            margin-bottom: 25px;
+
+        }
+
+
+        /* =====================================================
+           BOTÓN FLECHA
+        ===================================================== */
+
+        .card-arrow {
+
+            position: relative;
+
+            z-index: 3;
+
+            width: 62px;
+
+            height: 62px;
+
+            border-radius: 50%;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-size: 31px;
+
+            font-weight: 400;
+
+            color: #ffffff;
+
+            background:
+                var(--card-color);
+
+            box-shadow:
+                0 0 25px
+                var(--card-color);
+
+            transition:
+                transform .25s ease;
+
+        }
+
+
+        .content-card:hover
+        .card-arrow {
+
+            transform:
+                translateX(5px)
+                scale(1.06);
+
+        }
+
+
+        /* =====================================================
+           FOOTER
+        ===================================================== */
+
+        .footer {
+
+            position: relative;
+
+            z-index: 10;
+
+            padding:
+                25px;
+
+            text-align: center;
+
+            color:
+                rgba(170,185,205,.65);
+
+            font-size: 15px;
+
+        }
+
+
+        .footer-line {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 14px;
+
+        }
+
+
+        .footer-separator {
+
+            opacity: .45;
+
+        }
+
+
+        /* =====================================================
+           RESPONSIVE TABLET
+        ===================================================== */
+
+        @media (max-width: 1050px) {
+
+            .hero {
+
+                padding:
+                    45px 25px 35px;
+
+            }
+
+
+            .content-options {
+
+                gap: 18px;
+
+            }
+
+
+            .content-card {
+
+                min-height: 380px;
+
+            }
+
+
+            .card-icon {
+
+                width: 120px;
+
+                height: 120px;
+
+            }
+
+
+            .card-icon svg {
+
+                width: 105px;
+
+                height: 105px;
+
+            }
+
+
+            .card-title {
+
+                font-size: 26px;
+
+            }
+
+        }
+
+
+        /* =====================================================
+           RESPONSIVE MÓVIL
+        ===================================================== */
+
+        @media (max-width: 760px) {
+
+            .top-header {
+
+                height: 75px;
+
+                padding:
+                    0 18px;
+
+            }
+
+
+            .logo {
+
+                font-size: 25px;
+
+            }
+
+
+            .profile-name {
+
+                display: none;
+
+            }
+
+
+            .profile-button {
+
+                padding-right: 7px;
+
+            }
+
+
+            .profile-arrow {
+
+                display: none;
+
+            }
+
+
+            .hero {
+
+                min-height:
+                    auto;
+
+                padding:
+                    55px 18px 25px;
+
+            }
+
+
+            .hero-content {
+
+                margin-bottom: 35px;
+
+            }
+
+
+            .hero-brand {
+
+                font-size: 16px;
+
+                letter-spacing: 4px;
+
+            }
+
+
+            .hero-title {
+
+                font-size:
+                    clamp(
+                        40px,
+                        11vw,
+                        58px
+                    );
+
+                letter-spacing:
+                    -2px;
+
+                line-height: 1.02;
+
+            }
+
+
+            .hero-description {
+
+                font-size: 16px;
+
+                margin-top: 20px;
+
+            }
+
+
+            .content-options {
+
+                grid-template-columns:
+                    1fr;
+
+                gap: 18px;
+
+            }
+
+
+            .content-card {
+
+                min-height: 300px;
+
+                padding:
+                    30px 20px;
+
+            }
+
+
+            .card-icon {
+
+                width: 105px;
+
+                height: 105px;
+
+                margin-bottom: 18px;
+
+            }
+
+
+            .card-icon svg {
+
+                width: 92px;
+
+                height: 92px;
+
+            }
+
+
+            .card-title {
+
+                font-size: 25px;
+
+            }
+
+
+            .card-description {
+
+                font-size: 16px;
+
+            }
+
+
+            .card-arrow {
+
+                width: 52px;
+
+                height: 52px;
+
+                font-size: 26px;
+
+            }
+
+
+            .poster-wall {
+
+                display: none;
+
+            }
+
+
+            .side-glow {
+
+                width: 80vw;
+
+            }
+
+        }
+
+
+        /* =====================================================
+           MÓVIL PEQUEÑO
+        ===================================================== */
+
+        @media (max-width: 420px) {
+
+            .hero {
+
+                padding-top:
+                    40px;
+
+            }
+
+
+            .hero-title {
+
+                font-size:
+                    38px;
+
+            }
+
+
+            .hero-description {
+
+                font-size:
+                    15px;
+
+            }
+
+
+            .content-card {
+
+                min-height:
+                    285px;
+
+            }
+
+        }
+
+    </style>
 
 </head>
 
 
 <body>
 
-<div id="app">
+
+    <div class="netvision-home">
 
 
-    <!-- =====================================================
-         HEADER
-    ====================================================== -->
+        <!-- =================================================
+             LUCES DE FONDO
+        ================================================== -->
 
-    <header class="navbar">
+        <div class="side-glow left"></div>
 
-        <div class="nav-left">
+        <div class="side-glow right"></div>
 
-            <button
-                class="mobile-menu-btn"
-                id="mobileMenuBtn"
-                aria-label="Abrir menú"
-            >
-                ☰
-            </button>
 
+        <!-- =================================================
+             PAREDES CINEMATOGRÁFICAS
+        ================================================== -->
+
+        <div class="poster-wall left"></div>
+
+        <div class="poster-wall right"></div>
+
+
+        <!-- =================================================
+             HEADER
+        ================================================== -->
+
+        <header class="top-header">
+
+
+            <!-- LOGO -->
 
             <a
                 href="index.html"
                 class="logo"
-                style="text-decoration:none;"
             >
-                <span>NET</span>VISION
-            </a>
-
-        </div>
-
-
-        <nav
-            class="main-nav"
-            id="mainNav"
-        >
-
-            <a
-                class="nav-link active"
-                href="index.html"
-            >
-                Inicio
+                NET<span>VISION</span>
             </a>
 
 
-            <a
-                class="nav-link"
-                href="index.html"
-            >
-                TV
-            </a>
-
-
-            <a
-                class="nav-link"
-                href="peliculas.html"
-            >
-                Películas
-            </a>
-
-
-            <a
-                class="nav-link"
-                href="series.html"
-            >
-                Series
-            </a>
-
-        </nav>
-
-
-        <div class="nav-right">
+            <!-- PERFIL -->
 
             <button
-                class="icon-btn"
-                id="searchBtn"
-                aria-label="Buscar"
-            >
-                🔍
-            </button>
-
-
-            <button
-                class="profile-btn"
-                id="profileBtn"
+                type="button"
+                class="profile-button"
+                id="profileButton"
             >
 
                 <span class="profile-avatar">
@@ -122,990 +1245,313 @@
                     Perfil
                 </span>
 
-            </button>
-
-        </div>
-
-    </header>
-
-
-
-    <!-- =====================================================
-         CONTENIDO PRINCIPAL
-    ====================================================== -->
-
-    <main id="mainContent">
-
-
-        <!-- =================================================
-             INICIO
-        ================================================== -->
-
-        <section
-            class="page active-page"
-            id="page-home"
-        >
-
-
-            <!-- =================================================
-                 HERO
-            ================================================== -->
-
-            <section class="hero">
-
-                <div class="hero-content">
-
-                    <span class="hero-label">
-                        NETVISION
-                    </span>
-
-
-                    <h1>
-                        Todo tu entretenimiento
-                        <strong>en un solo lugar.</strong>
-                    </h1>
-
-
-                    <p>
-                        Disfruta de televisión, películas y series
-                        desde cualquier dispositivo.
-                    </p>
-
-
-                    <div class="hero-buttons">
-
-                        <a
-                            class="primary-btn"
-                            href="index.html#tv"
-                        >
-                            📺 Ver TV
-                        </a>
-
-
-                        <a
-                            class="secondary-btn"
-                            href="peliculas.html"
-                        >
-                            🎬 Películas
-                        </a>
-
-
-                        <a
-                            class="secondary-btn"
-                            href="series.html"
-                        >
-                            📺 Series
-                        </a>
-
-                    </div>
-
-                </div>
-
-            </section>
-
-
-
-            <!-- =================================================
-                 CONECTADOS
-            ================================================== -->
-
-            <div class="connected-bar">
-
-                <span class="status-dot"></span>
-
-                <span>
-
-                    <strong id="connectedUsers">
-                        10
-                    </strong>
-
-                    usuarios conectados
-
+                <span class="profile-arrow">
+                   ⌄
                 </span>
 
-            </div>
+            </button>
 
-
-
-            <!-- =================================================
-                 ACCESOS A CONTENIDO
-                 
-                 Ya NO cargamos películas ni series aquí.
-                 Son páginas independientes.
-            ================================================== -->
-
-            <section class="content-section">
-
-                <div class="section-header">
-
-                    <div>
-
-                        <span class="section-kicker">
-                            NETVISION
-                        </span>
-
-                        <h2>
-                            🎬 Explora nuestro contenido
-                        </h2>
-
-                    </div>
-
-                </div>
-
-
-                <div
-                    class="movie-row"
-                    style="
-                        display:grid;
-                        grid-template-columns:
-                            repeat(
-                                auto-fit,
-                                minmax(220px, 1fr)
-                            );
-                        gap:20px;
-                    "
-                >
-
-
-                    <!-- PELÍCULAS -->
-
-                    <a
-                        href="peliculas.html"
-                        style="
-                            text-decoration:none;
-                            color:inherit;
-                        "
-                    >
-
-                        <article
-                            class="netvision-movie-card"
-                            style="cursor:pointer;"
-                        >
-
-                            <div
-                                class="netvision-movie-poster"
-                                style="
-                                    display:flex;
-                                    align-items:center;
-                                    justify-content:center;
-                                    min-height:300px;
-                                    font-size:70px;
-                                "
-                            >
-
-                                🎬
-
-                            </div>
-
-
-                            <div class="netvision-movie-info">
-
-                                <h3>
-                                    Películas
-                                </h3>
-
-
-                                <div class="netvision-movie-meta">
-
-                                    <span>
-                                        Ver catálogo →
-                                    </span>
-
-                                </div>
-
-                            </div>
-
-                        </article>
-
-                    </a>
-
-
-
-                    <!-- SERIES -->
-
-                    <a
-                        href="series.html"
-                        style="
-                            text-decoration:none;
-                            color:inherit;
-                        "
-                    >
-
-                        <article
-                            class="netvision-movie-card"
-                            style="cursor:pointer;"
-                        >
-
-                            <div
-                                class="netvision-movie-poster"
-                                style="
-                                    display:flex;
-                                    align-items:center;
-                                    justify-content:center;
-                                    min-height:300px;
-                                    font-size:70px;
-                                "
-                            >
-
-                                📺
-
-                            </div>
-
-
-                            <div class="netvision-movie-info">
-
-                                <h3>
-                                    Series
-                                </h3>
-
-
-                                <div class="netvision-movie-meta">
-
-                                    <span>
-                                        Ver catálogo →
-                                    </span>
-
-                                </div>
-
-                            </div>
-
-                        </article>
-
-                    </a>
-
-
-                </div>
-
-            </section>
-
-
-
-            <!-- =================================================
-                 ACCESO TV
-            ================================================== -->
-
-            <section
-                class="content-section"
-                id="tv"
-            >
-
-                <div class="section-header">
-
-                    <div>
-
-                        <span class="section-kicker">
-                            TV
-                        </span>
-
-                        <h2>
-                            📺 Televisión
-                        </h2>
-
-                    </div>
-
-                </div>
-
-
-                <p>
-                    Ve televisión en vivo desde NETVISION.
-                </p>
-
-
-                <button
-                    class="primary-btn"
-                    id="goToTV"
-                    type="button"
-                >
-                    📺 Ver televisión
-                </button>
-
-            </section>
-
-        </section>
-
+        </header>
 
 
         <!-- =================================================
-             TV
+             HERO
         ================================================== -->
 
-        <section
-            class="page"
-            id="page-tv"
-        >
+        <main class="hero">
 
-            <section class="page-heading">
 
-                <span class="section-kicker">
+            <!-- TEXTO -->
+
+            <section class="hero-content">
+
+
+                <span class="hero-brand">
                     NETVISION
                 </span>
 
 
-                <h1>
-                    Televisión
+                <h1 class="hero-title">
+
+                    Todo tu entretenimiento
+
+                    <strong>
+                        en un solo lugar.
+                    </strong>
+
                 </h1>
 
 
-                <p>
-                    Encuentra tus canales favoritos.
+                <p class="hero-description">
+
+                    Disfruta de televisión, películas y series
+                    desde cualquier dispositivo.
+
                 </p>
 
             </section>
 
 
-
             <!-- =================================================
-                 BUSCADOR DE CANALES
+                 TRES OPCIONES
             ================================================== -->
 
-            <div class="search-container">
-
-                <span>
-                    🔍
-                </span>
+            <section class="content-options">
 
 
-                <input
-                    type="text"
-                    id="channelSearch"
-                    placeholder="Buscar canal..."
+                <!-- =================================================
+                     TV
+                ================================================== -->
+
+                <a
+                    href="tv.html"
+                    class="content-card card-tv"
                 >
 
-            </div>
 
+                    <div class="card-icon">
 
-
-            <!-- =================================================
-                 REPRODUCTOR TV
-            ================================================== -->
-
-            <section class="tv-player-layout">
-
-
-                <!-- REPRODUCTOR -->
-
-                <div class="player-box">
-
-                    <video
-                        id="videoPlayer"
-                        controls
-                        playsinline
-                        preload="metadata"
-                    ></video>
-
-
-                    <div
-                        class="player-placeholder"
-                        id="playerPlaceholder"
-                    >
-
-                        <div class="player-icon">
-                            ▶
-                        </div>
-
-
-                        <h3>
-                            Selecciona un canal
-                        </h3>
-
-
-                        <p>
-                            Elige un canal para comenzar
-                            a reproducir.
-                        </p>
-
-                    </div>
-
-                </div>
-
-
-
-                <!-- PANEL DERECHO -->
-
-                <aside class="now-playing">
-
-                    <span class="live-label">
-                        ● EN VIVO
-                    </span>
-
-
-                    <!-- INFORMACIÓN DEL CANAL -->
-
-                    <div class="current-channel-info">
-
-                        <div
-                            class="current-channel-logo"
-                            id="currentChannelLogo"
+                        <svg
+                            viewBox="0 0 100 100"
+                            aria-hidden="true"
                         >
-                            TV
-                        </div>
 
+                            <rect
+                                x="16"
+                                y="25"
+                                width="68"
+                                height="48"
+                                rx="7"
+                            />
 
-                        <div>
+                            <path
+                                d="M36 86h28"
+                            />
 
-                            <h3 id="selectedChannelName">
-                                Ningún canal seleccionado
-                            </h3>
+                            <path
+                                d="M50 73v13"
+                            />
 
+                            <path
+                                d="M37 17l13 8 13-8"
+                            />
 
-                            <p id="selectedChannelCategory">
-                                Selecciona un canal
-                            </p>
-
-                        </div>
-
-                    </div>
-
-
-
-                    <!-- =================================================
-                         CATEGORÍAS TV
-                    ================================================== -->
-
-                    <div class="tv-category-menu">
-
-                        <h4>
-                            CATEGORÍAS
-                        </h4>
-
-
-                        <div
-                            id="tvCategories"
-                            class="tv-category-list"
-                        ></div>
+                        </svg>
 
                     </div>
 
-                </aside>
 
-            </section>
-
-
-
-            <!-- =================================================
-                 CANALES DE CATEGORÍA
-            ================================================== -->
-
-            <section
-                class="selected-category-section"
-                id="selectedCategorySection"
-            >
-
-                <div class="selected-category-header">
-
-                    <h2 id="selectedCategoryTitle">
-                        📺 CANALES
+                    <h2 class="card-title">
+                        TV
                     </h2>
 
 
-                    <span id="selectedCategoryCount">
-                        0 canales
+                    <p class="card-description">
+                        Ver canales en vivo
+                    </p>
+
+
+                    <span class="card-arrow">
+                        →
                     </span>
 
-                </div>
+                </a>
 
 
-                <div
-                    id="selectedCategoryChannels"
-                    class="selected-channel-row"
-                ></div>
+                <!-- =================================================
+                     PELÍCULAS
+                ================================================== -->
+
+                <a
+                    href="peliculas.html"
+                    class="content-card card-movies"
+                >
+
+
+                    <div class="card-icon">
+
+                        <svg
+                            viewBox="0 0 100 100"
+                            aria-hidden="true"
+                        >
+
+                            <rect
+                                x="18"
+                                y="27"
+                                width="64"
+                                height="50"
+                                rx="4"
+                            />
+
+                            <path
+                                d="M18 40h64"
+                            />
+
+                            <path
+                                d="M27 18l9 9"
+                            />
+
+                            <path
+                                d="M44 18l9 9"
+                            />
+
+                            <path
+                                d="M61 18l9 9"
+                            />
+
+                            <path
+                                d="M29 51h42"
+                            />
+
+                            <path
+                                d="M29 62h28"
+                            />
+
+                        </svg>
+
+                    </div>
+
+
+                    <h2 class="card-title">
+                        PELÍCULAS
+                    </h2>
+
+
+                    <p class="card-description">
+                        Explora el catálogo
+                    </p>
+
+
+                    <span class="card-arrow">
+                        →
+                    </span>
+
+                </a>
+
+
+                <!-- =================================================
+                     SERIES
+                ================================================== -->
+
+                <a
+                    href="series.html"
+                    class="content-card card-series"
+                >
+
+
+                    <div class="card-icon">
+
+                        <svg
+                            viewBox="0 0 100 100"
+                            aria-hidden="true"
+                        >
+
+                            <rect
+                                x="15"
+                                y="25"
+                                width="70"
+                                height="50"
+                                rx="8"
+                            />
+
+                            <path
+                                d="M37 17l13 8 13-8"
+                            />
+
+                            <path
+                                d="M50 75v10"
+                            />
+
+                            <path
+                                d="M38 87h24"
+                            />
+
+                            <path
+                                d="M44 39l20 11-20 11z"
+                                fill="currentColor"
+                                stroke="none"
+                            />
+
+                        </svg>
+
+                    </div>
+
+
+                    <h2 class="card-title">
+                        SERIES
+                    </h2>
+
+
+                    <p class="card-description">
+                        Explora el catálogo
+                    </p>
+
+
+                    <span class="card-arrow">
+                        →
+                    </span>
+
+                </a>
+
 
             </section>
 
-        </section>
 
-    </main>
-
+        </main>
 
 
-    <!-- =====================================================
-         SEARCH OVERLAY
-    ====================================================== -->
+        <!-- =================================================
+             FOOTER
+        ================================================== -->
 
-    <div
-        class="search-overlay"
-        id="searchOverlay"
-    >
+        <footer class="footer">
 
-        <div class="search-modal">
-
-            <button
-                class="close-btn"
-                id="closeSearch"
-            >
-                ×
-            </button>
-
-
-            <span class="section-kicker">
-                NETVISION
-            </span>
-
-
-            <h2>
-                ¿Qué quieres ver?
-            </h2>
-
-
-            <div class="global-search">
+            <div class="footer-line">
 
                 <span>
-                    🔍
+                    © 2026 NETVISION
                 </span>
 
+                <span class="footer-separator">
+                    |
+                </span>
 
-                <input
-                    type="text"
-                    id="globalSearch"
-                    placeholder="Buscar películas, series o canales..."
-                >
+                <span>
+                    Todos los derechos reservados.
+                </span>
 
             </div>
 
-        </div>
+        </footer>
+
 
     </div>
 
 
-
     <!-- =====================================================
-         PROFILE MENU
+         JAVASCRIPT
     ====================================================== -->
 
-    <div
-        class="profile-menu"
-        id="profileMenu"
-    >
-
-        <div class="profile-card">
-
-            <div class="profile-large">
-                A
-            </div>
-
-
-            <h3>
-                Mi perfil
-            </h3>
-
-
-            <p>
-                Usuario NETVISION
-            </p>
-
-
-            <button class="profile-option">
-                👤 Mi cuenta
-            </button>
-
-
-            <button class="profile-option">
-                ❤️ Favoritos
-            </button>
-
-
-            <button class="profile-option">
-                ⚙️ Configuración
-            </button>
-
-
-            <button
-                class="profile-option logout"
-            >
-                Cerrar sesión
-            </button>
-
-        </div>
-
-    </div>
-
-
-
-    <!-- =====================================================
-         FOOTER
-    ====================================================== -->
-
-    <footer>
-
-        <div class="footer-logo">
-
-            <span>NET</span>VISION
-
-        </div>
-
-
-        <p>
-            Entertainment & Media
-        </p>
-
-
-        <div class="footer-links">
-
-            <span>
-                © 2026 NETVISION
-            </span>
-
-
-            <span>
-                Privacidad
-            </span>
-
-
-            <span>
-                Términos
-            </span>
-
-        </div>
-
-    </footer>
-
-</div>
-
-
-
-<!-- =====================================================
-     HLS.JS
-     
-     SOLO lo necesita TV.
-====================================================== -->
-
-<script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
-
-
-
-<!-- =====================================================
-     APP.JS
-     
-     SOLO TV Y FUNCIONES PRINCIPALES.
-     
-     NO movies.js
-     NO series.js
-====================================================== -->
-
-<script src="app.js"></script>
-
-
-
-<!-- =====================================================
-     NAVEGACIÓN
-====================================================== -->
-
-<script>
-
-document.addEventListener(
-    "DOMContentLoaded",
-    () => {
-
-        const mobileMenuBtn =
-            document.getElementById(
-                "mobileMenuBtn"
-            );
-
-
-        const mainNav =
-            document.getElementById(
-                "mainNav"
-            );
-
-
-        const searchBtn =
-            document.getElementById(
-                "searchBtn"
-            );
-
-
-        const searchOverlay =
-            document.getElementById(
-                "searchOverlay"
-            );
-
-
-        const closeSearch =
-            document.getElementById(
-                "closeSearch"
-            );
-
-
-        const globalSearch =
-            document.getElementById(
-                "globalSearch"
-            );
-
-
-        const profileBtn =
-            document.getElementById(
-                "profileBtn"
-            );
-
-
-        const profileMenu =
-            document.getElementById(
-                "profileMenu"
-            );
-
-
-        const goToTV =
-            document.getElementById(
-                "goToTV"
-            );
-
-
-
-        /* =================================================
-           MENÚ MÓVIL
-        ================================================== */
-
-        if (
-            mobileMenuBtn &&
-            mainNav
-        ) {
-
-            mobileMenuBtn.addEventListener(
-                "click",
-                () => {
-
-                    mainNav.classList.toggle(
-                        "open"
-                    );
-
-                }
-            );
-
-        }
-
-
-
-        /* =================================================
-           IR A TV
-        ================================================== */
-
-        function showTV() {
-
-            const home =
-                document.getElementById(
-                    "page-home"
-                );
-
-
-            const tv =
-                document.getElementById(
-                    "page-tv"
-                );
-
-
-            if (home) {
-
-                home.classList.remove(
-                    "active-page"
-                );
-
-            }
-
-
-            if (tv) {
-
-                tv.classList.add(
-                    "active-page"
-                );
-
-            }
-
-
-            document
-                .querySelectorAll(
-                    ".nav-link"
-                )
-                .forEach(
-                    link => {
-
-                        link.classList.remove(
-                            "active"
-                        );
-
-                    }
-                );
-
-
-            window.scrollTo({
-                top: 0,
-                behavior: "smooth"
-            });
-
-        }
-
-
-        if (goToTV) {
-
-            goToTV.addEventListener(
-                "click",
-                showTV
-            );
-
-        }
-
-
-
-        /*
-         * El enlace TV del menú apunta al
-         * mismo index.html.
-         *
-         * Convertimos ese clic en navegación
-         * hacia la sección TV.
-         */
-
-        const navLinks =
-            document.querySelectorAll(
-                ".main-nav .nav-link"
-            );
-
-
-        navLinks.forEach(
-            link => {
-
-                link.addEventListener(
-                    "click",
-                    event => {
-
-                        const text =
-                            link.textContent
-                                .trim()
-                                .toLowerCase();
-
-
-                        if (
-                            text === "tv"
-                        ) {
-
-                            event.preventDefault();
-
-                            showTV();
-
-                        }
-
-                    }
-                );
-
-            }
-        );
-
-
-
-        /* =================================================
-           BUSCADOR
-        ================================================== */
-
-        if (
-            searchBtn &&
-            searchOverlay
-        ) {
-
-            searchBtn.addEventListener(
-                "click",
-                () => {
-
-                    searchOverlay.classList.add(
-                        "active"
-                    );
-
-
-                    setTimeout(
-                        () => {
-
-                            globalSearch?.focus();
-
-                        },
-                        50
-                    );
-
-                }
-            );
-
-        }
-
-
-        if (
-            closeSearch &&
-            searchOverlay
-        ) {
-
-            closeSearch.addEventListener(
-                "click",
-                () => {
-
-                    searchOverlay.classList.remove(
-                        "active"
-                    );
-
-                }
-            );
-
-        }
-
-
-        if (searchOverlay) {
-
-            searchOverlay.addEventListener(
-                "click",
-                event => {
-
-                    if (
-                        event.target ===
-                        searchOverlay
-                    ) {
-
-                        searchOverlay.classList.remove(
-                            "active"
-                        );
-
-                    }
-
-                }
-            );
-
-        }
-
-
+    <script>
 
         /* =================================================
            PERFIL
         ================================================== */
 
-        if (
-            profileBtn &&
-            profileMenu
-        ) {
-
-            profileBtn.addEventListener(
-                "click",
-                event => {
-
-                    event.stopPropagation();
-
-
-                    profileMenu.classList.toggle(
-                        "active"
-                    );
-
-                }
+        const profileButton =
+            document.getElementById(
+                "profileButton"
             );
 
 
-            profileMenu.addEventListener(
-                "click",
-                event => {
+        if (profileButton) {
 
-                    event.stopPropagation();
-
-                }
-            );
-
-
-            document.addEventListener(
+            profileButton.addEventListener(
                 "click",
                 () => {
 
-                    profileMenu.classList.remove(
-                        "active"
+                    alert(
+                        "Perfil NETVISION"
                     );
 
                 }
@@ -1114,44 +1560,52 @@ document.addEventListener(
         }
 
 
-
         /* =================================================
-           ESC
+           EFECTO DE ENTRADA
         ================================================== */
 
         document.addEventListener(
-            "keydown",
-            event => {
+            "DOMContentLoaded",
+            () => {
 
-                if (
-                    event.key !==
-                    "Escape"
-                ) {
+                document
+                    .querySelectorAll(
+                        ".content-card"
+                    )
+                    .forEach(
+                        (card, index) => {
 
-                    return;
+                            card.style.opacity = "0";
 
-                }
-
-
-                searchOverlay?.classList.remove(
-                    "active"
-                );
+                            card.style.transform =
+                                "translateY(25px)";
 
 
-                profileMenu?.classList.remove(
-                    "active"
-                );
+                            setTimeout(
+                                () => {
+
+                                    card.style.transition =
+                                        "opacity .6s ease, transform .6s ease";
+
+                                    card.style.opacity =
+                                        "1";
+
+                                    card.style.transform =
+                                        "translateY(0)";
+
+                                },
+                                150 +
+                                (index * 130)
+                            );
+
+                        }
+                    );
 
             }
         );
 
-    }
-);
-
-</script>
+    </script>
 
 
 </body>
-
 </html>
-

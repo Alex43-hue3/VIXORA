@@ -3938,3 +3938,287 @@ body {
     }
 
 }
+/* =========================================================
+   NETVISION TV - CORRECCIÓN MÓVIL
+   Categorías siempre visibles
+========================================================= */
+
+@media (max-width: 768px) {
+
+    /* -----------------------------------------
+       CONTENEDOR PRINCIPAL TV
+    ----------------------------------------- */
+
+    .tv-player-layout {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        gap: 14px;
+    }
+
+
+    /* -----------------------------------------
+       REPRODUCTOR
+    ----------------------------------------- */
+
+    .player-box {
+        width: 100%;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .player-box video {
+        width: 100%;
+        height: auto;
+        aspect-ratio: 16 / 9;
+        display: block;
+    }
+
+
+    /* -----------------------------------------
+       PANEL EN VIVO
+    ----------------------------------------- */
+
+    .now-playing {
+        width: 100% !important;
+        max-width: none !important;
+        min-width: 0 !important;
+
+        height: auto !important;
+        max-height: none !important;
+
+        overflow: visible !important;
+
+        display: block !important;
+
+        padding: 16px !important;
+        box-sizing: border-box;
+    }
+
+
+    /* -----------------------------------------
+       INFORMACIÓN DEL CANAL
+    ----------------------------------------- */
+
+    .current-channel-info {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 16px;
+    }
+
+
+    .current-channel-info > div:last-child {
+        min-width: 0;
+        flex: 1;
+    }
+
+
+    #selectedChannelName {
+        white-space: normal;
+        overflow: visible;
+        text-overflow: clip;
+    }
+
+
+    /* -----------------------------------------
+       CATEGORÍAS
+    ----------------------------------------- */
+
+    .tv-category-menu {
+        width: 100% !important;
+        display: block !important;
+
+        height: auto !important;
+        max-height: none !important;
+
+        overflow: visible !important;
+
+        margin-top: 10px;
+    }
+
+
+    .tv-category-menu h4 {
+        display: block;
+        margin: 0 0 10px 0;
+    }
+
+
+    /* -----------------------------------------
+       LISTA DE CATEGORÍAS
+       Horizontal en móvil
+    ----------------------------------------- */
+
+    .tv-category-list {
+        width: 100% !important;
+
+        display: flex !important;
+
+        flex-direction: row !important;
+
+        flex-wrap: nowrap !important;
+
+        gap: 10px;
+
+        overflow-x: auto !important;
+        overflow-y: hidden !important;
+
+        padding: 4px 2px 12px 2px;
+
+        scrollbar-width: thin;
+
+        -webkit-overflow-scrolling: touch;
+    }
+
+
+    /* -----------------------------------------
+       BOTONES DE CATEGORÍA
+    ----------------------------------------- */
+
+    .tv-category-button {
+        flex: 0 0 auto !important;
+
+        min-width: 125px;
+
+        width: auto !important;
+
+        min-height: 48px;
+
+        white-space: nowrap;
+
+        display: flex !important;
+
+        align-items: center;
+        justify-content: center;
+
+        gap: 7px;
+
+        padding: 10px 14px;
+
+        box-sizing: border-box;
+    }
+
+
+    .tv-category-button .category-name {
+        white-space: nowrap;
+    }
+
+
+    .tv-category-button .category-arrow {
+        flex: 0 0 auto;
+    }
+
+
+    /* -----------------------------------------
+       CANALES DE LA CATEGORÍA
+    ----------------------------------------- */
+
+    .selected-category-section {
+        width: 100%;
+
+        margin-top: 10px;
+
+        overflow: hidden;
+    }
+
+
+    .selected-category-header {
+        width: 100%;
+
+        display: flex;
+
+        align-items: center;
+
+        justify-content: space-between;
+
+        gap: 10px;
+    }
+
+
+    /* -----------------------------------------
+       CANALES HORIZONTALMENTE
+    ----------------------------------------- */
+
+    .selected-channel-row {
+        width: 100%;
+
+        display: flex !important;
+
+        flex-direction: row !important;
+
+        flex-wrap: nowrap !important;
+
+        gap: 12px;
+
+        overflow-x: auto !important;
+        overflow-y: hidden !important;
+
+        padding: 8px 2px 14px 2px;
+
+        -webkit-overflow-scrolling: touch;
+    }
+
+
+    .selected-channel-row > * {
+        flex: 0 0 auto !important;
+    }
+
+}
+
+
+/* =========================================================
+   TELÉFONOS PEQUEÑOS
+========================================================= */
+
+@media (max-width: 480px) {
+
+    .now-playing {
+        padding: 12px !important;
+    }
+
+
+    .live-label {
+        font-size: 12px;
+    }
+
+
+    .current-channel-logo {
+        width: 44px;
+        height: 44px;
+
+        flex: 0 0 44px;
+    }
+
+
+    #selectedChannelName {
+        font-size: 15px;
+    }
+
+
+    #selectedChannelCategory {
+        font-size: 12px;
+    }
+
+
+    .tv-category-button {
+        min-width: 115px;
+
+        min-height: 44px;
+
+        padding: 9px 12px;
+
+        font-size: 13px;
+    }
+
+
+    .tv-category-menu h4 {
+        font-size: 12px;
+    }
+
+
+    .selected-category-header h2 {
+        font-size: 17px;
+    }
+
+}

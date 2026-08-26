@@ -486,60 +486,111 @@
                  PELÍCULAS
             ================================================== -->
 
-            <section
-                class="page"
-                id="page-movies"
-            >
+           
+<!-- =================================================
+     PELÍCULAS
+================================================== -->
 
-                <section class="page-heading">
+<section
+    class="page"
+    id="page-movies"
+>
 
-                    <span class="section-kicker">
-                        NETVISION
-                    </span>
+    <section class="page-heading">
 
-                    <h1>
-                        Películas
-                    </h1>
-
-                    <p>
-                        Descubre películas para todos los gustos.
-                    </p>
-
-                </section>
-
-               <div class="movies-container">
-
-    <div
-        id="moviesGrid"
-        class="movies-grid"
-    ></div>
-
-    <div class="movies-pagination">
-
-        <button
-            type="button"
-            id="moviesPrevious"
-        >
-            ← Anterior
-        </button>
-
-        <span id="moviesPageInfo">
-            Página 1 de 656
+        <span class="section-kicker">
+            NETVISION
         </span>
 
-        <button
-            type="button"
-            id="moviesNext"
+        <h1>
+            Películas
+        </h1>
+
+        <p>
+            Descubre películas para todos los gustos.
+        </p>
+
+    </section>
+
+
+    <!-- CATEGORÍAS -->
+
+    <div
+        id="movieCategories"
+        class="movie-categories"
+    ></div>
+
+
+    <!-- =================================================
+         CATÁLOGO DE PELÍCULAS
+    ================================================== -->
+
+    <section class="content-section">
+
+        <div class="section-header">
+
+            <div>
+
+                <span class="section-kicker">
+                    CATÁLOGO
+                </span>
+
+                <h2>
+                    🎬 Películas
+                </h2>
+
+            </div>
+
+        </div>
+
+
+        <!-- AQUÍ MOVIES.JS INSERTA LAS PELÍCULAS -->
+
+        <div
+            id="moviesGrid"
+            class="movies-grid"
+        ></div>
+
+
+        <!-- =================================================
+             PAGINACIÓN
+        ================================================== -->
+
+        <div
+            class="movies-pagination"
+            id="moviesPagination"
         >
-            Siguiente →
-        </button>
 
-    </div>
+            <button
+                type="button"
+                id="moviesPrevious"
+                class="movies-page-button"
+            >
+                ← Anterior
+            </button>
 
-</div>
 
-            </section>
+            <span
+                id="moviesPageInfo"
+                class="movies-page-info"
+            >
+                Página 1 de 1
+            </span>
 
+
+            <button
+                type="button"
+                id="moviesNext"
+                class="movies-page-button"
+            >
+                Siguiente →
+            </button>
+
+        </div>
+
+    </section>
+
+</section>
 
             <!-- =================================================
                  SERIES
@@ -663,9 +714,11 @@
         </div>
 
 
-        <!-- =================================================
-             MOVIE MODAL
-        ================================================== -->
+     
+<!-- =================================================
+     MOVIE MODAL
+================================================== -->
+
 <div
     class="content-modal"
     id="contentModal"
@@ -681,6 +734,9 @@
             ×
         </button>
 
+
+        <!-- POSTER -->
+
         <div class="modal-poster">
 
             <img
@@ -691,18 +747,23 @@
 
         </div>
 
+
+        <!-- INFORMACIÓN -->
+
         <div class="modal-info">
 
             <span
                 class="section-kicker"
-                id="modalType"
+                id="movieModalType"
             >
                 PELÍCULA
             </span>
 
+
             <h2 id="movieModalTitle">
                 Contenido
             </h2>
+
 
             <div
                 id="movieModalRating"
@@ -711,22 +772,31 @@
                 ★ N/A
             </div>
 
+
             <div
                 id="movieModalGenres"
                 class="movie-modal-genres"
             ></div>
 
+
             <p id="movieModalOverview">
-                Sinopsis no disponible.
+                Descripción del contenido.
             </p>
+
+
+            <!-- BOTÓN -->
 
             <button
                 type="button"
                 class="primary-btn"
                 id="playMovieBtn"
+                disabled
             >
-                ▶ Reproducir
+                ⏳ Buscando servidores...
             </button>
+
+
+            <!-- SERVIDORES -->
 
             <div
                 id="movieServers"

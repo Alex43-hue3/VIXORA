@@ -486,6 +486,10 @@
      PELÍCULAS
 ================================================== -->
 
+<!-- =================================================
+     PELÍCULAS
+================================================== -->
+
 <section
     class="page"
     id="page-movies"
@@ -509,45 +513,73 @@
 
 
     <!-- =============================================
-         CONTENEDOR DEL CATÁLOGO
+         CATÁLOGO DE PELÍCULAS
     ============================================== -->
 
-    <div
-        id="moviesGrid"
-        class="movies-grid"
-    ></div>
+    <section class="content-section">
+
+        <div class="section-header">
+
+            <div>
+
+                <span class="section-kicker">
+                    CATÁLOGO
+                </span>
+
+                <h2>
+                    🎬 Películas
+                </h2>
+
+            </div>
+
+        </div>
 
 
-    <!-- =============================================
-         PAGINACIÓN
-    ============================================== -->
+        <!-- AQUÍ movies.js INSERTARÁ LAS PELÍCULAS -->
 
-    <div
-        class="movies-pagination"
-        id="moviesPagination"
-    >
+        <div
+            id="moviesGrid"
+            class="movies-grid"
+        ></div>
 
-        <button
-            type="button"
-            id="moviesPrevious"
+
+        <!-- =========================================
+             PAGINACIÓN
+        ========================================== -->
+
+        <div
+            class="movies-pagination"
+            id="moviesPagination"
         >
-            ← Anterior
-        </button>
+
+            <button
+                type="button"
+                id="moviesPrevious"
+                class="movie-pagination-btn"
+            >
+                ← Anterior
+            </button>
 
 
-        <span id="moviesPageInfo">
-            Página 1 de 1
-        </span>
+            <span
+                id="moviesPageInfo"
+                class="movie-page-info"
+            >
+                Página 1 de 1
+            </span>
 
 
-        <button
-            type="button"
-            id="moviesNext"
-        >
-            Siguiente →
-        </button>
+            <button
+                type="button"
+                id="moviesNext"
+                class="movie-pagination-btn"
+            >
+                Siguiente →
+            </button>
 
-    </div>
+        </div>
+
+    </section>
 
 </section>
     <!-- =================================================
@@ -745,6 +777,9 @@
 <!-- =================================================
      MOVIE MODAL
 ================================================== -->
+<!-- =================================================
+     MODAL DE PELÍCULA
+================================================== -->
 
 <div
     class="content-modal"
@@ -785,14 +820,14 @@
 
             <span
                 class="section-kicker"
-                id="modalType"
+                id="movieModalType"
             >
                 PELÍCULA
             </span>
 
 
             <h2 id="movieModalTitle">
-                Película
+                Contenido
             </h2>
 
 
@@ -807,8 +842,7 @@
             <div
                 id="movieModalGenres"
                 class="movie-modal-genres"
-            >
-            </div>
+            ></div>
 
 
             <p id="movieModalOverview">
@@ -816,10 +850,9 @@
             </p>
 
 
-            <!-- Aquí movies.js creará los servidores -->
-
-            <div id="movieServers"></div>
-
+            <!-- =====================================
+                 BOTÓN REPRODUCIR
+            ====================================== -->
 
             <button
                 type="button"
@@ -828,6 +861,16 @@
             >
                 ▶ Ver servidores
             </button>
+
+
+            <!-- =====================================
+                 SERVIDORES
+            ====================================== -->
+
+            <div
+                id="movieServers"
+                class="movie-servers"
+            ></div>
 
         </div>
 

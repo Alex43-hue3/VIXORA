@@ -507,8 +507,37 @@
 
                 </section>
 
+<div class="movies-container">
 
-                <div id="movieCategories"></div>
+    <div
+        id="moviesGrid"
+        class="movies-grid"
+    ></div>
+
+    <div class="movies-pagination">
+
+        <button
+            type="button"
+            id="moviesPrevious"
+        >
+            ← Anterior
+        </button>
+
+        <span id="moviesPageInfo">
+            Página 1
+        </span>
+
+        <button
+            type="button"
+            id="moviesNext"
+        >
+            Siguiente →
+        </button>
+
+    </div>
+
+</div>
+               
 
             </section>
 
@@ -638,54 +667,79 @@
         <!-- =================================================
              MOVIE MODAL
         ================================================== -->
+<div
+    class="content-modal"
+    id="contentModal"
+>
 
-        <div
-            class="content-modal"
-            id="contentModal"
+    <div class="content-modal-inner">
+
+        <button
+            class="close-btn"
+            id="closeContent"
+            type="button"
         >
+            ×
+        </button>
 
-            <div class="content-modal-inner">
+        <div class="modal-poster">
 
-                <button
-                    class="close-btn"
-                    id="closeContent"
-                >
-                    ×
-                </button>
-
-                <div
-                    class="modal-poster"
-                    id="modalPoster"
-                ></div>
-
-                <div class="modal-info">
-
-                    <span
-                        class="section-kicker"
-                        id="modalType"
-                    >
-                        PELÍCULA
-                    </span>
-
-                    <h2 id="modalTitle">
-                        Contenido
-                    </h2>
-
-                    <p id="modalDescription">
-                        Descripción del contenido.
-                    </p>
-
-                    <button class="primary-btn">
-                        ▶ Reproducir
-                    </button>
-
-                </div>
-
-            </div>
+            <img
+                id="movieModalPoster"
+                src=""
+                alt="Película"
+            >
 
         </div>
 
+        <div class="modal-info">
 
+            <span
+                class="section-kicker"
+                id="modalType"
+            >
+                PELÍCULA
+            </span>
+
+            <h2 id="movieModalTitle">
+                Contenido
+            </h2>
+
+            <div
+                id="movieModalRating"
+                class="movie-modal-rating"
+            >
+                ★ N/A
+            </div>
+
+            <div
+                id="movieModalGenres"
+                class="movie-modal-genres"
+            ></div>
+
+            <p id="movieModalOverview">
+                Descripción del contenido.
+            </p>
+
+            <button
+                type="button"
+                class="primary-btn"
+                id="playMovieBtn"
+            >
+                ⏳ Preparando...
+            </button>
+
+            <div
+                id="movieServers"
+                class="movie-servers"
+            ></div>
+
+        </div>
+
+    </div>
+
+</div>
+       
         <!-- =================================================
              FOOTER
         ================================================== -->

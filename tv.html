@@ -1,2222 +1,1635 @@
+```html
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
-
     <meta charset="UTF-8">
 
     <meta
         name="viewport"
-        content="width=device-width, initial-scale=1.0"
+        content="width=device-width, initial-scale=1.0, viewport-fit=cover"
     >
+
+    <title>NETVISION | TV EN VIVO</title>
 
     <meta
         name="theme-color"
-        content="#07111f"
+        content="#05080d"
     >
 
-    <title>
-        NETVISION | TV
-    </title>
-
-    <meta
-        name="description"
-        content="NETVISION - Televisión en vivo"
-    >
-
-    <!-- CSS PRINCIPAL -->
-    <link
-        rel="stylesheet"
-        href="style.css"
-    >
-
-    <!-- HLS.JS -->
-    <script
-        src="https://cdn.jsdelivr.net/npm/hls.js@latest">
-    </script>
-
-
-    <!-- =====================================================
-         ESTILOS EXCLUSIVOS DE TV
-    ====================================================== -->
+    <link rel="stylesheet" href="./style.css">
 
     <style>
 
-        /* =================================================
-           BASE
-        ================================================= */
+        /* =========================================================
+           NETVISION TV
+           CONCEPTO 1
+           RESPONSIVE REAL
+        ========================================================= */
 
-        html,
-        body {
-
-            margin: 0;
-
-            padding: 0;
-
-            min-height: 100%;
-
-            background:
-                #050b14;
-
-            color:
-                #ffffff;
-
-            font-family:
-                Arial,
-                Helvetica,
-                sans-serif;
-
-        }
-
-
-        body {
-
-            overflow-x:
-                hidden;
-
+        :root {
+            --nv-bg: #05080d;
+            --nv-panel: #080f18;
+            --nv-panel-2: #0b1420;
+            --nv-border: rgba(255,255,255,.08);
+            --nv-blue: #1597ff;
+            --nv-blue-2: #46b4ff;
+            --nv-text: #f5f8fc;
+            --nv-soft: #8d9aaa;
+            --nv-red: #ff3b30;
         }
 
 
         * {
-
-            box-sizing:
-                border-box;
-
+            box-sizing: border-box;
         }
 
 
-        button {
-
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            min-height: 100%;
+            background: var(--nv-bg);
+            color: var(--nv-text);
             font-family:
-                inherit;
-
+                Inter,
+                system-ui,
+                -apple-system,
+                BlinkMacSystemFont,
+                "Segoe UI",
+                sans-serif;
         }
 
 
-        /* =================================================
-           APP
-        ================================================= */
-
-        .tv-page-app {
-
-            min-height:
-                100vh;
-
-            background:
-                linear-gradient(
-                    180deg,
-                    #07111f 0%,
-                    #081522 45%,
-                    #050b14 100%
-                );
-
+        body {
+            overflow-x: hidden;
         }
 
 
-        /* =================================================
-           NAVBAR
-        ================================================= */
+        button,
+        a,
+        input {
+            font: inherit;
+        }
 
-        .tv-navbar {
 
-            position:
-                sticky;
+        button,
+        a {
+            -webkit-tap-highlight-color: transparent;
+        }
 
-            top:
-                0;
 
-            z-index:
-                1000;
+        /* =========================================================
+           CONTENEDOR
+        ========================================================= */
 
-            width:
-                100%;
-
-            min-height:
-                72px;
-
-            display:
-                flex;
-
-            align-items:
-                center;
-
-            justify-content:
-                space-between;
-
-            gap:
-                20px;
-
-            padding:
-                0 28px;
-
+        .tv-page {
+            width: 100%;
+            min-height: 100vh;
+            min-height: 100svh;
             background:
-                rgba(
-                    5,
-                    13,
-                    25,
-                    .94
-                );
+                radial-gradient(
+                    circle at 50% -20%,
+                    rgba(0,120,255,.08),
+                    transparent 45%
+                ),
+                #05080d;
+        }
 
-            border-bottom:
-                1px solid
-                rgba(
-                    86,
-                    190,
-                    255,
-                    .12
-                );
 
-            backdrop-filter:
-                blur(16px);
+        .tv-shell {
+            width: min(1420px, 100%);
+            margin: 0 auto;
+            padding: 0 28px 24px;
+        }
 
+
+        /* =========================================================
+           HEADER
+        ========================================================= */
+
+        .tv-header {
+            height: 68px;
+
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            align-items: center;
+
+            border-bottom: 1px solid rgba(255,255,255,.035);
+
+            position: relative;
+            z-index: 20;
         }
 
 
         .tv-logo {
+            display: inline-flex;
+            align-items: center;
 
-            text-decoration:
-                none;
+            width: fit-content;
 
-            color:
-                #ffffff;
+            text-decoration: none;
 
-            font-size:
-                23px;
+            font-size: 15px;
+            font-weight: 900;
+            letter-spacing: .14em;
 
-            font-weight:
-                800;
-
-            letter-spacing:
-                .5px;
-
-            white-space:
-                nowrap;
-
+            color: #fff;
         }
 
 
         .tv-logo span {
-
-            color:
-                #57c8ff;
-
+            color: var(--nv-blue-2);
         }
 
 
-        .tv-nav {
+        .tv-navigation {
+            display: flex;
+            align-items: center;
+            justify-content: center;
 
-            display:
-                flex;
-
-            align-items:
-                center;
-
-            justify-content:
-                center;
-
-            gap:
-                8px;
-
-            flex:
-                1;
-
+            gap: 5px;
         }
 
 
-        .tv-nav a {
+        .tv-navigation a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
 
-            color:
-                #b9c7d8;
+            gap: 6px;
 
-            text-decoration:
-                none;
+            padding: 8px 12px;
 
-            padding:
-                10px 16px;
+            border-radius: 8px;
 
-            border-radius:
-                10px;
+            color: #aeb9c8;
 
-            font-size:
-                14px;
+            text-decoration: none;
+
+            font-size: 11px;
+            font-weight: 600;
 
             transition:
-                .2s ease;
-
+                background .2s ease,
+                color .2s ease;
         }
 
 
-        .tv-nav a:hover {
-
-            color:
-                #ffffff;
-
-            background:
-                rgba(
-                    87,
-                    200,
-                    255,
-                    .10
-                );
-
+        .tv-navigation a:hover {
+            color: white;
+            background: rgba(255,255,255,.05);
         }
 
 
-        .tv-nav a.active {
-
-            color:
-                #ffffff;
-
-            background:
-                rgba(
-                    87,
-                    200,
-                    255,
-                    .14
-                );
-
-            box-shadow:
-                inset 0 0 0 1px
-                rgba(
-                    87,
-                    200,
-                    255,
-                    .18
-                );
-
-        }
-
-
-        .tv-profile {
-
-            display:
-                flex;
-
-            align-items:
-                center;
-
-            gap:
-                10px;
-
-            padding:
-                7px 12px 7px 7px;
-
-            border:
-                1px solid
-                rgba(
-                    255,
-                    255,
-                    255,
-                    .08
-                );
-
-            border-radius:
-                30px;
-
-            background:
-                rgba(
-                    255,
-                    255,
-                    255,
-                    .04
-                );
-
-            color:
-                #ffffff;
-
-        }
-
-
-        .tv-profile-avatar {
-
-            width:
-                34px;
-
-            height:
-                34px;
-
-            border-radius:
-                50%;
-
-            display:
-                grid;
-
-            place-items:
-                center;
+        .tv-navigation a.active {
+            color: #fff;
 
             background:
                 linear-gradient(
                     135deg,
-                    #5ed1ff,
-                    #248fd0
+                    #087fe5,
+                    #20a6ff
                 );
 
-            color:
-                #03111d;
-
-            font-weight:
-                800;
-
+            box-shadow:
+                0 5px 20px rgba(0,140,255,.18);
         }
 
 
-        .tv-profile-name {
+        .tv-profile {
+            justify-self: end;
 
-            font-size:
-                13px;
+            display: inline-flex;
+            align-items: center;
 
-            color:
-                #d8e5f2;
+            gap: 7px;
 
+            color: #e9edf3;
+
+            font-size: 11px;
+            font-weight: 600;
         }
 
 
-        /* =================================================
-           CONTENEDOR
-        ================================================= */
+        .tv-profile-avatar {
+            width: 26px;
+            height: 26px;
 
-        .tv-main {
+            display: grid;
+            place-items: center;
 
-            width:
-                min(
-                    1500px,
-                    calc(100% - 40px)
+            border-radius: 50%;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #087fe5,
+                    #52b8ff
                 );
 
-            margin:
-                0 auto;
+            color: white;
 
-            padding:
-                32px 0 60px;
-
+            font-size: 11px;
+            font-weight: 800;
         }
 
 
-        /* =================================================
-           CABECERA
-        ================================================= */
+        /* =========================================================
+           CABECERA DE TV
+        ========================================================= */
 
         .tv-heading {
-
-            margin-bottom:
-                22px;
-
+            padding-top: 28px;
+            padding-bottom: 18px;
         }
 
 
         .tv-kicker {
+            display: block;
 
-            display:
-                inline-block;
+            margin-bottom: 5px;
 
-            margin-bottom:
-                7px;
+            color: var(--nv-blue-2);
 
-            color:
-                #58caff;
-
-            font-size:
-                11px;
-
-            font-weight:
-                800;
-
-            letter-spacing:
-                2px;
-
+            font-size: 8px;
+            font-weight: 800;
+            letter-spacing: .12em;
+            text-transform: uppercase;
         }
 
 
         .tv-heading h1 {
+            margin: 0;
 
-            margin:
-                0;
+            font-size: clamp(34px, 4vw, 55px);
+            line-height: .95;
 
-            font-size:
-                clamp(
-                    28px,
-                    4vw,
-                    46px
-                );
+            font-weight: 900;
+            letter-spacing: -.045em;
+        }
 
-            line-height:
-                1.05;
 
+        .tv-heading h1 .blue {
+            color: var(--nv-blue-2);
         }
 
 
         .tv-heading p {
+            margin: 10px 0 0;
 
-            margin:
-                10px 0 0;
+            color: #9ca8b6;
 
-            color:
-                #8ea4b9;
-
-            font-size:
-                15px;
-
+            font-size: 12px;
+            line-height: 1.5;
         }
 
 
-        /* =================================================
-           AREA PRINCIPAL
-        ================================================= */
+        /* =========================================================
+           BLOQUE PRINCIPAL
+        ========================================================= */
 
-        .tv-layout {
-
-            display:
-                grid;
+        .tv-main-layout {
+            display: grid;
 
             grid-template-columns:
-                minmax(
-                    0,
-                    1.75fr
-                )
-                minmax(
-                    300px,
-                    .75fr
-                );
+                minmax(0, 1fr)
+                285px;
 
-            gap:
-                18px;
+            gap: 18px;
 
-            align-items:
-                stretch;
-
+            align-items: stretch;
         }
 
 
-        /* =================================================
+        /* =========================================================
            PLAYER
-        ================================================= */
+        ========================================================= */
 
         .tv-player-card {
+            position: relative;
 
-            position:
-                relative;
+            width: 100%;
 
-            min-width:
-                0;
+            aspect-ratio: 16 / 8.5;
 
-            min-height:
-                460px;
+            min-height: 280px;
 
-            overflow:
-                hidden;
+            overflow: hidden;
 
             border:
                 1px solid
-                rgba(
-                    88,
-                    202,
-                    255,
-                    .15
-                );
+                rgba(255,255,255,.08);
 
-            border-radius:
-                18px;
-
-            background:
-                #000;
-
-            box-shadow:
-                0 18px 50px
-                rgba(
-                    0,
-                    0,
-                    0,
-                    .35
-                );
-
-        }
-
-
-        .tv-player {
-
-            display:
-                block;
-
-            width:
-                100%;
-
-            height:
-                100%;
-
-            min-height:
-                460px;
-
-            object-fit:
-                contain;
-
-            background:
-                #000;
-
-        }
-
-
-        /* =================================================
-           PLACEHOLDER
-        ================================================= */
-
-        .tv-placeholder {
-
-            position:
-                absolute;
-
-            inset:
-                0;
-
-            z-index:
-                5;
-
-            display:
-                flex;
-
-            flex-direction:
-                column;
-
-            align-items:
-                center;
-
-            justify-content:
-                center;
-
-            text-align:
-                center;
-
-            padding:
-                30px;
+            border-radius: 10px;
 
             background:
                 radial-gradient(
-                    circle at center,
-                    rgba(
-                        33,
-                        104,
-                        153,
-                        .20
-                    ),
-                    rgba(
-                        0,
-                        0,
-                        0,
-                        .94
-                    )
+                    ellipse at 52% 65%,
+                    rgba(0,122,255,.18),
+                    transparent 35%
+                ),
+                radial-gradient(
+                    ellipse at 75% 80%,
+                    rgba(0,90,190,.15),
+                    transparent 40%
+                ),
+                linear-gradient(
+                    180deg,
+                    #020407,
+                    #03070c 70%,
+                    #02050a
                 );
 
+            box-shadow:
+                inset 0 0 60px rgba(0,0,0,.5);
         }
 
 
-        .tv-placeholder.hidden {
+        /* Curva azul del concepto */
 
-            display:
-                none;
+        .tv-player-card::after {
+            content: "";
 
+            position: absolute;
+
+            width: 125%;
+            height: 65%;
+
+            left: -12%;
+            bottom: -36%;
+
+            border-top:
+                2px solid
+                rgba(0,139,255,.65);
+
+            border-radius: 50%;
+
+            transform:
+                rotate(-5deg);
+
+            box-shadow:
+                0 -8px 35px
+                rgba(0,130,255,.22);
+
+            pointer-events: none;
         }
 
 
-        .tv-placeholder-icon {
+        .tv-player-card video {
+            position: absolute;
 
-            width:
-                82px;
+            inset: 0;
 
-            height:
-                82px;
+            width: 100%;
+            height: 100%;
 
-            margin-bottom:
-                20px;
+            object-fit: cover;
 
-            border:
-                1px solid
-                rgba(
-                    88,
-                    202,
-                    255,
-                    .22
-                );
+            background: #000;
 
-            border-radius:
-                50%;
-
-            display:
-                grid;
-
-            place-items:
-                center;
-
-            background:
-                rgba(
-                    88,
-                    202,
-                    255,
-                    .08
-                );
-
-            color:
-                #5acaff;
-
-            font-size:
-                30px;
-
+            z-index: 2;
         }
 
 
-        .tv-placeholder h2 {
+        .tv-player-placeholder {
+            position: absolute;
 
-            margin:
-                0;
+            inset: 0;
 
-            font-size:
-                23px;
+            z-index: 3;
 
-        }
+            display: flex;
+            flex-direction: column;
 
+            align-items: center;
+            justify-content: center;
 
-        .tv-placeholder p {
+            text-align: center;
 
-            max-width:
-                430px;
-
-            margin:
-                10px 0 0;
-
-            color:
-                #8399ad;
-
-            font-size:
-                14px;
-
-        }
-
-
-        /* =================================================
-           PANEL DERECHO
-        ================================================= */
-
-        .tv-side-panel {
-
-            min-width:
-                0;
-
-            display:
-                flex;
-
-            flex-direction:
-                column;
-
-            padding:
-                22px;
-
-            border:
-                1px solid
-                rgba(
-                    88,
-                    202,
-                    255,
-                    .14
-                );
-
-            border-radius:
-                18px;
+            padding: 20px;
 
             background:
                 linear-gradient(
                     180deg,
-                    rgba(
-                        14,
-                        31,
-                        49,
-                        .95
-                    ),
-                    rgba(
-                        7,
-                        17,
-                        29,
-                        .95
-                    )
+                    rgba(0,0,0,.08),
+                    rgba(0,0,0,.28)
                 );
-
         }
 
 
-        .tv-live-badge {
+        .tv-player-placeholder.hidden {
+            display: none;
+        }
 
-            display:
-                inline-flex;
 
-            align-items:
-                center;
+        .tv-play-icon {
+            width: 54px;
+            height: 54px;
 
-            gap:
-                7px;
+            display: grid;
+            place-items: center;
 
-            width:
-                fit-content;
+            margin-bottom: 12px;
 
-            padding:
-                7px 11px;
-
-            border-radius:
-                999px;
+            border-radius: 50%;
 
             background:
-                rgba(
-                    72,
-                    208,
-                    255,
-                    .08
+                rgba(255,255,255,.08);
+
+            border:
+                1px solid
+                rgba(255,255,255,.12);
+
+            font-size: 22px;
+
+            color: white;
+        }
+
+
+        .tv-player-placeholder h3 {
+            margin: 0;
+
+            font-size: 15px;
+            font-weight: 800;
+        }
+
+
+        .tv-player-placeholder p {
+            margin: 5px 0 0;
+
+            color: #8996a5;
+
+            font-size: 10px;
+        }
+
+
+        /* =========================================================
+           PANEL DERECHO
+        ========================================================= */
+
+        .tv-side {
+            display: flex;
+            flex-direction: column;
+
+            min-width: 0;
+
+            gap: 12px;
+        }
+
+
+        .tv-side-card {
+            padding: 14px;
+
+            border:
+                1px solid
+                rgba(255,255,255,.045);
+
+            border-radius: 9px;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    rgba(11,20,32,.96),
+                    rgba(6,12,20,.96)
                 );
 
-            color:
-                #59ccff;
+            box-shadow:
+                0 10px 30px rgba(0,0,0,.18);
+        }
 
-            font-size:
-                11px;
 
-            font-weight:
-                800;
+        .tv-side-title {
+            display: flex;
+            align-items: center;
 
-            letter-spacing:
-                1px;
+            gap: 5px;
 
+            margin-bottom: 10px;
+
+            color: var(--nv-blue-2);
+
+            font-size: 8px;
+            font-weight: 800;
+            letter-spacing: .08em;
+            text-transform: uppercase;
         }
 
 
         .tv-live-dot {
+            width: 5px;
+            height: 5px;
 
-            width:
-                7px;
+            border-radius: 50%;
 
-            height:
-                7px;
-
-            border-radius:
-                50%;
-
-            background:
-                #58caff;
+            background: var(--nv-blue-2);
 
             box-shadow:
-                0 0 10px
-                rgba(
-                    88,
-                    202,
-                    255,
-                    .8
-                );
-
+                0 0 8px
+                rgba(70,180,255,.8);
         }
 
 
-        /* =================================================
+        /* =========================================================
            CANAL ACTUAL
-        ================================================= */
+        ========================================================= */
 
-        .tv-current {
+        .tv-current-preview {
+            height: 82px;
 
-            display:
-                flex;
+            display: flex;
+            align-items: center;
+            justify-content: center;
 
-            align-items:
-                center;
+            overflow: hidden;
 
-            gap:
-                15px;
+            margin-bottom: 10px;
 
-            margin:
-                22px 0;
-
-            padding:
-                15px;
-
-            border-radius:
-                14px;
+            border-radius: 6px;
 
             background:
-                rgba(
-                    255,
-                    255,
-                    255,
-                    .035
+                radial-gradient(
+                    circle,
+                    rgba(255,255,255,.05),
+                    rgba(0,0,0,.4)
                 );
 
             border:
                 1px solid
-                rgba(
-                    255,
-                    255,
-                    255,
-                    .05
-                );
-
+                rgba(255,255,255,.04);
         }
 
 
-        .tv-current-logo {
+        .tv-current-preview img {
+            width: 70%;
+            height: 70%;
 
-            flex:
-                0 0 62px;
-
-            width:
-                62px;
-
-            height:
-                62px;
-
-            display:
-                grid;
-
-            place-items:
-                center;
-
-            overflow:
-                hidden;
-
-            border-radius:
-                13px;
-
-            background:
-                #0c1b2b;
-
-            border:
-                1px solid
-                rgba(
-                    88,
-                    202,
-                    255,
-                    .12
-                );
-
-            color:
-                #58caff;
-
-            font-weight:
-                800;
-
+            object-fit: contain;
         }
 
 
-        .tv-current-logo img {
+        .tv-current-preview-placeholder {
+            color: #667382;
 
-            width:
-                100%;
+            font-size: 10px;
+            font-weight: 700;
 
-            height:
-                100%;
-
-            object-fit:
-                contain;
-
-            padding:
-                7px;
-
+            text-align: center;
         }
 
 
-        .tv-current-text {
+        .tv-current-name {
+            margin: 0;
 
-            min-width:
-                0;
+            color: #fff;
 
+            font-size: 12px;
+            font-weight: 800;
         }
 
 
-        .tv-current-text h2 {
+        .tv-current-category {
+            margin: 4px 0 0;
 
-            margin:
-                0;
+            color: #778697;
 
-            overflow:
-                hidden;
-
-            text-overflow:
-                ellipsis;
-
-            white-space:
-                nowrap;
-
-            font-size:
-                16px;
-
+            font-size: 9px;
         }
 
 
-        .tv-current-text p {
+        .tv-current-link {
+            display: inline-block;
 
-            margin:
-                5px 0 0;
+            margin-top: 8px;
 
-            color:
-                #7f96aa;
+            color: var(--nv-blue-2);
 
-            font-size:
-                12px;
-
+            font-size: 9px;
+            font-weight: 700;
         }
 
 
-        /* =================================================
+        /* =========================================================
            CATEGORÍAS
-        ================================================= */
+        ========================================================= */
 
-        .tv-categories-title {
+        .tv-categories-card {
+            flex: 1;
 
-            margin:
-                2px 0 10px;
-
-            color:
-                #8199ad;
-
-            font-size:
-                11px;
-
-            font-weight:
-                800;
-
-            letter-spacing:
-                1.5px;
-
+            min-height: 0;
         }
 
 
         .tv-category-list {
+            display: flex;
+            flex-direction: column;
 
-            display:
-                flex;
+            gap: 4px;
 
-            flex-direction:
-                column;
+            max-height: 100%;
 
-            gap:
-                7px;
+            overflow-y: auto;
 
-            max-height:
-                290px;
-
-            overflow-y:
-                auto;
-
-            padding-right:
-                4px;
-
-        }
-
-
-        .tv-category-list::-webkit-scrollbar {
-
-            width:
-                4px;
-
-        }
-
-
-        .tv-category-list::-webkit-scrollbar-thumb {
-
-            background:
-                rgba(
-                    88,
-                    202,
-                    255,
-                    .25
-                );
-
-            border-radius:
-                20px;
-
+            scrollbar-width: thin;
+            scrollbar-color:
+                rgba(50,160,255,.35)
+                transparent;
         }
 
 
         .tv-category-button {
+            width: 100%;
 
-            width:
-                100%;
-
-            display:
-                flex;
-
-            align-items:
-                center;
-
-            gap:
+            display: grid;
+            grid-template-columns:
+                18px
+                1fr
                 10px;
 
-            padding:
-                11px 12px;
+            align-items: center;
 
-            border:
-                1px solid
-                transparent;
+            gap: 6px;
 
-            border-radius:
-                10px;
+            min-height: 28px;
 
-            background:
-                rgba(
-                    255,
-                    255,
-                    255,
-                    .025
-                );
+            padding: 5px 7px;
 
-            color:
-                #a8b9c9;
+            border: 0;
 
-            text-align:
-                left;
+            border-radius: 5px;
 
-            cursor:
-                pointer;
+            color: #9ba8b7;
+
+            background: transparent;
+
+            text-align: left;
+
+            cursor: pointer;
+
+            font-size: 9px;
 
             transition:
-                .2s ease;
-
+                background .2s ease,
+                color .2s ease;
         }
 
 
         .tv-category-button:hover {
-
-            color:
-                #ffffff;
-
-            background:
-                rgba(
-                    88,
-                    202,
-                    255,
-                    .07
-                );
-
+            background: rgba(255,255,255,.045);
+            color: white;
         }
 
 
         .tv-category-button.active {
-
-            color:
-                #ffffff;
-
-            border-color:
-                rgba(
-                    88,
-                    202,
-                    255,
-                    .20
-                );
+            color: #fff;
 
             background:
                 linear-gradient(
                     90deg,
-                    rgba(
-                        88,
-                        202,
-                        255,
-                        .13
-                    ),
-                    rgba(
-                        88,
-                        202,
-                        255,
-                        .04
-                    )
+                    #087fdc,
+                    #087fdc
                 );
 
+            box-shadow:
+                0 5px 16px
+                rgba(0,120,255,.15);
         }
 
 
         .category-icon {
-
-            width:
-                25px;
-
-            text-align:
-                center;
-
+            text-align: center;
+            font-size: 10px;
         }
 
 
         .category-name {
-
-            flex:
-                1;
-
-            overflow:
-                hidden;
-
-            text-overflow:
-                ellipsis;
-
-            white-space:
-                nowrap;
-
-            font-size:
-                13px;
-
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
 
         .category-arrow {
-
-            color:
-                #58caff;
-
-            font-size:
-                18px;
-
+            color: #708092;
+            text-align: right;
         }
 
 
-        /* =================================================
+        /* =========================================================
            CANALES
-        ================================================= */
+        ========================================================= */
 
-        .tv-channel-section {
+        .tv-channels-section {
+            margin-top: 18px;
+        }
 
-            margin-top:
-                20px;
 
-            padding:
-                20px;
+        .tv-section-header {
+            display: flex;
+
+            align-items: center;
+            justify-content: space-between;
+
+            margin-bottom: 9px;
+        }
+
+
+        .tv-section-title {
+            margin: 0;
+
+            color: #eaf0f6;
+
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: .04em;
+            text-transform: uppercase;
+        }
+
+
+        .tv-section-arrows {
+            display: flex;
+            gap: 4px;
+        }
+
+
+        .tv-arrow {
+            width: 26px;
+            height: 24px;
+
+            display: grid;
+            place-items: center;
 
             border:
                 1px solid
-                rgba(
-                    88,
-                    202,
-                    255,
-                    .12
-                );
+                rgba(255,255,255,.07);
 
-            border-radius:
-                18px;
+            border-radius: 5px;
 
-            background:
-                rgba(
-                    9,
-                    23,
-                    37,
-                    .8
-                );
+            background: #0a111a;
 
+            color: #8da0b2;
+
+            cursor: pointer;
         }
 
 
-        .tv-channel-header {
-
-            display:
-                flex;
-
-            align-items:
-                center;
-
-            justify-content:
-                space-between;
-
-            gap:
-                15px;
-
-            margin-bottom:
-                15px;
-
+        .selected-category-header {
+            display: none;
         }
 
 
-        .tv-channel-header h2 {
+        .selected-channel-row {
+            display: flex;
 
-            margin:
-                0;
+            gap: 8px;
 
-            font-size:
-                18px;
+            width: 100%;
 
-        }
+            overflow-x: auto;
+            overflow-y: hidden;
 
+            padding: 1px 2px 5px;
 
-        .tv-channel-count {
-
-            color:
-                #6f879b;
-
-            font-size:
-                12px;
-
-        }
-
-
-        /* =================================================
-           FILA HORIZONTAL
-        ================================================= */
-
-        .tv-channel-row {
-
-            display:
-                flex;
-
-            flex-wrap:
-                nowrap;
-
-            gap:
-                12px;
-
-            overflow-x:
-                auto;
-
-            overflow-y:
-                hidden;
-
-            padding:
-                4px 3px 12px;
-
-            scroll-behavior:
-                smooth;
-
-            scrollbar-width:
-                thin;
-
+            scrollbar-width: thin;
             scrollbar-color:
-                rgba(
-                    88,
-                    202,
-                    255,
-                    .28
-                )
+                rgba(30,150,255,.35)
                 transparent;
-
         }
 
 
-        .tv-channel-row::-webkit-scrollbar {
-
-            height:
-                6px;
-
-        }
-
-
-        .tv-channel-row::-webkit-scrollbar-track {
-
-            background:
-                transparent;
-
-        }
-
-
-        .tv-channel-row::-webkit-scrollbar-thumb {
-
-            background:
-                rgba(
-                    88,
-                    202,
-                    255,
-                    .25
-                );
-
-            border-radius:
-                20px;
-
-        }
-
-
-        /* =================================================
-           TARJETA CANAL
-        ================================================= */
-
-        .tv-channel-card {
-
+        .selected-channel-row .channel-card {
             flex:
-                0 0 190px;
+                0 0
+                145px;
 
-            min-width:
-                190px;
+            min-width: 145px;
 
-            min-height:
-                115px;
+            height: 94px;
 
-            padding:
-                14px;
+            overflow: hidden;
 
             border:
                 1px solid
-                rgba(
-                    255,
-                    255,
-                    255,
-                    .06
-                );
+                rgba(255,255,255,.055);
 
-            border-radius:
-                14px;
+            border-radius: 7px;
 
             background:
                 linear-gradient(
                     145deg,
-                    rgba(
-                        19,
-                        42,
-                        62,
-                        .9
-                    ),
-                    rgba(
-                        8,
-                        20,
-                        32,
-                        .95
-                    )
+                    #0a121c,
+                    #070d15
                 );
 
-            cursor:
-                pointer;
+            cursor: pointer;
 
             transition:
                 transform .2s ease,
                 border-color .2s ease,
-                background .2s ease;
-
+                box-shadow .2s ease;
         }
 
 
-        .tv-channel-card:hover {
-
-            transform:
-                translateY(-3px);
+        .selected-channel-row .channel-card:hover {
+            transform: translateY(-2px);
 
             border-color:
-                rgba(
-                    88,
-                    202,
-                    255,
-                    .35
-                );
+                rgba(45,168,255,.45);
+
+            box-shadow:
+                0 8px 25px
+                rgba(0,120,255,.13);
+        }
+
+
+        .selected-channel-row .channel-logo {
+            height: 59px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            padding: 8px;
+
+            background:
+                rgba(0,0,0,.28);
+        }
+
+
+        .selected-channel-row .channel-logo img {
+            width: 100%;
+            height: 100%;
+
+            object-fit: contain;
+        }
+
+
+        .default-channel-logo {
+            display: grid;
+            place-items: center;
+
+            width: 38px;
+            height: 38px;
+
+            border-radius: 7px;
 
             background:
                 linear-gradient(
-                    145deg,
-                    rgba(
-                        24,
-                        57,
-                        82,
-                        .95
-                    ),
-                    rgba(
-                        8,
-                        22,
-                        35,
-                        .95
-                    )
+                    135deg,
+                    #0b6bc1,
+                    #12314f
                 );
 
+            color: white;
+
+            font-size: 11px;
+            font-weight: 900;
         }
 
 
-        .tv-channel-card.selected {
-
-            border-color:
-                rgba(
-                    88,
-                    202,
-                    255,
-                    .55
-                );
-
-            box-shadow:
-                0 0 0 1px
-                rgba(
-                    88,
-                    202,
-                    255,
-                    .08
-                );
-
+        .channel-card-info {
+            padding: 7px 8px;
         }
 
 
-        .tv-channel-logo {
+        .channel-name {
+            overflow: hidden;
 
-            width:
-                54px;
+            color: #eaf0f6;
 
-            height:
-                54px;
+            font-size: 9px;
+            font-weight: 800;
 
-            margin-bottom:
-                10px;
-
-            display:
-                grid;
-
-            place-items:
-                center;
-
-            overflow:
-                hidden;
-
-            border-radius:
-                11px;
-
-            background:
-                #091725;
-
-            color:
-                #58caff;
-
-            font-weight:
-                800;
-
+            white-space: nowrap;
+            text-overflow: ellipsis;
         }
 
 
-        .tv-channel-logo img {
+        .channel-meta {
+            margin-top: 3px;
 
-            width:
-                100%;
+            color: #ff4a43;
 
-            height:
-                100%;
-
-            object-fit:
-                contain;
-
-            padding:
-                6px;
-
+            font-size: 7px;
+            font-weight: 700;
         }
 
 
-        .tv-channel-name {
+        /* =========================================================
+           FOOTER
+        ========================================================= */
 
-            overflow:
-                hidden;
+        .tv-footer {
+            padding: 16px 0 0;
 
-            text-overflow:
-                ellipsis;
+            color: #536170;
 
-            white-space:
-                nowrap;
+            font-size: 8px;
 
-            color:
-                #ffffff;
-
-            font-size:
-                13px;
-
-            font-weight:
-                700;
-
+            text-align: center;
         }
 
 
-        .tv-channel-live {
-
-            margin-top:
-                5px;
-
-            color:
-                #58caff;
-
-            font-size:
-                10px;
-
-            font-weight:
-                700;
-
-        }
-
-
-        /* =================================================
-           MENSAJES
-        ================================================= */
-
-        .tv-message {
-
-            width:
-                100%;
-
-            padding:
-                25px;
-
-            text-align:
-                center;
-
-            color:
-                #91a5b7;
-
-        }
-
-
-        .tv-error {
-
-            color:
-                #ff8e8e;
-
-        }
-
-
-        /* =================================================
-           PANTALLA GRANDE
-        ================================================= */
-
-        @media (
-            min-width: 1200px
-        ) {
-
-            .tv-player-card,
-            .tv-player {
-
-                min-height:
-                    560px;
-
-            }
-
-            .tv-side-panel {
-
-                min-height:
-                    560px;
-
-            }
-
-        }
-
-
-        /* =================================================
+        /* =========================================================
            TABLET
-        ================================================= */
+        ========================================================= */
 
-        @media (
-            max-width: 1000px
-        ) {
+        @media (max-width: 900px) {
 
-            .tv-layout {
+            .tv-shell {
+                padding-left: 18px;
+                padding-right: 18px;
+            }
+
+
+            .tv-main-layout {
+                grid-template-columns:
+                    minmax(0, 1fr)
+                    235px;
+
+                gap: 12px;
+            }
+
+
+            .tv-current-preview {
+                height: 70px;
+            }
+
+
+            .selected-channel-row .channel-card {
+                flex-basis: 130px;
+                min-width: 130px;
+            }
+
+        }
+
+
+        /* =========================================================
+           TELÉFONO
+           
+           IMPORTANTE:
+           NO apilamos player + sidebar + canales.
+
+           Conservamos el mismo concepto de escritorio,
+           solamente reducimos sus proporciones.
+        ========================================================= */
+
+        @media (max-width: 600px) {
+
+            html,
+            body {
+                width: 100%;
+                height: 100%;
+
+                overflow: hidden;
+            }
+
+
+            .tv-page {
+                width: 100vw;
+                height: 100svh;
+                min-height: 100svh;
+
+                overflow: hidden;
+            }
+
+
+            .tv-shell {
+                width: 100%;
+                height: 100%;
+
+                padding:
+                    env(safe-area-inset-top)
+                    8px
+                    env(safe-area-inset-bottom)
+                    8px;
+
+                display: flex;
+                flex-direction: column;
+            }
+
+
+            /* HEADER COMPACTO */
+
+            .tv-header {
+                flex:
+                    0 0
+                    40px;
+
+                height: 40px;
 
                 grid-template-columns:
-                    1fr;
-
-            }
-
-
-            .tv-player-card,
-            .tv-player {
-
-                min-height:
-                    430px;
-
-            }
-
-
-            .tv-side-panel {
-
-                min-height:
+                    auto
+                    1fr
                     auto;
 
+                gap: 5px;
             }
 
 
-            .tv-category-list {
-
-                display:
-                    flex;
-
-                flex-direction:
-                    row;
-
-                max-height:
-                    none;
-
-                overflow-x:
-                    auto;
-
-                overflow-y:
-                    hidden;
-
+            .tv-logo {
+                font-size: 10px;
+                letter-spacing: .11em;
             }
 
 
-            .tv-category-button {
+            .tv-navigation {
+                gap: 1px;
 
-                flex:
-                    0 0 auto;
-
-                width:
-                    auto;
-
-                min-width:
-                    150px;
-
+                min-width: 0;
             }
 
-        }
 
-
-        /* =================================================
-           MÓVIL
-        ================================================= */
-
-        @media (
-            max-width: 700px
-        ) {
-
-            .tv-navbar {
-
-                min-height:
-                    62px;
-
+            .tv-navigation a {
                 padding:
-                    0 14px;
+                    5px
+                    5px;
 
+                gap: 2px;
+
+                font-size: 7px;
+
+                border-radius: 5px;
+
+                white-space: nowrap;
             }
 
 
-            .tv-nav {
-
-                display:
-                    none;
-
+            .tv-navigation a span {
+                font-size: 8px;
             }
 
 
-            .tv-profile-name {
+            .tv-profile {
+                gap: 3px;
 
-                display:
-                    none;
-
+                font-size: 7px;
             }
 
 
-            .tv-main {
+            .tv-profile-avatar {
+                width: 20px;
+                height: 20px;
 
-                width:
-                    calc(
-                        100% - 20px
-                    );
-
-                padding:
-                    18px 0 35px;
-
+                font-size: 8px;
             }
 
+
+            /* TITULO */
 
             .tv-heading {
+                flex:
+                    0 0
+                    58px;
 
-                margin-bottom:
-                    14px;
+                padding:
+                    10px
+                    2px
+                    5px;
+            }
 
+
+            .tv-kicker {
+                margin-bottom: 2px;
+
+                font-size: 6px;
             }
 
 
             .tv-heading h1 {
+                font-size: 25px;
 
-                font-size:
-                    29px;
-
+                line-height: .95;
             }
 
 
             .tv-heading p {
+                margin-top: 4px;
 
-                font-size:
-                    13px;
-
+                font-size: 8px;
+                line-height: 1.2;
             }
 
 
-            .tv-layout {
+            /* PLAYER + SIDEBAR JUNTOS */
 
-                gap:
-                    10px;
+            .tv-main-layout {
+                flex:
+                    0 0
+                    150px;
 
+                height: 150px;
+
+                grid-template-columns:
+                    minmax(0, 68%)
+                    minmax(0, 32%);
+
+                gap: 6px;
             }
 
 
             .tv-player-card {
+                min-height: 0;
 
-                min-height:
-                    220px;
+                height: 150px;
 
-                border-radius:
-                    13px;
+                aspect-ratio: auto;
 
+                border-radius: 6px;
             }
 
 
-            .tv-player {
-
-                min-height:
-                    220px;
-
-                height:
-                    220px;
-
+            .tv-player-card::after {
+                height: 60%;
+                bottom: -35%;
             }
 
 
-            .tv-placeholder {
-
-                padding:
-                    18px;
-
+            .tv-player-placeholder {
+                padding: 7px;
             }
 
 
-            .tv-placeholder-icon {
+            .tv-play-icon {
+                width: 31px;
+                height: 31px;
 
-                width:
-                    58px;
+                margin-bottom: 5px;
 
-                height:
-                    58px;
-
-                margin-bottom:
-                    12px;
-
-                font-size:
-                    22px;
-
+                font-size: 13px;
             }
 
 
-            .tv-placeholder h2 {
-
-                font-size:
-                    18px;
-
+            .tv-player-placeholder h3 {
+                font-size: 9px;
             }
 
 
-            .tv-placeholder p {
+            .tv-player-placeholder p {
+                max-width: 130px;
 
-                font-size:
-                    12px;
-
+                font-size: 6px;
+                line-height: 1.2;
             }
 
 
-            .tv-side-panel {
+            /* PANEL DERECHO */
 
-                padding:
-                    14px;
+            .tv-side {
+                gap: 5px;
 
-                border-radius:
-                    13px;
+                min-width: 0;
 
+                height: 150px;
             }
 
 
-            .tv-current {
+            .tv-side-card {
+                padding: 6px;
 
-                margin:
-                    12px 0;
-
-                padding:
-                    11px;
-
+                border-radius: 6px;
             }
 
 
-            .tv-current-logo {
+            .tv-side-title {
+                gap: 3px;
 
-                flex-basis:
-                    48px;
+                margin-bottom: 4px;
 
-                width:
-                    48px;
-
-                height:
-                    48px;
-
+                font-size: 5px;
+                letter-spacing: .04em;
             }
 
 
-            .tv-current-text h2 {
-
-                font-size:
-                    14px;
-
+            .tv-live-dot {
+                width: 3px;
+                height: 3px;
             }
 
 
-            .tv-current-text p {
+            .tv-current-preview {
+                height: 42px;
 
-                font-size:
-                    11px;
+                margin-bottom: 4px;
 
+                border-radius: 4px;
             }
 
 
-            .tv-categories-title {
+            .tv-current-preview-placeholder {
+                font-size: 6px;
+            }
 
-                margin-top:
-                    4px;
 
+            .tv-current-name {
+                font-size: 7px;
+            }
+
+
+            .tv-current-category {
+                margin-top: 2px;
+
+                font-size: 5px;
+            }
+
+
+            .tv-current-link {
+                margin-top: 3px;
+
+                font-size: 5px;
+            }
+
+
+            .tv-categories-card {
+                min-height: 0;
+
+                overflow: hidden;
             }
 
 
             .tv-category-list {
+                gap: 1px;
 
-                gap:
-                    7px;
-
+                overflow-y: auto;
             }
 
 
             .tv-category-button {
-
-                min-width:
-                    135px;
+                min-height: 16px;
 
                 padding:
-                    9px;
+                    2px
+                    3px;
 
+                grid-template-columns:
+                    10px
+                    1fr
+                    6px;
+
+                gap: 2px;
+
+                border-radius: 3px;
+
+                font-size: 5.5px;
             }
 
 
-            .tv-channel-section {
-
-                margin-top:
-                    10px;
-
-                padding:
-                    13px;
-
-                border-radius:
-                    13px;
-
+            .category-icon {
+                font-size: 6px;
             }
 
 
-            .tv-channel-header {
-
-                margin-bottom:
-                    9px;
-
+            .category-arrow {
+                font-size: 7px;
             }
 
 
-            .tv-channel-header h2 {
+            /* CANALES */
 
-                font-size:
-                    15px;
-
-            }
-
-
-            .tv-channel-count {
-
-                font-size:
-                    10px;
-
-            }
-
-
-            .tv-channel-row {
-
-                gap:
-                    9px;
-
-            }
-
-
-            .tv-channel-card {
-
-                flex-basis:
-                    155px;
-
-                min-width:
-                    155px;
-
-                min-height:
+            .tv-channels-section {
+                flex:
+                    0 0
                     105px;
 
+                min-height: 105px;
+
+                margin-top: 8px;
+            }
+
+
+            .tv-section-header {
+                height: 18px;
+
+                margin-bottom: 4px;
+            }
+
+
+            .tv-section-title {
+                font-size: 7px;
+            }
+
+
+            .tv-arrow {
+                width: 19px;
+                height: 18px;
+
+                font-size: 9px;
+            }
+
+
+            .selected-channel-row {
+                gap: 5px;
+
+                height: 82px;
+
+                padding-bottom: 2px;
+            }
+
+
+            .selected-channel-row .channel-card {
+                flex:
+                    0 0
+                    92px;
+
+                min-width: 92px;
+
+                height: 75px;
+
+                border-radius: 5px;
+            }
+
+
+            .selected-channel-row .channel-logo {
+                height: 46px;
+
+                padding: 5px;
+            }
+
+
+            .selected-channel-row .channel-card-info {
                 padding:
-                    11px;
-
+                    4px
+                    5px;
             }
 
 
-            .tv-channel-logo {
-
-                width:
-                    45px;
-
-                height:
-                    45px;
-
-                margin-bottom:
-                    7px;
-
+            .selected-channel-row .channel-name {
+                font-size: 6px;
             }
 
 
-            .tv-channel-name {
+            .selected-channel-row .channel-meta {
+                margin-top: 1px;
 
-                font-size:
-                    12px;
+                font-size: 5px;
+            }
 
+
+            .tv-footer {
+                display: none;
             }
 
         }
 
 
-        /* =================================================
+        /* =========================================================
            TELÉFONOS MUY PEQUEÑOS
-        ================================================= */
+        ========================================================= */
 
-        @media (
-            max-width: 390px
-        ) {
+        @media (max-width: 380px) {
 
-            .tv-main {
-
-                width:
-                    calc(
-                        100% - 14px
-                    );
-
+            .tv-shell {
+                padding-left: 6px;
+                padding-right: 6px;
             }
 
 
-            .tv-heading h1 {
-
-                font-size:
-                    26px;
-
+            .tv-header {
+                flex-basis: 37px;
+                height: 37px;
             }
 
 
-            .tv-player,
-            .tv-player-card {
-
-                min-height:
-                    195px;
-
-                height:
-                    195px;
-
+            .tv-logo {
+                font-size: 8px;
             }
 
 
-            .tv-channel-card {
+            .tv-navigation a {
+                padding:
+                    4px
+                    3px;
 
-                flex-basis:
-                    145px;
-
-                min-width:
-                    145px;
-
-            }
-
-        }
-
-
-        /* =================================================
-           LANDSCAPE EN MÓVIL
-        ================================================= */
-
-        @media (
-            max-width: 900px
-        )
-        and (
-            orientation: landscape
-        ) {
-
-            .tv-navbar {
-
-                min-height:
-                    52px;
-
+                font-size: 6px;
             }
 
 
-            .tv-main {
+            .tv-profile {
+                font-size: 6px;
+            }
 
-                padding-top:
-                    10px;
 
+            .tv-profile-avatar {
+                width: 18px;
+                height: 18px;
             }
 
 
             .tv-heading {
-
-                display:
-                    none;
-
+                flex-basis: 53px;
+                height: 53px;
             }
 
 
-            .tv-layout {
-
-                grid-template-columns:
-                    minmax(
-                        0,
-                        1.7fr
-                    )
-                    minmax(
-                        220px,
-                        .7fr
-                    );
-
+            .tv-heading h1 {
+                font-size: 22px;
             }
 
 
-            .tv-player,
-            .tv-player-card {
-
-                min-height:
-                    calc(
-                        100vh - 95px
-                    );
-
-                height:
-                    calc(
-                        100vh - 95px
-                    );
-
+            .tv-heading p {
+                font-size: 7px;
             }
 
 
-            .tv-side-panel {
-
-                max-height:
-                    calc(
-                        100vh - 95px
-                    );
-
-                overflow:
-                    hidden;
-
+            .tv-main-layout {
+                flex-basis: 137px;
+                height: 137px;
             }
 
 
-            .tv-category-list {
-
-                flex-direction:
-                    column;
-
-                overflow-y:
-                    auto;
-
-                overflow-x:
-                    hidden;
-
+            .tv-player-card,
+            .tv-side {
+                height: 137px;
             }
 
 
-            .tv-category-button {
-
-                width:
-                    100%;
-
-                min-width:
-                    0;
-
+            .tv-channels-section {
+                flex-basis: 96px;
+                min-height: 96px;
             }
 
 
-            .tv-channel-section {
+            .selected-channel-row {
+                height: 73px;
+            }
 
-                margin-top:
-                    10px;
 
+            .selected-channel-row .channel-card {
+                flex-basis: 84px;
+                min-width: 84px;
+                height: 69px;
+            }
+
+
+            .selected-channel-row .channel-logo {
+                height: 41px;
             }
 
         }
 
 
-        /* =================================================
-           ACCESIBILIDAD
-        ================================================= */
+        /* =========================================================
+           PANTALLA HORIZONTAL DEL TELÉFONO
+        ========================================================= */
 
-        .tv-channel-card:focus,
-        .tv-category-button:focus {
+        @media (max-height: 500px) and (orientation: landscape) {
 
-            outline:
-                2px solid
-                #58caff;
+            html,
+            body {
+                overflow: hidden;
+            }
 
-            outline-offset:
-                2px;
+
+            .tv-shell {
+                padding:
+                    3px
+                    10px
+                    3px;
+            }
+
+
+            .tv-header {
+                flex-basis: 34px;
+                height: 34px;
+            }
+
+
+            .tv-heading {
+                flex-basis: 43px;
+                height: 43px;
+
+                padding:
+                    5px
+                    2px
+                    3px;
+            }
+
+
+            .tv-heading h1 {
+                font-size: 20px;
+            }
+
+
+            .tv-heading p {
+                margin-top: 2px;
+                font-size: 6px;
+            }
+
+
+            .tv-main-layout {
+                flex-basis: 112px;
+                height: 112px;
+            }
+
+
+            .tv-player-card,
+            .tv-side {
+                height: 112px;
+            }
+
+
+            .tv-channels-section {
+                margin-top: 4px;
+
+                flex-basis: 78px;
+                min-height: 78px;
+            }
+
+
+            .selected-channel-row {
+                height: 57px;
+            }
+
+
+            .selected-channel-row .channel-card {
+                flex-basis: 72px;
+                min-width: 72px;
+                height: 54px;
+            }
+
+
+            .selected-channel-row .channel-logo {
+                height: 31px;
+            }
 
         }
 
     </style>
-
 </head>
 
 
 <body>
 
+<div class="tv-page">
 
-<div class="tv-page-app">
-
-
-    <!-- =================================================
-         NAVBAR
-    ================================================= -->
-
-    <header class="tv-navbar">
+    <div class="tv-shell">
 
 
-        <a
-            href="index.html"
-            class="tv-logo"
-        >
-            <span>NET</span>VISION
-        </a>
+        <!-- =====================================================
+             HEADER
+        ====================================================== -->
 
-
-        <nav class="tv-nav">
+        <header class="tv-header">
 
             <a
-                href="index.html"
+                href="./index.html"
+                class="tv-logo"
             >
-                Inicio
+                NET<span>VISION</span>
             </a>
 
-            <a
-                href="tv.html"
-                class="active"
-            >
-                TV
-            </a>
 
-            <a
-                href="peliculas.html"
-            >
-                Películas
-            </a>
+            <nav class="tv-navigation">
 
-            <a
-                href="series.html"
-            >
-                Series
-            </a>
+                <a href="./index.html">
+                    <span>⌂</span>
+                    Inicio
+                </a>
 
-        </nav>
+                <a
+                    href="./tv.html"
+                    class="active"
+                >
+                    <span>▣</span>
+                    TV
+                </a>
+
+                <a href="./peliculas.html">
+                    <span>▤</span>
+                    Películas
+                </a>
+
+                <a href="./series.html">
+                    <span>▦</span>
+                    Series
+                </a>
+
+            </nav>
 
 
-        <div class="tv-profile">
+            <div class="tv-profile">
 
-            <div class="tv-profile-avatar">
-                A
+                <div class="tv-profile-avatar">
+                    A
+                </div>
+
+                <span>
+                    Perfil
+                </span>
+
+                <span>
+                    ▾
+                </span>
+
             </div>
 
-            <span class="tv-profile-name">
-                Alex
-            </span>
-
-        </div>
+        </header>
 
 
-    </header>
-
-
-    <!-- =================================================
-         CONTENIDO
-    ================================================= -->
-
-    <main class="tv-main">
-
-
-        <!-- =================================================
+        <!-- =====================================================
              ENCABEZADO
-        ================================================= -->
+        ====================================================== -->
 
         <section class="tv-heading">
 
@@ -2225,53 +1638,51 @@
             </span>
 
             <h1>
-                Televisión
+                <span class="blue">TV</span>
+                EN VIVO
             </h1>
 
             <p>
-                Disfruta de tus canales favoritos en vivo.
+                Disfruta tus canales favoritos
+                en tiempo real.
             </p>
 
         </section>
 
 
-        <!-- =================================================
+        <!-- =====================================================
              PLAYER + PANEL
-        ================================================= -->
+        ====================================================== -->
 
-        <section class="tv-layout">
+        <section class="tv-main-layout">
 
 
             <!-- =================================================
                  PLAYER
-            ================================================= -->
+            ================================================== -->
 
             <div class="tv-player-card">
 
-
                 <video
                     id="videoPlayer"
-                    class="tv-player"
                     controls
                     playsinline
                     preload="metadata"
                 ></video>
 
 
-                <!-- PLACEHOLDER -->
-
                 <div
+                    class="tv-player-placeholder"
                     id="playerPlaceholder"
-                    class="tv-placeholder"
                 >
 
-                    <div class="tv-placeholder-icon">
+                    <div class="tv-play-icon">
                         ▶
                     </div>
 
-                    <h2>
+                    <h3>
                         Selecciona un canal
-                    </h2>
+                    </h3>
 
                     <p>
                         Elige un canal para comenzar
@@ -2280,1655 +1691,397 @@
 
                 </div>
 
-
             </div>
 
 
             <!-- =================================================
                  PANEL DERECHO
-            ================================================= -->
+            ================================================== -->
 
-            <aside class="tv-side-panel">
-
-
-                <div class="tv-live-badge">
-
-                    <span class="tv-live-dot"></span>
-
-                    EN VIVO
-
-                </div>
+            <aside class="tv-side">
 
 
-                <!-- CANAL ACTUAL -->
+                <!-- =============================================
+                     EN VIVO AHORA
+                ============================================== -->
 
-                <div class="tv-current">
+                <section class="tv-side-card">
+
+                    <div class="tv-side-title">
+
+                        <span class="tv-live-dot"></span>
+
+                        EN VIVO AHORA
+
+                    </div>
 
 
                     <div
-                        id="currentChannelLogo"
-                        class="tv-current-logo"
+                        class="tv-current-preview"
+                        id="currentChannelPreview"
                     >
-                        TV
-                    </div>
 
-
-                    <div class="tv-current-text">
-
-                        <h2
-                            id="selectedChannelName"
+                        <div
+                            class="tv-current-preview-placeholder"
                         >
-                            Ningún canal seleccionado
-                        </h2>
-
-
-                        <p
-                            id="selectedChannelCategory"
-                        >
-                            Selecciona un canal para comenzar
-                        </p>
+                            Selecciona un canal
+                        </div>
 
                     </div>
 
 
-                </div>
+                    <h3
+                        class="tv-current-name"
+                        id="selectedChannelName"
+                    >
+                        Ningún canal seleccionado
+                    </h3>
 
 
-                <!-- CATEGORÍAS -->
+                    <p
+                        class="tv-current-category"
+                        id="selectedChannelCategory"
+                    >
+                        Selecciona un canal
+                    </p>
 
-                <div class="tv-categories-title">
 
-                    CATEGORÍAS
+                    <span class="tv-current-link">
+                        Ver más información ›
+                    </span>
 
-                </div>
+                </section>
 
 
-                <div
-                    id="tvCategories"
-                    class="tv-category-list"
-                ></div>
+                <!-- =============================================
+                     CATEGORÍAS
+                ============================================== -->
 
+                <section
+                    class="tv-side-card tv-categories-card"
+                >
+
+                    <div class="tv-side-title">
+                        CATEGORÍAS
+                    </div>
+
+
+                    <div
+                        id="tvCategories"
+                        class="tv-category-list"
+                    ></div>
+
+                </section>
 
             </aside>
-
 
         </section>
 
 
-        <!-- =================================================
-             CANALES
-        ================================================= -->
+        <!-- =====================================================
+             TODOS LOS CANALES
+        ====================================================== -->
 
         <section
-            class="tv-channel-section"
+            class="tv-channels-section"
             id="selectedCategorySection"
         >
 
+            <div class="tv-section-header">
 
-            <div class="tv-channel-header">
-
-
-                <h2
-                    id="selectedCategoryTitle"
-                >
-                    📺 CANALES
+                <h2 class="tv-section-title">
+                    TODOS LOS CANALES
                 </h2>
 
 
-                <span
-                    id="selectedCategoryCount"
-                    class="tv-channel-count"
-                >
+                <div class="tv-section-arrows">
+
+                    <button
+                        type="button"
+                        class="tv-arrow"
+                        id="channelScrollLeft"
+                        aria-label="Canales anteriores"
+                    >
+                        ‹
+                    </button>
+
+
+                    <button
+                        type="button"
+                        class="tv-arrow"
+                        id="channelScrollRight"
+                        aria-label="Más canales"
+                    >
+                        ›
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <!--
+                app.js sigue utilizando estos elementos.
+                El título real de la categoría se mantiene oculto
+                visualmente para conservar el diseño.
+            -->
+
+            <div
+                class="selected-category-header"
+            >
+
+                <h2 id="selectedCategoryTitle">
+                    TODOS LOS CANALES
+                </h2>
+
+                <span id="selectedCategoryCount">
                     0 canales
                 </span>
-
 
             </div>
 
 
             <div
                 id="selectedCategoryChannels"
-                class="tv-channel-row"
+                class="selected-channel-row"
             ></div>
-
 
         </section>
 
 
-    </main>
+        <footer class="tv-footer">
 
+            © 2026 NETVISION
+
+        </footer>
+
+    </div>
 
 </div>
 
 
+<!-- =========================================================
+     HLS.JS
+========================================================== -->
 
-<!-- =====================================================
-     JAVASCRIPT TV
-====================================================== -->
+<script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+
+
+<!-- =========================================================
+     SISTEMA TV
+========================================================== -->
+
+<script src="./app.js"></script>
+
+
+<!-- =========================================================
+     MEJORAS VISUALES TV
+========================================================== -->
 
 <script>
 
-"use strict";
+document.addEventListener("DOMContentLoaded", () => {
 
+    /*
+     * ========================================================
+     * FLECHAS DE CANALES
+     * ========================================================
+     */
 
-/* =========================================================
-   CONFIGURACIÓN
-========================================================= */
-
-const M3U_FILE =
-    "canales.m3u";
-
-
-let channels = [];
-
-let currentChannel = null;
-
-let currentCategory = null;
-
-let hls = null;
-
-
-/* =========================================================
-   ELEMENTOS
-========================================================= */
-
-let videoPlayer;
-
-let playerPlaceholder;
-
-let selectedChannelName;
-
-let selectedChannelCategory;
-
-let currentChannelLogo;
-
-let tvCategories;
-
-let selectedCategoryTitle;
-
-let selectedCategoryCount;
-
-let selectedCategoryChannels;
-
-
-/* =========================================================
-   INICIO
-========================================================= */
-
-document.addEventListener(
-    "DOMContentLoaded",
-    () => {
-
-        cacheElements();
-
-        resetTV();
-
-        loadM3U();
-
-    }
-);
-
-
-/* =========================================================
-   CACHE ELEMENTOS
-========================================================= */
-
-function cacheElements() {
-
-    videoPlayer =
-        document.getElementById(
-            "videoPlayer"
-        );
-
-
-    playerPlaceholder =
-        document.getElementById(
-            "playerPlaceholder"
-        );
-
-
-    selectedChannelName =
-        document.getElementById(
-            "selectedChannelName"
-        );
-
-
-    selectedChannelCategory =
-        document.getElementById(
-            "selectedChannelCategory"
-        );
-
-
-    currentChannelLogo =
-        document.getElementById(
-            "currentChannelLogo"
-        );
-
-
-    tvCategories =
-        document.getElementById(
-            "tvCategories"
-        );
-
-
-    selectedCategoryTitle =
-        document.getElementById(
-            "selectedCategoryTitle"
-        );
-
-
-    selectedCategoryCount =
-        document.getElementById(
-            "selectedCategoryCount"
-        );
-
-
-    selectedCategoryChannels =
+    const channelRow =
         document.getElementById(
             "selectedCategoryChannels"
         );
 
-}
 
-
-/* =========================================================
-   RESET TV
-   NO SELECCIONA NINGÚN CANAL
-========================================================= */
-
-function resetTV() {
-
-    currentChannel =
-        null;
-
-
-    currentCategory =
-        null;
-
-
-    if (hls) {
-
-        try {
-
-            hls.destroy();
-
-        } catch (error) {}
-
-        hls =
-            null;
-
-    }
-
-
-    if (videoPlayer) {
-
-        try {
-
-            videoPlayer.pause();
-
-        } catch (error) {}
-
-
-        videoPlayer.removeAttribute(
-            "src"
+    const left =
+        document.getElementById(
+            "channelScrollLeft"
         );
 
 
-        videoPlayer.load();
-
-    }
-
-
-    if (playerPlaceholder) {
-
-        playerPlaceholder.classList.remove(
-            "hidden"
-        );
-
-        playerPlaceholder.style.display =
-            "flex";
-
-    }
-
-
-    if (selectedChannelName) {
-
-        selectedChannelName.textContent =
-            "Ningún canal seleccionado";
-
-    }
-
-
-    if (selectedChannelCategory) {
-
-        selectedChannelCategory.textContent =
-            "Selecciona un canal para comenzar";
-
-    }
-
-
-    if (currentChannelLogo) {
-
-        currentChannelLogo.innerHTML =
-            "TV";
-
-    }
-
-}
-
-
-/* =========================================================
-   CARGAR M3U
-========================================================= */
-
-async function loadM3U() {
-
-    try {
-
-        console.log(
-            "NETVISION TV: cargando",
-            M3U_FILE
+    const right =
+        document.getElementById(
+            "channelScrollRight"
         );
 
 
-        const response =
-            await fetch(
-                M3U_FILE,
-                {
-                    cache:
-                        "no-store"
-                }
-            );
+    if (channelRow && left) {
 
+        left.addEventListener(
+            "click",
+            () => {
 
-        if (!response.ok) {
+                channelRow.scrollBy({
+                    left: -220,
+                    behavior: "smooth"
+                });
 
-            throw new Error(
-                `HTTP ${response.status}`
-            );
-
-        }
-
-
-        const text =
-            await response.text();
-
-
-        channels =
-            parseM3U(
-                text
-            );
-
-
-        console.log(
-            "NETVISION TV:",
-            channels.length,
-            "canales cargados"
-        );
-
-
-        if (!channels.length) {
-
-            showTVMessage(
-                "La lista de canales está vacía."
-            );
-
-            return;
-
-        }
-
-
-        renderCategories();
-
-
-    } catch (error) {
-
-        console.error(
-            "NETVISION TV - Error M3U:",
-            error
-        );
-
-
-        showTVMessage(
-            "No se pudo cargar canales.m3u. Verifica que el archivo esté junto a tv.html."
+            }
         );
 
     }
 
-}
+
+    if (channelRow && right) {
+
+        right.addEventListener(
+            "click",
+            () => {
+
+                channelRow.scrollBy({
+                    left: 220,
+                    behavior: "smooth"
+                });
+
+            }
+        );
+
+    }
 
 
-/* =========================================================
-   PARSEAR M3U
-========================================================= */
+    /*
+     * ========================================================
+     * ACTUALIZAR PREVIEW DEL CANAL
+     *
+     * No seleccionamos ningún canal automáticamente.
+     * El preview solamente cambia después de que el usuario
+     * pulse una tarjeta.
+     * ========================================================
+     */
 
-function parseM3U(
-    text
-) {
+    const observer =
+        new MutationObserver(() => {
 
-    const lines =
-        String(
-            text || ""
-        )
-            .split(
-                /\r?\n/
-            )
-            .map(
-                line =>
-                    line.trim()
-            )
-            .filter(
-                Boolean
-            );
+            const currentName =
+                document.getElementById(
+                    "selectedChannelName"
+                );
 
 
-    const result = [];
+            const currentCategory =
+                document.getElementById(
+                    "selectedChannelCategory"
+                );
 
 
-    for (
-        let i = 0;
-        i < lines.length;
-        i++
-    ) {
+            const preview =
+                document.getElementById(
+                    "currentChannelPreview"
+                );
 
-        const line =
-            lines[i];
-
-
-        if (
-            !line.startsWith(
-                "#EXTINF:"
-            )
-        ) {
-
-            continue;
-
-        }
-
-
-        const info =
-            line.substring(
-                8
-            );
-
-
-        const comma =
-            info.indexOf(
-                ","
-            );
-
-
-        const attributes =
-            comma >= 0
-                ? info.substring(
-                    0,
-                    comma
-                )
-                : info;
-
-
-        const name =
-            comma >= 0
-                ? info.substring(
-                    comma + 1
-                ).trim()
-                : "Canal sin nombre";
-
-
-        let url =
-            "";
-
-
-        for (
-            let j = i + 1;
-            j < lines.length;
-            j++
-        ) {
 
             if (
-                !lines[j].startsWith(
-                    "#"
-                )
+                !currentName ||
+                !currentCategory ||
+                !preview
             ) {
-
-                url =
-                    lines[j];
-
-                break;
-
+                return;
             }
 
-        }
 
+            const name =
+                currentName.textContent.trim();
 
-        if (!url) {
-
-            continue;
-
-        }
-
-
-        result.push({
-
-            id:
-                getAttr(
-                    attributes,
-                    "tvg-id"
-                ) ||
-                slug(
-                    name
-                ),
-
-            name:
-                name,
-
-            url:
-                url,
-
-            logo:
-                getAttr(
-                    attributes,
-                    "tvg-logo"
-                ),
-
-            category:
-                getAttr(
-                    attributes,
-                    "group-title"
-                ) ||
-                "Otros"
-
-        });
-
-    }
-
-
-    return result;
-
-}
-
-
-/* =========================================================
-   ATRIBUTOS M3U
-========================================================= */
-
-function getAttr(
-    text,
-    attr
-) {
-
-    const regex =
-        new RegExp(
-            `${attr}="([^"]*)"`,
-            "i"
-        );
-
-
-    const match =
-        text.match(
-            regex
-        );
-
-
-    return match
-        ? match[1]
-        : "";
-
-}
-
-
-/* =========================================================
-   CATEGORÍAS
-========================================================= */
-
-function renderCategories() {
-
-    if (!tvCategories) {
-
-        return;
-
-    }
-
-
-    const categories =
-        [
-            ...new Set(
-                channels.map(
-                    channel =>
-                        channel.category ||
-                        "Otros"
-                )
-            )
-        ];
-
-
-    tvCategories.innerHTML =
-        "";
-
-
-    categories.forEach(
-        category => {
-
-            const button =
-                document.createElement(
-                    "button"
-                );
-
-
-            button.type =
-                "button";
-
-
-            button.className =
-                "tv-category-button";
-
-
-            button.dataset.category =
-                category;
-
-
-            button.innerHTML = `
-
-                <span class="category-icon">
-                    ${categoryIcon(
-                        category
-                    )}
-                </span>
-
-                <span class="category-name">
-                    ${escapeHTML(
-                        category
-                    )}
-                </span>
-
-                <span class="category-arrow">
-                    ›
-                </span>
-
-            `;
-
-
-            button.addEventListener(
-                "click",
-                () => {
-
-                    selectCategory(
-                        category
-                    );
-
-                }
-            );
-
-
-            tvCategories.appendChild(
-                button
-            );
-
-        }
-    );
-
-
-    /*
-       Importante:
-       mostramos la primera categoría
-       para que aparezcan los canales,
-       PERO NO seleccionamos ningún
-       canal automáticamente.
-    */
-
-    if (
-        categories.length
-    ) {
-
-        selectCategory(
-            categories[0]
-        );
-
-    }
-
-}
-
-
-/* =========================================================
-   SELECCIONAR CATEGORÍA
-========================================================= */
-
-function selectCategory(
-    category
-) {
-
-    currentCategory =
-        category;
-
-
-    document
-        .querySelectorAll(
-            ".tv-category-button"
-        )
-        .forEach(
-            button => {
-
-                button.classList.toggle(
-                    "active",
-                    button.dataset.category ===
-                    category
-                );
-
-            }
-        );
-
-
-    const categoryChannels =
-        channels.filter(
-            channel =>
-                channel.category ===
-                category
-        );
-
-
-    renderSelectedChannels(
-        category,
-        categoryChannels
-    );
-
-}
-
-
-/* =========================================================
-   RENDER CANALES
-========================================================= */
-
-function renderSelectedChannels(
-    category,
-    list
-) {
-
-    if (
-        !selectedCategoryChannels
-    ) {
-
-        return;
-
-    }
-
-
-    if (
-        selectedCategoryTitle
-    ) {
-
-        selectedCategoryTitle.innerHTML = `
-
-            ${categoryIcon(
-                category
-            )}
-
-            CANALES DE:
-
-            <span>
-                ${escapeHTML(
-                    category
-                )}
-            </span>
-
-        `;
-
-    }
-
-
-    if (
-        selectedCategoryCount
-    ) {
-
-        selectedCategoryCount.textContent =
-            `${list.length} ${
-                list.length === 1
-                    ? "canal"
-                    : "canales"
-            }`;
-
-    }
-
-
-    selectedCategoryChannels.innerHTML =
-        "";
-
-
-    list.forEach(
-        channel => {
-
-            selectedCategoryChannels.appendChild(
-                createChannelCard(
-                    channel
-                )
-            );
-
-        }
-    );
-
-}
-
-
-/* =========================================================
-   TARJETA CANAL
-========================================================= */
-
-function createChannelCard(
-    channel
-) {
-
-    const card =
-        document.createElement(
-            "article"
-        );
-
-
-    card.className =
-        "tv-channel-card";
-
-
-    card.tabIndex =
-        0;
-
-
-    const logo =
-        channel.logo
-            ? `
-
-                <img
-                    src="${escapeAttribute(
-                        channel.logo
-                    )}"
-                    alt="${escapeAttribute(
-                        channel.name
-                    )}"
-                    loading="lazy"
-                    onerror="
-                        this.style.display='none';
-                    "
-                >
-
-            `
-            : `
-
-                <span>
-                    TV
-                </span>
-
-            `;
-
-
-    card.innerHTML = `
-
-        <div class="tv-channel-logo">
-
-            ${logo}
-
-        </div>
-
-
-        <div class="tv-channel-name">
-
-            ${escapeHTML(
-                cleanChannelName(
-                    channel.name
-                )
-            )}
-
-        </div>
-
-
-        <div class="tv-channel-live">
-
-            ● EN VIVO
-
-        </div>
-
-    `;
-
-
-    card.addEventListener(
-        "click",
-        event => {
-
-            event.preventDefault();
-
-            selectChannel(
-                channel
-            );
-
-        }
-    );
-
-
-    card.addEventListener(
-        "keydown",
-        event => {
 
             if (
-                event.key ===
-                    "Enter" ||
-                event.key ===
-                    " "
+                name ===
+                "Ningún canal seleccionado"
             ) {
 
-                event.preventDefault();
-
-                selectChannel(
-                    channel
-                );
+                return;
 
             }
 
-        }
-    );
 
+            /*
+             * Intentamos encontrar la tarjeta activa
+             * que corresponde al canal seleccionado.
+             */
 
-    return card;
-
-}
-
-
-/* =========================================================
-   SELECCIONAR CANAL
-========================================================= */
-
-function selectChannel(
-    channel
-) {
-
-    if (
-        !channel ||
-        !channel.url
-    ) {
-
-        return;
-
-    }
-
-
-    currentChannel =
-        channel;
-
-
-    console.log(
-        "NETVISION TV: seleccionando",
-        channel.name
-    );
-
-
-    if (
-        selectedChannelName
-    ) {
-
-        selectedChannelName.textContent =
-            cleanChannelName(
-                channel.name
-            );
-
-    }
-
-
-    if (
-        selectedChannelCategory
-    ) {
-
-        selectedChannelCategory.textContent =
-            `${channel.category} · EN VIVO`;
-
-    }
-
-
-    if (
-        currentChannelLogo
-    ) {
-
-        if (
-            channel.logo
-        ) {
-
-            currentChannelLogo.innerHTML = `
-
-                <img
-                    src="${escapeAttribute(
-                        channel.logo
-                    )}"
-                    alt="${escapeAttribute(
-                        channel.name
-                    )}"
-                >
-
-            `;
-
-        } else {
-
-            currentChannelLogo.innerHTML =
-                "<span>TV</span>";
-
-        }
-
-    }
-
-
-    /*
-       Marcar tarjeta seleccionada.
-    */
-
-    document
-        .querySelectorAll(
-            ".tv-channel-card"
-        )
-        .forEach(
-            card => {
-
-                card.classList.remove(
-                    "selected"
+            const cards =
+                document.querySelectorAll(
+                    "#selectedCategoryChannels .channel-card"
                 );
 
-            }
-        );
 
+            cards.forEach(card => {
 
-    /*
-       Buscar tarjeta por texto.
-    */
-
-    document
-        .querySelectorAll(
-            ".tv-channel-card"
-        )
-        .forEach(
-            card => {
-
-                const name =
+                const cardName =
                     card.querySelector(
-                        ".tv-channel-name"
+                        ".channel-name"
                     );
 
 
                 if (
-                    name &&
-                    name.textContent.trim() ===
-                    cleanChannelName(
-                        channel.name
-                    )
+                    cardName &&
+                    cardName.textContent.trim() ===
+                    name
                 ) {
 
-                    card.classList.add(
-                        "selected"
-                    );
+                    const image =
+                        card.querySelector(
+                            ".channel-logo img"
+                        );
+
+
+                    if (image) {
+
+                        preview.innerHTML = `
+                            <img
+                                src="${image.src}"
+                                alt="${name}"
+                            >
+                        `;
+
+                    } else {
+
+                        preview.innerHTML = `
+                            <div
+                                class="tv-current-preview-placeholder"
+                            >
+                                ${name}
+                            </div>
+                        `;
+
+                    }
 
                 }
-
-            }
-        );
-
-
-    if (
-        playerPlaceholder
-    ) {
-
-        playerPlaceholder.classList.add(
-            "hidden"
-        );
-
-        playerPlaceholder.style.display =
-            "none";
-
-    }
-
-
-    playStream(
-        channel.url
-    );
-
-}
-
-
-/* =========================================================
-   REPRODUCIR STREAM
-========================================================= */
-
-function playStream(
-    url
-) {
-
-    if (
-        !videoPlayer
-    ) {
-
-        console.error(
-            "NETVISION TV: no existe #videoPlayer"
-        );
-
-        return;
-
-    }
-
-
-    console.log(
-        "NETVISION TV: reproduciendo",
-        url
-    );
-
-
-    /*
-       Destruir HLS anterior.
-    */
-
-    if (
-        hls
-    ) {
-
-        try {
-
-            hls.destroy();
-
-        } catch (error) {}
-
-        hls =
-            null;
-
-    }
-
-
-    videoPlayer.pause();
-
-    videoPlayer.removeAttribute(
-        "src"
-    );
-
-    videoPlayer.load();
-
-
-    /*
-       HLS.JS
-    */
-
-    if (
-        window.Hls &&
-        Hls.isSupported()
-    ) {
-
-        hls =
-            new Hls({
-
-                enableWorker:
-                    true,
-
-                lowLatencyMode:
-                    true,
-
-                backBufferLength:
-                    90
 
             });
 
-
-        hls.attachMedia(
-            videoPlayer
-        );
+        });
 
 
-        hls.loadSource(
-            url
-        );
+    if (channelRow) {
 
-
-        hls.on(
-            Hls.Events.MANIFEST_PARSED,
-            () => {
-
-                videoPlayer
-                    .play()
-                    .catch(
-                        error => {
-
-                            console.log(
-                                "NETVISION TV: reproducción automática bloqueada.",
-                                error
-                            );
-
-                        }
-                    );
-
+        observer.observe(
+            channelRow,
+            {
+                childList: true,
+                subtree: true
             }
         );
-
-
-        hls.on(
-            Hls.Events.ERROR,
-            (
-                event,
-                data
-            ) => {
-
-                console.error(
-                    "NETVISION TV HLS:",
-                    data
-                );
-
-
-                if (
-                    !data.fatal
-                ) {
-
-                    return;
-
-                }
-
-
-                if (
-                    data.type ===
-                    Hls.ErrorTypes.NETWORK_ERROR
-                ) {
-
-                    console.log(
-                        "NETVISION TV: intentando recuperar red..."
-                    );
-
-
-                    hls.startLoad();
-
-                }
-
-                else if (
-                    data.type ===
-                    Hls.ErrorTypes.MEDIA_ERROR
-                ) {
-
-                    console.log(
-                        "NETVISION TV: recuperando error multimedia..."
-                    );
-
-
-                    hls.recoverMediaError();
-
-                }
-
-                else {
-
-                    showPlayerError();
-
-                }
-
-            }
-        );
-
-
-        return;
 
     }
 
 
     /*
-       HLS NATIVO
-       Safari / algunos navegadores.
-    */
-
-    if (
-        videoPlayer.canPlayType(
-            "application/vnd.apple.mpegurl"
-        )
-    ) {
-
-        videoPlayer.src =
-            url;
-
-
-        videoPlayer
-            .play()
-            .catch(
-                error => {
-
-                    console.log(
-                        "NETVISION TV: autoplay bloqueado.",
-                        error
-                    );
-
-                }
-            );
-
-
-        return;
-
-    }
-
-
-    showPlayerError();
-
-}
-
-
-/* =========================================================
-   ERROR DEL PLAYER
-========================================================= */
-
-function showPlayerError() {
-
-    if (
-        playerPlaceholder
-    ) {
-
-        playerPlaceholder.style.display =
-            "flex";
-
-
-        playerPlaceholder.classList.remove(
-            "hidden"
-        );
-
-
-        playerPlaceholder.innerHTML = `
-
-            <div class="tv-placeholder-icon">
-                ⚠️
-            </div>
-
-            <h2>
-                No se pudo reproducir
-            </h2>
-
-            <p>
-                El canal no está disponible
-                en este momento.
-            </p>
-
-        `;
-
-    }
-
-}
-
-
-/* =========================================================
-   MENSAJE TV
-========================================================= */
-
-function showTVMessage(
-    message
-) {
-
-    if (
-        selectedCategoryChannels
-    ) {
-
-        selectedCategoryChannels.innerHTML = `
-
-            <div class="tv-message">
-
-                ${escapeHTML(
-                    message
-                )}
-
-            </div>
-
-        `;
-
-    }
-
-}
-
-
-/* =========================================================
-   ICONOS CATEGORÍA
-========================================================= */
-
-function categoryIcon(
-    category
-) {
-
-    const value =
-        String(
-            category ||
-            ""
-        ).toLowerCase();
-
-
-    if (
-        value.includes(
-            "anime"
-        )
-    ) {
-
-        return "🎌";
-
-    }
-
-
-    if (
-        value.includes(
-            "infantil"
-        ) ||
-        value.includes(
-            "niño"
-        ) ||
-        value.includes(
-            "kids"
-        )
-    ) {
-
-        return "🧸";
-
-    }
-
-
-    if (
-        value.includes(
-            "deporte"
-        ) ||
-        value.includes(
-            "sport"
-        )
-    ) {
-
-        return "⚽";
-
-    }
-
-
-    if (
-        value.includes(
-            "noticia"
-        ) ||
-        value.includes(
-            "news"
-        )
-    ) {
-
-        return "📰";
-
-    }
-
-
-    if (
-        value.includes(
-            "película"
-        ) ||
-        value.includes(
-            "cine"
-        ) ||
-        value.includes(
-            "movie"
-        )
-    ) {
-
-        return "🎬";
-
-    }
-
-
-    if (
-        value.includes(
-            "música"
-        ) ||
-        value.includes(
-            "music"
-        )
-    ) {
-
-        return "🎵";
-
-    }
-
-
-    if (
-        value.includes(
-            "relig"
-        )
-    ) {
-
-        return "⛪";
-
-    }
-
-
-    return "📺";
-
-}
-
-
-/* =========================================================
-   LIMPIAR NOMBRE
-========================================================= */
-
-function cleanChannelName(
-    name
-) {
-
-    return String(
-        name ||
-        "Canal"
-    )
-        .replace(
-            /\s+/g,
-            " "
-        )
-        .trim();
-
-}
-
-
-/* =========================================================
-   SLUG
-========================================================= */
-
-function slug(
-    value
-) {
-
-    return String(
-        value ||
-        ""
-    )
-        .toLowerCase()
-        .normalize(
-            "NFD"
-        )
-        .replace(
-            /[\u0300-\u036f]/g,
-            ""
-        )
-        .replace(
-            /[^a-z0-9]+/g,
-            "-"
-        )
-        .replace(
-            /^-+|-+$/g,
-            ""
-        );
-
-}
-
-
-/* =========================================================
-   SEGURIDAD HTML
-========================================================= */
-
-function escapeHTML(
-    value
-) {
-
-    return String(
-        value ??
-        ""
-    )
-        .replace(
-            /&/g,
-            "&amp;"
-        )
-        .replace(
-            /</g,
-            "&lt;"
-        )
-        .replace(
-            />/g,
-            "&gt;"
-        )
-        .replace(
-            /"/g,
-            "&quot;"
-        )
-        .replace(
-            /'/g,
-            "&#039;"
-        );
-
-}
-
-
-function escapeAttribute(
-    value
-) {
-
-    return escapeHTML(
-        value
-    );
-
-}
-
-
-/* =========================================================
-   DETENER TV AL CERRAR
-========================================================= */
-
-window.addEventListener(
-    "beforeunload",
-    () => {
-
-        if (
-            hls
-        ) {
-
-            try {
-
-                hls.destroy();
-
-            } catch (error) {}
-
-            hls =
-                null;
-
-        }
-
-
-        if (
-            videoPlayer
-        ) {
-
-            try {
-
-                videoPlayer.pause();
-
-            } catch (error) {}
-
-        }
-
-    }
-);
+     * ========================================================
+     * ASEGURAR QUE LA PANTALLA COMIENCE ARRIBA
+     * ========================================================
+     */
+
+    window.scrollTo({
+        top: 0,
+        left: 0,
+        behavior: "instant"
+    });
+
+});
 
 </script>
 
-
 </body>
-
 </html>
+```

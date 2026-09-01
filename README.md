@@ -1,26 +1,13 @@
-# NETVISION CATALOG TEST V2
+# NETVISION · V4 MOBILE PLAYER FIX
 
-Prueba aislada para catálogo y reproducción.
+Esta versión corrige la selección de fuentes para teléfonos.
 
-Películas:
-- catálogo paginado
-- detalle
-- selección automática de fuente
-- prioriza servidor cuyo nombre contenga Vidhide
-- fallback a otras fuentes devueltas por la API
+Cambios:
+- En móvil prioriza `proxy_url` y reproductores embed antes que streams directos de terceros.
+- Usa `playsinline`/`webkit-playsinline` y reproducción iniciada por el usuario.
+- Añade `crossOrigin` y configuración HLS más tolerante.
+- Detecta y muestra errores de video en vez de dejar una pantalla negra.
+- Mantiene MP4/WebM/HLS y reproductores externos.
+- En computadora conserva el catálogo y la navegación existentes.
 
-Series:
-- catálogo
-- intenta interpretar temporadas y episodios
-- reproducción por episodio
-- selección automática de fuente
-
-No modifica el proyecto NETVISION.
-
-
-Corrección móvil V3:
-- evita depender de autoplay después de llamadas async;
-- prepara HLS/MP4 y muestra un botón de reproducción cuando el navegador móvil bloquea autoplay;
-- añade atributos playsinline para iPhone/iPad;
-- amplía la detección de fuentes devueltas por la API;
-- deja los iframes externos como último recurso.
+Si un proveedor externo bloquea la reproducción dentro de un iframe, la aplicación lo muestra como reproductor externo; ese bloqueo depende del proveedor y no del catálogo.
